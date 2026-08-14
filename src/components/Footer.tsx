@@ -8,7 +8,7 @@ export function Footer() {
   const { t } = useLanguage();
 
   return (
-    <footer className="bg-[#163a2b] py-14 text-white/70">
+    <footer className="bg-[#2e1a10] py-14 text-white/70">
       <div className="mx-auto grid max-w-7xl grid-cols-1 gap-10 px-6 sm:grid-cols-3 lg:px-10">
         <div>
           <div className="mb-4 flex items-center gap-2 text-white">

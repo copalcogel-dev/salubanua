@@ -26,7 +26,7 @@ export function MountainScene({
         </linearGradient>
         <linearGradient id="peakMid" x1="0" y1="0" x2="0" y2="1">
           <stop offset="0%" stopColor="#3f5a3d" />
-          <stop offset="100%" stopColor="#1f4d38" />
+          <stop offset="100%" stopColor="#4a2a1a" />
         </linearGradient>
         <linearGradient id="peakNear" x1="0" y1="0" x2="0" y2="1">
           <stop offset="0%" stopColor="#26402c" />

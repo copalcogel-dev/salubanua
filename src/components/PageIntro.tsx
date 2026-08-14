@@ -24,13 +24,13 @@ export function PageIntro() {
       {show && (
         <div className="fixed inset-0 z-[100]">
           <motion.div
-            className="absolute inset-y-0 left-0 w-1/2 bg-[#0f2419]"
+            className="absolute inset-y-0 left-0 w-1/2 bg-[#2e1a10]"
             initial={{ x: 0 }}
             exit={{ x: "-100%" }}
             transition={{ duration: 0.8, ease: [0.76, 0, 0.24, 1], delay: 0.15 }}
           />
           <motion.div
-            className="absolute inset-y-0 right-0 w-1/2 bg-[#0f2419]"
+            className="absolute inset-y-0 right-0 w-1/2 bg-[#2e1a10]"
             initial={{ x: 0 }}
             exit={{ x: "100%" }}
             transition={{ duration: 0.8, ease: [0.76, 0, 0.24, 1], delay: 0.15 }}

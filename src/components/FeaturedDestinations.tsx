@@ -16,10 +16,10 @@ export function FeaturedDestinations() {
       <div className="mx-auto max-w-7xl px-6 lg:px-10">
         <div className="mb-14 flex flex-col items-start justify-between gap-4 sm:flex-row sm:items-end">
           <div>
-            <p className="mb-3 text-[11px] font-semibold tracking-[0.3em] text-[#2fa86a]">
+            <p className="mb-3 text-[11px] font-semibold tracking-[0.3em] text-[#d9773f]">
               {t.destinations.kicker}
             </p>
-            <h2 className="text-4xl font-semibold text-[#1f4d38] sm:text-5xl">
+            <h2 className="text-4xl font-semibold text-[#4a2a1a] sm:text-5xl">
               {t.destinations.title}
             </h2>
           </div>
@@ -48,11 +48,11 @@ export function FeaturedDestinations() {
                     className="object-cover transition-transform duration-700 group-hover:scale-105"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/20 to-black/10" />
-                  <div className="absolute left-5 top-5 flex h-10 w-10 items-center justify-center rounded-full bg-white/90 text-[#1f4d38]">
+                  <div className="absolute left-5 top-5 flex h-10 w-10 items-center justify-center rounded-full bg-white/90 text-[#4a2a1a]">
                     <Icon size={18} strokeWidth={2} />
                   </div>
                   <div className="absolute inset-x-0 bottom-0 p-7">
-                    <p className="mb-2 text-[11px] font-semibold uppercase tracking-[0.2em] text-[#7fe0ac]">
+                    <p className="mb-2 text-[11px] font-semibold uppercase tracking-[0.2em] text-[#f0c9a0]">
                       {d[lang].subtitle}
                     </p>
                     <h3 className="mb-3 text-2xl font-semibold text-white sm:text-3xl">
@@ -63,7 +63,7 @@ export function FeaturedDestinations() {
                     </p>
                     <a
                       href="#local"
-                      className="inline-block rounded-full bg-white px-5 py-2.5 text-xs font-bold uppercase tracking-[0.15em] text-[#1f4d38] transition hover:bg-white/90"
+                      className="inline-block rounded-full bg-white px-5 py-2.5 text-xs font-bold uppercase tracking-[0.15em] text-[#4a2a1a] transition hover:bg-white/90"
                     >
                       {t.destinations.readMore}
                     </a>
@@ -87,18 +87,18 @@ export function FeaturedDestinations() {
                     className="h-full w-full scale-100 object-cover grayscale transition-transform duration-700 group-hover:scale-110"
                   />
                   <div className="absolute inset-0 bg-black/10" />
-                  <div className="absolute left-3 top-3 flex h-8 w-8 items-center justify-center rounded-full bg-white/90 text-[#1f4d38]">
+                  <div className="absolute left-3 top-3 flex h-8 w-8 items-center justify-center rounded-full bg-white/90 text-[#4a2a1a]">
                     <Icon size={14} strokeWidth={2} />
                   </div>
-                  <span className="absolute right-3 top-3 rounded-full bg-white/90 px-3 py-1 text-[9px] font-bold uppercase tracking-wide text-[#1f4d38]">
+                  <span className="absolute right-3 top-3 rounded-full bg-white/90 px-3 py-1 text-[9px] font-bold uppercase tracking-wide text-[#4a2a1a]">
                     {d[lang].status}
                   </span>
                 </div>
                 <div className="flex flex-1 flex-col p-5">
-                  <p className="mb-1 text-[10px] font-semibold uppercase tracking-[0.2em] text-[#2fa86a]">
+                  <p className="mb-1 text-[10px] font-semibold uppercase tracking-[0.2em] text-[#d9773f]">
                     {d[lang].subtitle}
                   </p>
-                  <h3 className="mb-2 text-lg font-semibold text-[#1f4d38]">
+                  <h3 className="mb-2 text-lg font-semibold text-[#4a2a1a]">
                     {d[lang].title}
                   </h3>
                   <p className="line-clamp-2 text-xs leading-relaxed text-[#4a4a42]">
@@ -111,7 +111,7 @@ export function FeaturedDestinations() {
         </div>
       </div>
 
-      <MountainDivider fill="#1f4d38" />
+      <MountainDivider fill="#4a2a1a" />
     </section>
   );
 }

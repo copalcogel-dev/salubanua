@@ -11,7 +11,8 @@
       "Bash(rm -f node_modules/.bin/sharp)",
       "Bash(npm uninstall *)",
       "mcp__visualize__show_widget",
-      "Bash(git add *)"
+      "Bash(git add *)",
+      "Bash(git commit -m ' *)"
     ]
   }
 }

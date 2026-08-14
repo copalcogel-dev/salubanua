@@ -32,13 +32,13 @@ export function CTASection() {
         <p className="mb-10 text-[15px] text-white/80">{t.cta.body}</p>
         <a
           href="#top"
-          className="inline-block rounded-full bg-white px-8 py-4 text-xs font-bold tracking-[0.2em] text-[#1f4d38] transition hover:scale-105 hover:bg-white/90"
+          className="inline-block rounded-full bg-white px-8 py-4 text-xs font-bold tracking-[0.2em] text-[#4a2a1a] transition hover:scale-105 hover:bg-white/90"
         >
           {t.cta.button}
         </a>
       </motion.div>
 
-      <MountainDivider fill="#163a2b" />
+      <MountainDivider fill="#2e1a10" />
     </section>
   );
 }

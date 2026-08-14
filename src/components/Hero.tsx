@@ -78,7 +78,7 @@ export function Hero() {
           >
             <a
               href="#destinations"
-              className="inline-block rounded-full bg-white px-8 py-4 text-xs font-bold tracking-[0.2em] text-[#1f4d38] transition hover:scale-105 hover:bg-white/90"
+              className="inline-block rounded-full bg-white px-8 py-4 text-xs font-bold tracking-[0.2em] text-[#4a2a1a] transition hover:scale-105 hover:bg-white/90"
             >
               {t.hero.cta}
             </a>
@@ -123,7 +123,7 @@ export function Hero() {
                     />
                   )}
                   <div className="absolute inset-0 bg-black/20" />
-                  <div className="absolute left-3 top-3 flex h-9 w-9 items-center justify-center rounded-full bg-white/90 text-[#1f4d38]">
+                  <div className="absolute left-3 top-3 flex h-9 w-9 items-center justify-center rounded-full bg-white/90 text-[#4a2a1a]">
                     <Icon size={16} strokeWidth={2} />
                   </div>
                 </div>
@@ -136,7 +136,7 @@ export function Hero() {
                   </p>
                   <a
                     href="#destinations"
-                    className="mt-auto inline-block rounded-full bg-white px-4 py-2 text-center text-[10px] font-bold tracking-[0.15em] text-[#1f4d38] transition hover:bg-white/90"
+                    className="mt-auto inline-block rounded-full bg-white px-4 py-2 text-center text-[10px] font-bold tracking-[0.15em] text-[#4a2a1a] transition hover:bg-white/90"
                   >
                     {t.destinations.readMore.toUpperCase()}
                   </a>
@@ -147,7 +147,7 @@ export function Hero() {
         </div>
       </div>
 
-      <MountainDivider fill="#163a2b" />
+      <MountainDivider fill="#2e1a10" />
     </section>
   );
 }

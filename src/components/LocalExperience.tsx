@@ -11,7 +11,7 @@ export function LocalExperience() {
   const { t } = useLanguage();
 
   return (
-    <section id="local" className="relative overflow-hidden bg-[#1f4d38] py-28">
+    <section id="local" className="relative overflow-hidden bg-[#4a2a1a] py-28">
       <TopoPattern />
       <div className="relative mx-auto max-w-4xl px-6 text-center lg:px-10">
         <motion.div
@@ -25,7 +25,7 @@ export function LocalExperience() {
               <Users2 size={24} strokeWidth={1.5} />
             </div>
           </div>
-          <p className="mb-3 text-[11px] font-semibold tracking-[0.3em] text-emerald-200/60">
+          <p className="mb-3 text-[11px] font-semibold tracking-[0.3em] text-orange-200/60">
             {t.local.kicker}
           </p>
           <h2 className="mb-6 text-4xl font-semibold text-white sm:text-5xl">
@@ -39,7 +39,7 @@ export function LocalExperience() {
           </p>
           <a
             href="#cta"
-            className="inline-block rounded-full border border-white/40 px-8 py-4 text-xs font-bold tracking-[0.2em] text-white transition hover:scale-105 hover:bg-white hover:text-[#1f4d38]"
+            className="inline-block rounded-full border border-white/40 px-8 py-4 text-xs font-bold tracking-[0.2em] text-white transition hover:scale-105 hover:bg-white hover:text-[#4a2a1a]"
           >
             {t.local.cta.toUpperCase()}
           </a>
