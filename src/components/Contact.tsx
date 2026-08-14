@@ -17,20 +17,20 @@ export function Contact() {
           viewport={{ once: true, margin: "-100px" }}
           transition={{ duration: 0.7 }}
         >
-          <p className="mb-3 text-[11px] font-semibold tracking-[0.3em] text-[#d9773f]">
+          <p className="mb-3 text-[11px] font-semibold tracking-[0.3em] text-[#3fa34d]">
             {t.contact.kicker}
           </p>
-          <h2 className="mb-14 text-4xl font-semibold text-[#4a2a1a] sm:text-5xl">
+          <h2 className="mb-14 text-4xl font-semibold text-[#153e2a] sm:text-5xl">
             {t.contact.title}
           </h2>
 
           <div className="grid grid-cols-1 gap-8 sm:grid-cols-3">
             <div className="rounded-2xl border border-black/10 bg-white p-6 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-lg">
-              <MapPin size={22} strokeWidth={1.5} className="mb-4 text-[#d9773f]" />
-              <p className="mb-2 text-[11px] font-semibold uppercase tracking-[0.2em] text-[#4a2a1a]/60">
+              <MapPin size={22} strokeWidth={1.5} className="mb-4 text-[#3fa34d]" />
+              <p className="mb-2 text-[11px] font-semibold uppercase tracking-[0.2em] text-[#153e2a]/60">
                 {t.contact.addressLabel}
               </p>
-              <p className="text-sm leading-relaxed text-[#4a2a1a]">
+              <p className="text-sm leading-relaxed text-[#153e2a]">
                 Dusun {villageProfile.dusun}, Desa {villageProfile.desa}
                 <br />
                 Kec. {villageProfile.kecamatan}, Kab. {villageProfile.kabupaten}
@@ -40,11 +40,11 @@ export function Contact() {
             </div>
 
             <div className="rounded-2xl border border-black/10 bg-white p-6 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-lg">
-              <Users2 size={22} strokeWidth={1.5} className="mb-4 text-[#d9773f]" />
-              <p className="mb-2 text-[11px] font-semibold uppercase tracking-[0.2em] text-[#4a2a1a]/60">
+              <Users2 size={22} strokeWidth={1.5} className="mb-4 text-[#3fa34d]" />
+              <p className="mb-2 text-[11px] font-semibold uppercase tracking-[0.2em] text-[#153e2a]/60">
                 {t.contact.managedByLabel}
               </p>
-              <p className="text-sm leading-relaxed text-[#4a2a1a]">
+              <p className="text-sm leading-relaxed text-[#153e2a]">
                 {villageProfile.pengelola.nama}
                 <br />
                 {villageProfile.pengelola.mitra}
@@ -52,11 +52,11 @@ export function Contact() {
             </div>
 
             <div className="rounded-2xl border border-dashed border-black/20 bg-white/60 p-6">
-              <Phone size={22} strokeWidth={1.5} className="mb-4 text-[#4a2a1a]/40" />
-              <p className="mb-2 text-[11px] font-semibold uppercase tracking-[0.2em] text-[#4a2a1a]/60">
+              <Phone size={22} strokeWidth={1.5} className="mb-4 text-[#153e2a]/40" />
+              <p className="mb-2 text-[11px] font-semibold uppercase tracking-[0.2em] text-[#153e2a]/60">
                 {t.contact.phoneLabel}
               </p>
-              <p className="text-sm leading-relaxed text-[#4a2a1a]/60">
+              <p className="text-sm leading-relaxed text-[#153e2a]/60">
                 {t.contact.phonePlaceholder}
               </p>
             </div>

@@ -1,0 +1,104 @@
+"use client";
+
+import Image from "next/image";
+import Link from "next/link";
+import { motion } from "framer-motion";
+import { ArrowUpRight } from "lucide-react";
+import { useLanguage } from "@/context/LanguageContext";
+import { formatArticleDate, type Article } from "@/lib/content";
+import { MountainScene } from "./MountainScene";
+
+const fallbackAccents = ["#2f6b74", "#5a5433", "#4a5d3a", "#6b4a3f", "#3f6b4f"];
+
+export function StoriesList({ articles }: { articles: Article[] }) {
+  const { lang, t } = useLanguage();
+
+  return (
+    <section className="bg-[#f6f4ee] pt-36 pb-24">
+      <div className="mx-auto max-w-7xl px-6 lg:px-10">
+        <div className="mb-12 max-w-2xl">
+          <p className="mb-3 text-[11px] font-semibold tracking-[0.3em] text-[#3fa34d]">
+            {t.stories.kicker}
+          </p>
+          <h1 className="mb-4 text-4xl font-semibold text-[#153e2a] sm:text-5xl">
+            {t.stories.allTitle}
+          </h1>
+          <p className="text-[15px] leading-relaxed text-[#4a4a42]">
+            {t.stories.body}
+          </p>
+        </div>
+
+        {articles.length === 0 ? (
+          <p className="py-16 text-center text-sm text-[#153e2a]/60">
+            {t.stories.empty}
+          </p>
+        ) : (
+          <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+            {articles.map((a, i) => (
+              <motion.article
+                key={a.slug}
+                initial={{ opacity: 0, y: 24 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: "-60px" }}
+                transition={{ duration: 0.5, delay: (i % 3) * 0.08 }}
+              >
+                <Link
+                  href={`/stories/${a.slug}`}
+                  className="group flex h-full flex-col overflow-hidden rounded-3xl border border-black/5 bg-white shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-lg"
+                >
+                  <div className="relative h-44 shrink-0 overflow-hidden">
+                    {a.coverImageUrl ? (
+                      <Image
+                        src={a.coverImageUrl}
+                        alt={a[lang].title}
+                        fill
+                        className="object-cover transition-transform duration-700 group-hover:scale-110"
+                      />
+                    ) : i === 0 ? (
+                      <Image
+                        src="/images/gunung-pentuho.jpg"
+                        alt={a[lang].title}
+                        fill
+                        className="object-cover transition-transform duration-700 group-hover:scale-110"
+                      />
+                    ) : (
+                      <MountainScene
+                        accent={fallbackAccents[i % fallbackAccents.length]}
+                        className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-110"
+                      />
+                    )}
+                    {a.isSample && (
+                      <span className="absolute left-3 top-3 rounded-full bg-white/90 px-3 py-1 text-[9px] font-bold tracking-wide text-[#153e2a]">
+                        {t.stories.sampleBadge}
+                      </span>
+                    )}
+                  </div>
+
+                  <div className="flex flex-1 flex-col p-6">
+                    <p className="mb-2 text-[10px] font-semibold uppercase tracking-[0.2em] text-[#3fa34d]">
+                      {formatArticleDate(a.publishedAt, lang)}
+                    </p>
+                    <h2 className="mb-3 text-lg font-semibold leading-snug text-[#153e2a]">
+                      {a[lang].title}
+                    </h2>
+                    <p className="mb-5 line-clamp-3 text-sm leading-relaxed text-[#4a4a42]">
+                      {a[lang].excerpt}
+                    </p>
+                    <span className="mt-auto inline-flex items-center gap-2 text-xs font-bold uppercase tracking-[0.15em] text-[#153e2a]">
+                      {t.stories.readMore}
+                      <ArrowUpRight
+                        size={14}
+                        strokeWidth={2.5}
+                        className="transition-transform duration-300 group-hover:translate-x-1 group-hover:-translate-y-1"
+                      />
+                    </span>
+                  </div>
+                </Link>
+              </motion.article>
+            ))}
+          </div>
+        )}
+      </div>
+    </section>
+  );
+}

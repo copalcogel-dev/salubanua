@@ -1,3 +1,5 @@
+"use client";
+
 import { Mountain, Waves, Tent, Camera, Home, type LucideIcon } from "lucide-react";
 
 export const categoryIcons: Record<string, LucideIcon> = {
