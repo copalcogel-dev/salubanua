@@ -1,7 +1,17 @@
 {
   "permissions": {
     "allow": [
-      "Bash(npx --yes create-next-app@latest . --ts --tailwind --eslint --app --src-dir --import-alias \"@/*\" --use-npm --no-turbopack)"
+      "Bash(npx --yes create-next-app@latest . --ts --tailwind --eslint --app --src-dir --import-alias \"@/*\" --use-npm --no-turbopack)",
+      "Bash(npm install *)",
+      "Bash(npx tsc *)",
+      "Bash(mkdir -p \"C:/Users/copal/salubanua/public/images\" && cp \"C:/Users/copal/Downloads/WhatsApp Image 2026-08-14 at 3.38.12 PM.jpeg\" \"C:/Users/copal/salubanua/public/images/gunung-pentuho.jpg\" && ls -la \"C:/Users/copal/salubanua/public/images\")",
+      "Bash(node -e ' *)",
+      "Bash(python3 -c ' *)",
+      "Bash(npm ls *)",
+      "Bash(rm -f node_modules/.bin/sharp)",
+      "Bash(npm uninstall *)",
+      "mcp__visualize__show_widget",
+      "Bash(git add *)"
     ]
   }
 }
