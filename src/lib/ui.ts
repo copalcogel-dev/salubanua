@@ -6,9 +6,17 @@
  * + blur) dari sini supaya menyatu dengan latar dan konsisten antar halaman.
  */
 
-/** Kartu kaca standar di atas latar video. */
+/**
+ * Kartu kaca standar di atas latar video.
+ *
+ * Bayangannya memakai spread negatif supaya jangkauan menyampingnya
+ * (spread + blur/2) tetap lebih kecil dari jarak antar kartu. Tanpa itu
+ * bayangan kartu jatuh ke kartu sebelahnya, lalu ikut ter-blur oleh
+ * `backdrop-filter` kartu tersebut dan memunculkan garis vertikal samar
+ * di sela-sela kartu — paling kelihatan saat kartu di-hover.
+ */
 export const glassCard =
-  "rounded-3xl border border-white/15 bg-white/[0.07] backdrop-blur-xl shadow-[0_10px_40px_rgba(0,0,0,0.4)]";
+  "rounded-3xl border border-white/15 bg-white/[0.07] backdrop-blur-xl shadow-[0_10px_30px_-10px_rgba(0,0,0,0.5)]";
 
 /**
  * Tambahan interaksi untuk kartu yang bisa diklik.
@@ -18,7 +26,7 @@ export const glassCard =
  * terlihat "melar" tiap kali diukur ulang. Cukup properti visual saja.
  */
 export const glassCardInteractive =
-  "transition-[border-color,background-color,box-shadow,transform] duration-500 hover:border-white/30 hover:bg-white/[0.12] hover:shadow-[0_24px_60px_rgba(0,0,0,0.55)]";
+  "transition-[border-color,background-color,box-shadow,transform] duration-500 hover:border-white/30 hover:bg-white/[0.12] hover:shadow-[0_22px_45px_-15px_rgba(0,0,0,0.65)]";
 
 /** Varian lebih tipis, untuk elemen kecil seperti pil kategori. */
 export const glassSubtle =
