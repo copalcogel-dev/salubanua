@@ -19,12 +19,16 @@ export type DestinationCardItem = {
 };
 
 /**
- * Jarak antar kartu harus lebih besar dari jangkauan blur backdrop kartu
- * (~1.5x radius blur, lihat catatan di `glassCard`). Kalau tidak, tiap
- * kartu ikut menyerap tepi kartu sebelahnya dan muncul garis samar di
- * selanya saat di-hover.
+ * Jarak antar kartu per breakpoint: [mobile, sm, lg].
+ *
+ * Harus lebih besar dari jangkauan blur backdrop kartu (~1.5x radius blur,
+ * lihat catatan di `glassCard`). Kalau terlalu rapat, tiap kartu ikut
+ * menyerap tepi kartu sebelahnya — efeknya, meng-hover satu kartu justru
+ * memunculkan garis di sela kartu lain. Layar besar diberi jarak paling
+ * lega karena di situlah hover benar-benar dipakai; di mobile jaraknya
+ * ditahan supaya tetap muat dua kartu.
  */
-const GAP = 28;
+const GAPS = [24, 32, 40];
 const ARROW_SIZE = 44;
 
 /**
@@ -80,6 +84,7 @@ export function DestinationCardRow({
 
   const [cardW, setCardW] = useState<number>(preset.card[0]);
   const [imageH, setImageH] = useState<number>(preset.image[0]);
+  const [gap, setGap] = useState<number>(GAPS[0]);
   const [perPage, setPerPage] = useState(1);
   const [canLeft, setCanLeft] = useState(false);
   const [canRight, setCanRight] = useState(false);
@@ -98,6 +103,7 @@ export function DestinationCardRow({
     const vw = window.innerWidth;
     const nextCardW = pickResponsive(preset.card, vw);
     const nextImageH = pickResponsive(preset.image, vw);
+    const nextGap = pickResponsive(GAPS, vw);
 
     // Panah hanya tampil mulai breakpoint `sm`; di bawah itu ruangnya utuh
     // untuk kartu. Diukur dari baris (yang selalu selebar induknya) supaya
@@ -110,10 +116,11 @@ export function DestinationCardRow({
     // Berapa kartu utuh yang muat di ruang tersedia — sisa ruang yang tidak
     // cukup untuk satu kartu penuh sengaja dibiarkan kosong, bukan diisi
     // kartu yang terpotong.
-    const fits = Math.floor((available + GAP) / (nextCardW + GAP));
+    const fits = Math.floor((available + nextGap) / (nextCardW + nextGap));
 
     setCardW(nextCardW);
     setImageH(nextImageH);
+    setGap(nextGap);
     setPerPage(Math.min(Math.max(fits, 1), preset.maxPerPage, items.length));
     syncArrows();
   }, [items.length, preset, syncArrows]);
@@ -124,8 +131,8 @@ export function DestinationCardRow({
     return () => window.removeEventListener("resize", measure);
   }, [measure]);
 
-  const step = cardW + GAP;
-  const trackWidth = perPage * step - GAP;
+  const step = cardW + gap;
+  const trackWidth = perPage * step - gap;
 
   const goPage = (dir: 1 | -1) => {
     const el = scrollerRef.current;
@@ -156,7 +163,7 @@ export function DestinationCardRow({
       <div
         ref={scrollerRef}
         onScroll={syncArrows}
-        style={{ width: trackWidth, gap: GAP, scrollbarWidth: "none" }}
+        style={{ width: trackWidth, gap, scrollbarWidth: "none" }}
         // `overflow-x-auto` membuat overflow-y ikut jadi `auto`, jadi tanpa
         // padding vertikal kartu yang terangkat saat hover akan terpotong.
         className="flex max-w-full snap-x snap-mandatory overflow-x-auto scroll-smooth py-1 [&::-webkit-scrollbar]:hidden"
