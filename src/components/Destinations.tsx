@@ -57,7 +57,7 @@ export function Destinations({
           <p className="text-sm leading-relaxed text-white/80">{t.explore.body}</p>
         </div>
 
-        <div className="mx-auto mt-8 max-w-3xl lg:mt-10">
+        <div className="mx-auto mt-8 max-w-4xl lg:mt-10">
           <CategorySelector activeKey={activeKey} onSelect={setActiveKey} />
         </div>
 

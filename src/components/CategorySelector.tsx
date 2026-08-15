@@ -21,7 +21,9 @@ export function CategorySelector({
   const { lang } = useLanguage();
 
   return (
-    <div className={`grid grid-cols-3 gap-2 sm:grid-cols-5 sm:gap-2.5 ${className}`}>
+    // Tombol dibiarkan selebar isinya (bukan grid berkolom sama) supaya nama
+    // kategori tampil utuh, tidak terpotong.
+    <div className={`flex flex-wrap justify-center gap-2 sm:gap-2.5 ${className}`}>
       {categories.map((c) => {
         const Icon = categoryIcons[c.icon];
         const isActive = c.key === activeKey;
@@ -39,7 +41,9 @@ export function CategorySelector({
             }`}
           >
             <span
-              className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-full transition-colors duration-400 ${
+              // Ikon disembunyikan di layar kecil supaya tiga tombol tetap
+              // muat sebaris tanpa memotong namanya.
+              className={`hidden h-8 w-8 shrink-0 items-center justify-center rounded-full transition-colors duration-400 sm:flex ${
                 isActive
                   ? "bg-[#153e2a] text-white"
                   : "bg-white/15 text-white group-hover:bg-white/25"
@@ -48,7 +52,7 @@ export function CategorySelector({
               <Icon size={14} strokeWidth={2} />
             </span>
             <span
-              className={`truncate text-[11px] font-semibold uppercase tracking-[0.12em] transition-colors duration-400 lg:text-xs ${
+              className={`whitespace-nowrap text-[11px] font-semibold uppercase tracking-[0.12em] transition-colors duration-400 lg:text-xs ${
                 isActive ? "text-[#153e2a]" : "text-white/75 group-hover:text-white"
               }`}
             >

@@ -110,7 +110,7 @@ export function Hero({ destinations }: { destinations: DestinationEntry[] }) {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ ...enterTransition, delay: stagger(5) }}
-          className="mx-auto mt-3 max-w-3xl sm:mt-6 lg:mt-6"
+          className="mx-auto mt-3 max-w-4xl sm:mt-6 lg:mt-6"
         >
           <CategorySelector activeKey={activeKey} onSelect={setActiveKey} />
         </motion.div>
