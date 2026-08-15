@@ -48,7 +48,7 @@ export function Hero({ destinations }: { destinations: DestinationEntry[] }) {
         ];
 
   return (
-    <section id="top" className="relative flex flex-1 flex-col justify-center py-2 sm:py-5 lg:py-6">
+    <section id="top" className="relative flex flex-1 flex-col justify-start pt-4 pb-2 sm:pt-7 sm:pb-4 lg:pt-8 lg:pb-5">
       <div className="mx-auto w-full max-w-7xl px-6 lg:px-10">
         <div className="mx-auto max-w-3xl text-center">
           <motion.p
@@ -64,7 +64,7 @@ export function Hero({ destinations }: { destinations: DestinationEntry[] }) {
             initial={{ opacity: 0, y: 18 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ ...enterTransition, delay: stagger(1) }}
-            className="text-[30px] font-bold leading-[0.95] tracking-tight text-white sm:text-[52px] lg:text-[64px]"
+            className="text-[34px] font-bold leading-[0.95] tracking-tight text-white sm:text-[58px] lg:text-[72px]"
           >
             {t.hero.titleTop}
           </motion.h1>
@@ -110,7 +110,7 @@ export function Hero({ destinations }: { destinations: DestinationEntry[] }) {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ ...enterTransition, delay: stagger(5) }}
-          className="mx-auto mt-3 max-w-3xl sm:mt-6 lg:mt-7"
+          className="mx-auto mt-3 max-w-3xl sm:mt-6 lg:mt-6"
         >
           <CategorySelector activeKey={activeKey} onSelect={setActiveKey} />
         </motion.div>

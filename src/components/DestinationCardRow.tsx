@@ -35,10 +35,13 @@ const sizeStyles = {
   },
 } as const;
 
+const arrowButtonClass =
+  "absolute top-1/2 z-10 hidden h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full border border-white/25 bg-white/10 text-white shadow-[0_8px_28px_rgba(0,0,0,0.35)] backdrop-blur-md transition-all duration-300 hover:border-white/40 hover:bg-white/25 sm:flex disabled:cursor-not-allowed disabled:opacity-30 disabled:hover:border-white/25 disabled:hover:bg-white/10";
+
 /**
- * Baris kartu dengan tombol panah kiri/kanan. Panah otomatis nonaktif
- * (memudar) saat semua kartu sudah muat tanpa perlu digeser — jujur soal
- * kapan benar-benar ada lebih banyak konten untuk dilihat.
+ * Baris kartu dengan tombol panah kiri/kanan. Panah tetap terlihat (memudar
+ * saja saat tak ada lagi yang bisa digeser) supaya navigasinya tetap
+ * terlihat ada, jujur soal kapan benar-benar bisa dipakai.
  */
 export function DestinationCardRow({
   items,
@@ -78,9 +81,9 @@ export function DestinationCardRow({
         onClick={() => scrollBy(-1)}
         disabled={!canLeft}
         aria-label="Sebelumnya"
-        className="absolute -left-3 top-1/2 z-10 hidden h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full bg-white/90 text-[#153e2a] shadow-lg transition disabled:pointer-events-none disabled:opacity-0 sm:flex lg:-left-5"
+        className={`-left-4 lg:-left-6 ${arrowButtonClass}`}
       >
-        <ChevronLeft size={18} />
+        <ChevronLeft size={19} strokeWidth={2} />
       </button>
 
       <div
@@ -137,9 +140,9 @@ export function DestinationCardRow({
         onClick={() => scrollBy(1)}
         disabled={!canRight}
         aria-label="Berikutnya"
-        className="absolute -right-3 top-1/2 z-10 hidden h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full bg-white/90 text-[#153e2a] shadow-lg transition disabled:pointer-events-none disabled:opacity-0 sm:flex lg:-right-5"
+        className={`-right-4 lg:-right-6 ${arrowButtonClass}`}
       >
-        <ChevronRight size={18} />
+        <ChevronRight size={19} strokeWidth={2} />
       </button>
     </div>
   );
