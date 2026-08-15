@@ -1,0 +1,116 @@
+"use client";
+
+import { useEffect, useRef, useState } from "react";
+import Image from "next/image";
+import { ChevronLeft, ChevronRight } from "lucide-react";
+import type { LucideIcon } from "lucide-react";
+import { MountainScene } from "./MountainScene";
+import { glassCard, glassCardInteractive } from "@/lib/ui";
+
+export type DestinationCardItem = {
+  key: string;
+  icon: LucideIcon;
+  title: string;
+  subtitle: string;
+  desc: string;
+  image?: string;
+  accent: string;
+};
+
+/**
+ * Baris kartu dengan tombol panah kiri/kanan. Panah otomatis nonaktif
+ * (memudar) saat semua kartu sudah muat tanpa perlu digeser — jujur soal
+ * kapan benar-benar ada lebih banyak konten untuk dilihat.
+ */
+export function DestinationCardRow({ items }: { items: DestinationCardItem[] }) {
+  const scrollerRef = useRef<HTMLDivElement>(null);
+  const [canLeft, setCanLeft] = useState(false);
+  const [canRight, setCanRight] = useState(false);
+
+  const updateArrows = () => {
+    const el = scrollerRef.current;
+    if (!el) return;
+    setCanLeft(el.scrollLeft > 4);
+    setCanRight(el.scrollLeft + el.clientWidth < el.scrollWidth - 4);
+  };
+
+  useEffect(() => {
+    updateArrows();
+    window.addEventListener("resize", updateArrows);
+    return () => window.removeEventListener("resize", updateArrows);
+  }, [items]);
+
+  const scrollBy = (dir: 1 | -1) => {
+    scrollerRef.current?.scrollBy({ left: dir * 320, behavior: "smooth" });
+  };
+
+  return (
+    <div className="relative">
+      <button
+        type="button"
+        onClick={() => scrollBy(-1)}
+        disabled={!canLeft}
+        aria-label="Sebelumnya"
+        className="absolute -left-3 top-1/2 z-10 hidden h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full bg-white/90 text-[#153e2a] shadow-lg transition disabled:pointer-events-none disabled:opacity-0 sm:flex lg:-left-5"
+      >
+        <ChevronLeft size={18} />
+      </button>
+
+      <div
+        ref={scrollerRef}
+        onScroll={updateArrows}
+        style={{ scrollbarWidth: "none" }}
+        className="flex gap-4 overflow-x-auto scroll-smooth pb-1 [&::-webkit-scrollbar]:hidden"
+      >
+        {items.map((item) => {
+          const Icon = item.icon;
+          return (
+            <article
+              key={item.key}
+              className={`group flex w-[240px] shrink-0 flex-col overflow-hidden sm:w-[270px] ${glassCard} ${glassCardInteractive}`}
+            >
+              <div className="relative h-24 shrink-0 overflow-hidden sm:h-28">
+                {item.image ? (
+                  <Image
+                    src={item.image}
+                    alt={item.title}
+                    fill
+                    className="object-cover transition-transform duration-700 group-hover:scale-110"
+                  />
+                ) : (
+                  <MountainScene
+                    accent={item.accent}
+                    className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-110"
+                  />
+                )}
+                <div className="absolute inset-0 bg-gradient-to-t from-[#08160f]/75 to-transparent" />
+                <div className="absolute left-3 top-3 flex h-8 w-8 items-center justify-center rounded-full bg-white/95 text-[#153e2a]">
+                  <Icon size={14} strokeWidth={2} />
+                </div>
+              </div>
+              <div className="p-3 sm:p-4">
+                <p className="mb-1 text-[10px] font-semibold uppercase tracking-[0.18em] text-white/50">
+                  {item.subtitle}
+                </p>
+                <h4 className="mb-1 text-sm font-semibold text-white">{item.title}</h4>
+                <p className="line-clamp-1 text-xs leading-relaxed text-white/70 sm:line-clamp-2">
+                  {item.desc}
+                </p>
+              </div>
+            </article>
+          );
+        })}
+      </div>
+
+      <button
+        type="button"
+        onClick={() => scrollBy(1)}
+        disabled={!canRight}
+        aria-label="Berikutnya"
+        className="absolute -right-3 top-1/2 z-10 hidden h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full bg-white/90 text-[#153e2a] shadow-lg transition disabled:pointer-events-none disabled:opacity-0 sm:flex lg:-right-5"
+      >
+        <ChevronRight size={18} />
+      </button>
+    </div>
+  );
+}
