@@ -15,7 +15,7 @@ export function FeaturedDestinations() {
       <div className="mx-auto max-w-7xl px-6 lg:px-10">
         <div className="mb-14 flex flex-col items-start justify-between gap-4 sm:flex-row sm:items-end">
           <div>
-            <p className="mb-3 text-[11px] font-semibold tracking-[0.3em] text-[#3fa34d]">
+            <p className="mb-3 text-[11px] font-semibold tracking-[0.3em] text-[#4a7c59]">
               {t.destinations.kicker}
             </p>
             <h2 className="text-4xl font-semibold text-[#153e2a] sm:text-5xl">
@@ -94,7 +94,7 @@ export function FeaturedDestinations() {
                   </span>
                 </div>
                 <div className="flex flex-1 flex-col p-5">
-                  <p className="mb-1 text-[10px] font-semibold uppercase tracking-[0.2em] text-[#3fa34d]">
+                  <p className="mb-1 text-[10px] font-semibold uppercase tracking-[0.2em] text-[#4a7c59]">
                     {d[lang].subtitle}
                   </p>
                   <h3 className="mb-2 text-lg font-semibold text-[#153e2a]">

@@ -17,7 +17,7 @@ export function StoriesList({ articles }: { articles: Article[] }) {
     <section className="bg-[#f6f4ee] pt-36 pb-24">
       <div className="mx-auto max-w-7xl px-6 lg:px-10">
         <div className="mb-12 max-w-2xl">
-          <p className="mb-3 text-[11px] font-semibold tracking-[0.3em] text-[#3fa34d]">
+          <p className="mb-3 text-[11px] font-semibold tracking-[0.3em] text-[#4a7c59]">
             {t.stories.kicker}
           </p>
           <h1 className="mb-4 text-4xl font-semibold text-[#153e2a] sm:text-5xl">
@@ -75,7 +75,7 @@ export function StoriesList({ articles }: { articles: Article[] }) {
                   </div>
 
                   <div className="flex flex-1 flex-col p-6">
-                    <p className="mb-2 text-[10px] font-semibold uppercase tracking-[0.2em] text-[#3fa34d]">
+                    <p className="mb-2 text-[10px] font-semibold uppercase tracking-[0.2em] text-[#4a7c59]">
                       {formatArticleDate(a.publishedAt, lang)}
                     </p>
                     <h2 className="mb-3 text-lg font-semibold leading-snug text-[#153e2a]">

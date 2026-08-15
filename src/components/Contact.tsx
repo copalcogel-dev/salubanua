@@ -4,20 +4,22 @@ import { motion } from "framer-motion";
 import { MapPin, Phone, Users2 } from "lucide-react";
 import { useLanguage } from "@/context/LanguageContext";
 import { villageProfile } from "@/data/site";
+import { ImmersiveGlow } from "./ImmersiveGlow";
 
 export function Contact() {
   const { t } = useLanguage();
 
   return (
-    <section id="contact" className="bg-[#f6f4ee] py-28">
-      <div className="mx-auto max-w-5xl px-6 lg:px-10">
+    <section id="contact" className="relative overflow-hidden bg-[#f6f4ee] py-28">
+      <ImmersiveGlow />
+      <div className="relative mx-auto max-w-5xl px-6 lg:px-10">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-100px" }}
           transition={{ duration: 0.7 }}
         >
-          <p className="mb-3 text-[11px] font-semibold tracking-[0.3em] text-[#3fa34d]">
+          <p className="mb-3 text-[11px] font-semibold tracking-[0.3em] text-[#4a7c59]">
             {t.contact.kicker}
           </p>
           <h2 className="mb-14 text-4xl font-semibold text-[#153e2a] sm:text-5xl">
@@ -26,7 +28,7 @@ export function Contact() {
 
           <div className="grid grid-cols-1 gap-8 sm:grid-cols-3">
             <div className="rounded-2xl border border-black/10 bg-white p-6 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-lg">
-              <MapPin size={22} strokeWidth={1.5} className="mb-4 text-[#3fa34d]" />
+              <MapPin size={22} strokeWidth={1.5} className="mb-4 text-[#4a7c59]" />
               <p className="mb-2 text-[11px] font-semibold uppercase tracking-[0.2em] text-[#153e2a]/60">
                 {t.contact.addressLabel}
               </p>
@@ -40,7 +42,7 @@ export function Contact() {
             </div>
 
             <div className="rounded-2xl border border-black/10 bg-white p-6 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-lg">
-              <Users2 size={22} strokeWidth={1.5} className="mb-4 text-[#3fa34d]" />
+              <Users2 size={22} strokeWidth={1.5} className="mb-4 text-[#4a7c59]" />
               <p className="mb-2 text-[11px] font-semibold uppercase tracking-[0.2em] text-[#153e2a]/60">
                 {t.contact.managedByLabel}
               </p>

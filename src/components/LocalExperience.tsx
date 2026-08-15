@@ -23,7 +23,7 @@ export function LocalExperience() {
               <Users2 size={24} strokeWidth={1.5} />
             </div>
           </div>
-          <p className="mb-3 text-[11px] font-semibold tracking-[0.3em] text-[#3fa34d]">
+          <p className="mb-3 text-[11px] font-semibold tracking-[0.3em] text-[#4a7c59]">
             {t.local.kicker}
           </p>
           <h2 className="mb-6 text-4xl font-semibold text-[#153e2a] sm:text-5xl">

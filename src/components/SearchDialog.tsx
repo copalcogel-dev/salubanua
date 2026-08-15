@@ -107,7 +107,7 @@ export function SearchDialog({
         aria-label={t.search.title}
       >
         <div className="flex items-center gap-3 border-b border-black/5 px-5 py-4">
-          <Search size={18} className="shrink-0 text-[#3fa34d]" />
+          <Search size={18} className="shrink-0 text-[#4a7c59]" />
           <input
             ref={inputRef}
             value={query}
@@ -154,7 +154,7 @@ export function SearchDialog({
                         <Icon size={15} strokeWidth={2} />
                       </span>
                       <span className="min-w-0">
-                        <span className="mb-0.5 block text-[10px] font-semibold uppercase tracking-[0.15em] text-[#3fa34d]">
+                        <span className="mb-0.5 block text-[10px] font-semibold uppercase tracking-[0.15em] text-[#4a7c59]">
                           {groupLabel(r.type)}
                         </span>
                         <span className="block text-sm font-semibold text-[#153e2a]">

@@ -20,7 +20,7 @@ export function Stories({ articles }: { articles: Article[] }) {
         <div className="rounded-[2.5rem] bg-[#e6f5ea] px-6 py-12 sm:px-10 sm:py-14">
           <div className="mb-10 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
             <div>
-              <p className="mb-3 text-[11px] font-semibold tracking-[0.3em] text-[#3fa34d]">
+              <p className="mb-3 text-[11px] font-semibold tracking-[0.3em] text-[#4a7c59]">
                 {t.stories.kicker}
               </p>
               <h2 className="mb-3 text-3xl font-semibold text-[#153e2a] sm:text-4xl">

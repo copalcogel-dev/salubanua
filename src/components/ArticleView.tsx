@@ -28,7 +28,7 @@ export function ArticleView({
           {t.stories.backToStories}
         </Link>
 
-        <p className="mb-3 text-[11px] font-semibold uppercase tracking-[0.2em] text-[#3fa34d]">
+        <p className="mb-3 text-[11px] font-semibold uppercase tracking-[0.2em] text-[#4a7c59]">
           {formatArticleDate(article.publishedAt, lang)}
           {article.author ? ` · ${t.stories.byAuthor} ${article.author}` : ""}
         </p>
@@ -101,7 +101,7 @@ export function ArticleView({
                   )}
                 </div>
                 <div className="p-5">
-                  <p className="mb-2 text-[10px] font-semibold uppercase tracking-[0.2em] text-[#3fa34d]">
+                  <p className="mb-2 text-[10px] font-semibold uppercase tracking-[0.2em] text-[#4a7c59]">
                     {formatArticleDate(r.publishedAt, lang)}
                   </p>
                   <h3 className="line-clamp-2 text-sm font-semibold leading-snug text-[#153e2a]">

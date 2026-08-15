@@ -6,15 +6,17 @@ import { useLanguage } from "@/context/LanguageContext";
 import { categories } from "@/data/site";
 import { MountainScene } from "./MountainScene";
 import { categoryIcons } from "@/lib/categoryIcons";
+import { ImmersiveGlow } from "./ImmersiveGlow";
 
 export function CategoryGrid() {
   const { lang, t } = useLanguage();
 
   return (
-    <section id="explore" className="bg-[#f6f4ee] py-24">
-      <div className="mx-auto max-w-7xl px-6 lg:px-10">
+    <section id="explore" className="relative overflow-hidden bg-[#f6f4ee] py-24">
+      <ImmersiveGlow />
+      <div className="relative mx-auto max-w-7xl px-6 lg:px-10">
         <div className="mx-auto mb-14 max-w-2xl text-center">
-          <p className="mb-3 text-[11px] font-semibold tracking-[0.3em] text-[#3fa34d]">
+          <p className="mb-3 text-[11px] font-semibold tracking-[0.3em] text-[#4a7c59]">
             {t.explore.kicker}
           </p>
           <h2 className="mb-4 text-4xl font-semibold text-[#153e2a] sm:text-5xl">

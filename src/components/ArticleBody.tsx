@@ -30,7 +30,7 @@ export function ArticleBody({ body }: { body: Body }) {
               <h3 className="pt-2 text-xl font-semibold text-[#153e2a]">{children}</h3>
             ),
             blockquote: ({ children }) => (
-              <blockquote className="border-l-4 border-[#3fa34d] pl-5 italic text-[#153e2a]">
+              <blockquote className="border-l-4 border-[#4a7c59] pl-5 italic text-[#153e2a]">
                 {children}
               </blockquote>
             ),
