@@ -27,21 +27,22 @@ const sizeStyles = {
     desc: "line-clamp-1 text-xs sm:line-clamp-2",
   },
   large: {
-    card: "w-[280px] sm:w-[360px] lg:w-[400px]",
-    image: "h-28 sm:h-52 lg:h-56",
-    pad: "p-3 sm:p-5",
-    title: "text-base sm:text-lg",
-    desc: "line-clamp-1 text-xs sm:line-clamp-2 sm:text-sm",
+    card: "w-[168px] sm:w-[204px] lg:w-[222px]",
+    image: "h-44 sm:h-60 lg:h-56",
+    pad: "p-2.5 sm:p-4",
+    title: "text-sm sm:text-base",
+    desc: "line-clamp-1 text-xs sm:line-clamp-2",
   },
 } as const;
 
 const arrowButtonClass =
-  "absolute top-1/2 z-10 hidden h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full border border-white/25 bg-white/10 text-white shadow-[0_8px_28px_rgba(0,0,0,0.35)] backdrop-blur-md transition-all duration-300 hover:border-white/40 hover:bg-white/25 sm:flex disabled:cursor-not-allowed disabled:opacity-30 disabled:hover:border-white/25 disabled:hover:bg-white/10";
+  "hidden h-11 w-11 shrink-0 items-center justify-center rounded-full border border-white/25 bg-white/10 text-white shadow-[0_8px_28px_rgba(0,0,0,0.35)] backdrop-blur-md transition-all duration-300 hover:border-white/40 hover:bg-white/25 sm:flex disabled:cursor-not-allowed disabled:opacity-30 disabled:hover:border-white/25 disabled:hover:bg-white/10";
 
 /**
- * Baris kartu dengan tombol panah kiri/kanan. Panah tetap terlihat (memudar
- * saja saat tak ada lagi yang bisa digeser) supaya navigasinya tetap
- * terlihat ada, jujur soal kapan benar-benar bisa dipakai.
+ * Baris kartu dengan tombol panah kiri/kanan di luar area kartu (bukan
+ * menimpa kartu), supaya tidak ada kartu yang terlihat terpotong di
+ * tampilan awal maupun saat digeser. Panah tetap terlihat, hanya memudar
+ * saat tak ada lagi yang bisa digeser ke arah itu.
  */
 export function DestinationCardRow({
   items,
@@ -71,17 +72,19 @@ export function DestinationCardRow({
   }, [items]);
 
   const scrollBy = (dir: 1 | -1) => {
-    scrollerRef.current?.scrollBy({ left: dir * 320, behavior: "smooth" });
+    const el = scrollerRef.current;
+    if (!el) return;
+    el.scrollBy({ left: dir * (el.clientWidth * 0.8), behavior: "smooth" });
   };
 
   return (
-    <div className="relative">
+    <div className="flex items-center gap-2 sm:gap-3">
       <button
         type="button"
         onClick={() => scrollBy(-1)}
         disabled={!canLeft}
         aria-label="Sebelumnya"
-        className={`-left-4 lg:-left-6 ${arrowButtonClass}`}
+        className={arrowButtonClass}
       >
         <ChevronLeft size={19} strokeWidth={2} />
       </button>
@@ -90,7 +93,7 @@ export function DestinationCardRow({
         ref={scrollerRef}
         onScroll={updateArrows}
         style={{ scrollbarWidth: "none" }}
-        className="flex justify-center gap-4 overflow-x-auto scroll-smooth pb-1 [&::-webkit-scrollbar]:hidden sm:gap-5"
+        className="flex flex-1 gap-4 overflow-x-auto scroll-smooth pb-1 [&::-webkit-scrollbar]:hidden sm:gap-5"
       >
         {items.map((item) => {
           const Icon = item.icon;
@@ -140,7 +143,7 @@ export function DestinationCardRow({
         onClick={() => scrollBy(1)}
         disabled={!canRight}
         aria-label="Berikutnya"
-        className={`-right-4 lg:-right-6 ${arrowButtonClass}`}
+        className={arrowButtonClass}
       >
         <ChevronRight size={19} strokeWidth={2} />
       </button>
