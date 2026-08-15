@@ -5,6 +5,12 @@ import { Mountain } from "lucide-react";
 import { useLanguage } from "@/context/LanguageContext";
 import { villageProfile } from "@/data/site";
 
+/**
+ * Satu footer untuk seluruh situs.
+ *
+ * Sengaja ringkas satu baris agar identik di setiap halaman — termasuk di
+ * beranda yang dirancang muat satu layar tanpa scroll.
+ */
 export function Footer() {
   const { t } = useLanguage();
 
@@ -16,62 +22,36 @@ export function Footer() {
   ];
 
   return (
-    <footer className="border-t border-white/10 py-14 text-white/70">
-      <div className="mx-auto grid max-w-7xl grid-cols-1 gap-10 px-6 sm:grid-cols-2 lg:grid-cols-4 lg:px-10">
-        <div>
-          <div className="mb-4 flex items-center gap-2 text-white">
-            <Mountain size={22} strokeWidth={1.5} />
-            <span className="text-sm tracking-[0.25em] uppercase">Salubanua</span>
-          </div>
-          <p className="text-xs leading-relaxed">
-            {villageProfile.objekWisata.nama} ({villageProfile.objekWisata.aliasName})
-          </p>
-        </div>
+    <footer className="shrink-0 border-t border-white/10 bg-black/20 py-4 text-white/60 backdrop-blur-sm">
+      <div className="mx-auto flex max-w-7xl flex-col items-center gap-3 px-6 text-center lg:flex-row lg:justify-between lg:gap-6 lg:px-10 lg:text-left">
+        <Link
+          href="/"
+          className="flex shrink-0 items-center gap-2 text-white transition hover:opacity-80"
+        >
+          <Mountain size={16} strokeWidth={1.5} />
+          <span className="text-[11px] tracking-[0.22em] uppercase">Salubanua</span>
+        </Link>
 
-        <div>
-          <p className="mb-3 text-[11px] font-semibold uppercase tracking-[0.2em] text-white/50">
-            {t.nav.menu}
-          </p>
-          <ul className="space-y-2">
-            {links.map((l) => (
-              <li key={l.href}>
-                <Link
-                  href={l.href}
-                  className="text-xs transition hover:text-white"
-                >
-                  {l.label}
-                </Link>
-              </li>
-            ))}
-          </ul>
-        </div>
+        <nav className="flex flex-wrap items-center justify-center gap-x-5 gap-y-1">
+          {links.map((l) => (
+            <Link
+              key={l.href}
+              href={l.href}
+              className="text-[11px] uppercase tracking-wide transition-colors duration-300 hover:text-white"
+            >
+              {l.label}
+            </Link>
+          ))}
+        </nav>
 
-        <div>
-          <p className="mb-3 text-[11px] font-semibold uppercase tracking-[0.2em] text-white/50">
-            {t.footer.address}
-          </p>
-          <p className="text-xs leading-relaxed">
-            Dusun {villageProfile.dusun}, Desa {villageProfile.desa}
-            <br />
-            Kec. {villageProfile.kecamatan}, Kab. {villageProfile.kabupaten}
-            <br />
-            {villageProfile.provinsi}
-          </p>
-        </div>
+        <p className="text-[11px] leading-tight">
+          Dusun {villageProfile.dusun}, {villageProfile.desa} &middot; Kec.{" "}
+          {villageProfile.kecamatan}, {villageProfile.kabupaten}
+        </p>
 
-        <div>
-          <p className="mb-3 text-[11px] font-semibold uppercase tracking-[0.2em] text-white/50">
-            {t.footer.managedBy}
-          </p>
-          <p className="text-xs leading-relaxed">
-            {villageProfile.pengelola.nama}
-            <br />
-            {villageProfile.pengelola.mitra}
-          </p>
-        </div>
-      </div>
-      <div className="mx-auto mt-10 max-w-7xl border-t border-white/10 px-6 pt-6 text-[11px] text-white/40 lg:px-10">
-        &copy; {new Date().getFullYear()} Desa Salubanua. {t.footer.rights}
+        <p className="shrink-0 text-[11px] text-white/40">
+          &copy; {new Date().getFullYear()} {villageProfile.pengelola.nama}
+        </p>
       </div>
     </footer>
   );

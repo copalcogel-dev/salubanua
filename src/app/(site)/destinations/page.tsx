@@ -1,6 +1,4 @@
 import type { Metadata } from "next";
-import { Navbar } from "@/components/Navbar";
-import { Footer } from "@/components/Footer";
 import { Destinations } from "@/components/Destinations";
 
 export const metadata: Metadata = {
@@ -10,13 +8,5 @@ export const metadata: Metadata = {
 };
 
 export default function DestinationsPage() {
-  return (
-    <>
-      <Navbar />
-      <main>
-        <Destinations />
-      </main>
-      <Footer />
-    </>
-  );
+  return <Destinations />;
 }

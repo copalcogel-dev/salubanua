@@ -12,7 +12,7 @@ export function Destinations() {
   const { lang, t } = useLanguage();
 
   return (
-    <section className="relative py-32 lg:py-40">
+    <section className="relative py-16 lg:py-20">
       <div className="relative mx-auto max-w-7xl px-6 lg:px-10">
         <div className="mb-8 flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
           <div className="max-w-xl">

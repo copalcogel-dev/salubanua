@@ -14,7 +14,7 @@ export function StoriesList({ articles }: { articles: Article[] }) {
   const { lang, t } = useLanguage();
 
   return (
-    <section className="relative pt-36 pb-24">
+    <section className="relative py-16 lg:py-20">
       <div className="relative mx-auto max-w-7xl px-6 lg:px-10">
         <div className="mb-12 max-w-2xl">
           <p className="mb-3 text-[11px] font-semibold tracking-[0.3em] text-white/70">

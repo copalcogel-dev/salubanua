@@ -18,7 +18,7 @@ export function ArticleView({
   const { lang, t } = useLanguage();
 
   return (
-    <article className="pt-32 pb-24">
+    <article className="py-16 lg:py-20">
       <div className="mx-auto max-w-3xl px-6 lg:px-10">
         <Link
           href="/stories"

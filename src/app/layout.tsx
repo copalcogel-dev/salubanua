@@ -1,10 +1,6 @@
 import type { Metadata } from "next";
 import { Manrope } from "next/font/google";
 import "./globals.css";
-import { LanguageProvider } from "@/context/LanguageContext";
-import { PageIntro } from "@/components/PageIntro";
-import { Grain } from "@/components/Grain";
-import { SiteBackground } from "@/components/SiteBackground";
 
 const manrope = Manrope({
   variable: "--font-sans",
@@ -18,17 +14,17 @@ export const metadata: Metadata = {
     "Gerbang digital menuju Gunung Pentuho, Dusun Lombo' Ipo, Desa Salubanua, Kecamatan Mambi, Kabupaten Mamasa, Sulawesi Barat.",
 };
 
+/**
+ * Root layout sengaja minimal: hanya html/body/font.
+ *
+ * Seluruh "kulit" situs (video latar, navbar, footer) hidup di
+ * app/(site)/layout.tsx supaya rute di luar situs — terutama Sanity Studio
+ * di /studio — tidak ikut terbungkus navbar, footer, dan overlay intro.
+ */
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html lang="id" className={`${manrope.variable} h-full antialiased`}>
-      <body className="min-h-full flex flex-col bg-[#0d2a1d]">
-        <SiteBackground />
-        <PageIntro />
-        <Grain />
-        <LanguageProvider>
-          <div className="relative z-10 flex min-h-full flex-col">{children}</div>
-        </LanguageProvider>
-      </body>
+      <body className="min-h-full bg-[#0d2a1d]">{children}</body>
     </html>
   );
 }

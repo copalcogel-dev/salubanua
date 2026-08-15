@@ -1,7 +1,5 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { Navbar } from "@/components/Navbar";
-import { Footer } from "@/components/Footer";
 import { ArticleView } from "@/components/ArticleView";
 import { getArticle, getArticles, getArticleSlugs } from "@/lib/content";
 
@@ -34,13 +32,5 @@ export default async function StoryPage({ params }: PageProps<"/stories/[slug]">
   const all = await getArticles();
   const related = all.filter((a) => a.slug !== slug).slice(0, 3);
 
-  return (
-    <>
-      <Navbar />
-      <main>
-        <ArticleView article={article} related={related} />
-      </main>
-      <Footer />
-    </>
-  );
+  return <ArticleView article={article} related={related} />;
 }

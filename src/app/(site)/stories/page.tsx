@@ -1,6 +1,4 @@
 import type { Metadata } from "next";
-import { Navbar } from "@/components/Navbar";
-import { Footer } from "@/components/Footer";
 import { StoriesList } from "@/components/StoriesList";
 import { getArticles } from "@/lib/content";
 
@@ -15,13 +13,5 @@ export const revalidate = 60;
 export default async function StoriesPage() {
   const articles = await getArticles();
 
-  return (
-    <>
-      <Navbar />
-      <main>
-        <StoriesList articles={articles} />
-      </main>
-      <Footer />
-    </>
-  );
+  return <StoriesList articles={articles} />;
 }
