@@ -6,9 +6,9 @@ import { motion, useScroll, useTransform } from "framer-motion";
 import { Home, MapPin, Building2, Landmark, Flag, Users2 } from "lucide-react";
 import { useLanguage } from "@/context/LanguageContext";
 import { villageProfile } from "@/data/site";
+import { glassCard } from "@/lib/ui";
 
 const pointIcons = [Home, MapPin, Building2, Landmark, Flag];
-const cardTints = ["#e9f2ec", "#dfece3", "#eef4ef"];
 
 const VILLAGE_VIDEO_URL =
   "https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260329_050842_be71947f-f16e-4a14-810c-06e83d23ddb5.mp4";
@@ -89,14 +89,13 @@ export function VillageStory() {
                 return (
                   <div
                     key={p.label}
-                    className="rounded-2xl border border-white/60 p-4 shadow-[0_2px_16px_rgba(21,62,42,0.06)] transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_10px_30px_rgba(21,62,42,0.1)]"
-                    style={{ background: cardTints[i % cardTints.length] }}
+                    className={`!rounded-2xl p-4 transition-all duration-500 hover:-translate-y-1 hover:border-white/30 hover:bg-white/[0.12] ${glassCard}`}
                   >
-                    <Icon size={16} strokeWidth={1.5} className="mb-2 text-[#4a7c59]" />
-                    <p className="mb-0.5 text-[9px] font-semibold uppercase tracking-[0.2em] text-[#153e2a]/55">
+                    <Icon size={16} strokeWidth={1.5} className="mb-2 text-white/70" />
+                    <p className="mb-0.5 text-[9px] font-semibold uppercase tracking-[0.2em] text-white/50">
                       {p.label}
                     </p>
-                    <p className="text-base font-semibold text-[#153e2a]">{p.value}</p>
+                    <p className="text-base font-semibold text-white">{p.value}</p>
                   </div>
                 );
               })}

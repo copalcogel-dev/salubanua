@@ -7,6 +7,7 @@ import { ArrowUpRight } from "lucide-react";
 import { useLanguage } from "@/context/LanguageContext";
 import { formatArticleDate, type Article } from "@/lib/content";
 import { MountainScene } from "./MountainScene";
+import { glassCard, glassCardInteractive } from "@/lib/ui";
 
 const fallbackAccents = ["#2f6b74", "#5a5433", "#4a5d3a", "#6b4a3f", "#3f6b4f"];
 
@@ -44,7 +45,7 @@ export function StoriesList({ articles }: { articles: Article[] }) {
               >
                 <Link
                   href={`/stories/${a.slug}`}
-                  className="group flex h-full flex-col overflow-hidden rounded-3xl border border-black/5 bg-white shadow-[0_2px_16px_rgba(21,62,42,0.06)] transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_18px_45px_rgba(21,62,42,0.14)]"
+                  className={`group flex h-full flex-col overflow-hidden ${glassCard} ${glassCardInteractive} hover:-translate-y-1.5`}
                 >
                   <div className="relative h-44 shrink-0 overflow-hidden">
                     {a.coverImageUrl ? (
@@ -67,24 +68,25 @@ export function StoriesList({ articles }: { articles: Article[] }) {
                         className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-110"
                       />
                     )}
+                    <div className="absolute inset-0 bg-gradient-to-t from-[#08160f]/70 to-transparent" />
                     {a.isSample && (
-                      <span className="absolute left-3 top-3 rounded-full bg-white/90 px-3 py-1 text-[9px] font-bold tracking-wide text-[#153e2a]">
+                      <span className="absolute left-3 top-3 rounded-full bg-white/15 px-3 py-1 text-[9px] font-bold tracking-wide text-white backdrop-blur-sm">
                         {t.stories.sampleBadge}
                       </span>
                     )}
                   </div>
 
                   <div className="flex flex-1 flex-col p-6">
-                    <p className="mb-2 text-[10px] font-semibold uppercase tracking-[0.2em] text-[#4a7c59]">
+                    <p className="mb-2 text-[10px] font-semibold uppercase tracking-[0.2em] text-white/50">
                       {formatArticleDate(a.publishedAt, lang)}
                     </p>
-                    <h2 className="mb-3 text-lg font-semibold leading-snug text-[#153e2a]">
+                    <h2 className="mb-3 text-lg font-semibold leading-snug text-white">
                       {a[lang].title}
                     </h2>
-                    <p className="mb-5 line-clamp-3 text-sm leading-relaxed text-[#4a4a42]">
+                    <p className="mb-5 line-clamp-3 text-sm leading-relaxed text-white/70">
                       {a[lang].excerpt}
                     </p>
-                    <span className="mt-auto inline-flex items-center gap-2 text-xs font-bold uppercase tracking-[0.15em] text-[#153e2a]">
+                    <span className="mt-auto inline-flex items-center gap-2 text-xs font-bold uppercase tracking-[0.15em] text-white">
                       {t.stories.readMore}
                       <ArrowUpRight
                         size={14}

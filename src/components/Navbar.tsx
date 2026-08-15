@@ -13,8 +13,15 @@ export function Navbar() {
   const { lang, toggleLang, t } = useLanguage();
   const pathname = usePathname();
   const [scrolled, setScrolled] = useState(false);
-  const [open, setOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
+
+  // Menu mobile menyimpan rute saat dibuka, bukan boolean. Dengan begitu
+  // menu otomatis tertutup begitu rute berganti (termasuk lewat tombol
+  // back/forward) tanpa perlu setState di dalam effect.
+  const [menuPath, setMenuPath] = useState<string | null>(null);
+  const open = menuPath === pathname;
+  const closeMenu = () => setMenuPath(null);
+  const toggleMenu = () => setMenuPath(open ? null : pathname);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 40);
@@ -33,12 +40,6 @@ export function Navbar() {
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
   }, []);
-
-  // Tutup menu mobile setiap kali rute berganti, supaya panel tidak
-  // tertinggal terbuka setelah pengguna memilih menu.
-  useEffect(() => {
-    setOpen(false);
-  }, [pathname]);
 
   const links = [
     { label: t.nav.destinations, href: "/destinations" },
@@ -119,7 +120,7 @@ export function Navbar() {
             </button>
             <button
               className="transition-opacity duration-300 hover:opacity-70 lg:hidden"
-              onClick={() => setOpen((v) => !v)}
+              onClick={toggleMenu}
               aria-label="Menu"
             >
               {open ? <X size={22} /> : <Menu size={22} />}
@@ -138,7 +139,7 @@ export function Navbar() {
               <Link
                 key={l.href}
                 href={l.href}
-                onClick={() => setOpen(false)}
+                onClick={closeMenu}
                 className={`text-sm font-medium uppercase tracking-wide transition-colors duration-300 ${
                   pathname === l.href ? "text-white" : "text-white/70"
                 }`}

@@ -1,156 +1,177 @@
 "use client";
 
+import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { ArrowUpRight } from "lucide-react";
 import { useLanguage } from "@/context/LanguageContext";
-import { categories, destinations } from "@/data/site";
+import { categories } from "@/data/site";
 import { MountainScene } from "./MountainScene";
 import { categoryIcons } from "@/lib/categoryIcons";
 import { duration, easeOut, enterTransition, stagger } from "@/lib/motion";
+import { glassCard, glassSubtle } from "@/lib/ui";
 
 export function Hero() {
   const { lang, t } = useLanguage();
+  const [activeKey, setActiveKey] = useState<string>(categories[0].key);
 
-  const highlightCards = destinations.slice(0, 3);
+  const active = categories.find((c) => c.key === activeKey) ?? categories[0];
+  const ActiveIcon = categoryIcons[active.icon];
 
   return (
-    <section
-      id="top"
-      className="relative flex flex-1 items-center py-8 lg:py-10"
-    >
+    <section id="top" className="relative flex flex-1 items-center py-6 lg:py-8">
       <div className="mx-auto w-full max-w-7xl px-6 lg:px-10">
-        <div className="max-w-3xl">
-          <motion.p
-            initial={{ opacity: 0, y: 12 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ ...enterTransition, delay: stagger(0) }}
-            className="mb-3 text-[10px] font-semibold tracking-[0.32em] text-white/70"
-          >
-            {t.hero.kicker}
-          </motion.p>
+        <div className="grid items-center gap-8 lg:grid-cols-[1fr_1.05fr] lg:gap-12">
+          <div>
+            <motion.p
+              initial={{ opacity: 0, y: 12 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ ...enterTransition, delay: stagger(0) }}
+              className="mb-3 text-[10px] font-semibold tracking-[0.32em] text-white/70"
+            >
+              {t.hero.kicker}
+            </motion.p>
 
-          <motion.h1
-            initial={{ opacity: 0, y: 18 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ ...enterTransition, delay: stagger(1) }}
-            className="text-[38px] font-bold leading-[0.94] tracking-tight text-white sm:text-[52px] lg:text-[64px]"
-          >
-            {t.hero.titleTop}
-          </motion.h1>
+            <motion.h1
+              initial={{ opacity: 0, y: 18 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ ...enterTransition, delay: stagger(1) }}
+              className="text-[44px] font-bold leading-[0.92] tracking-tight text-white sm:text-[60px] lg:text-[76px]"
+            >
+              {t.hero.titleTop}
+            </motion.h1>
 
-          <motion.h2
-            initial={{ opacity: 0, y: 18 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ ...enterTransition, delay: stagger(2) }}
-            className="mb-3 text-lg font-light text-white/90 sm:text-xl lg:text-[26px]"
-          >
-            {t.hero.titleBottom}
-          </motion.h2>
+            <motion.h2
+              initial={{ opacity: 0, y: 18 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ ...enterTransition, delay: stagger(2) }}
+              className="mb-4 text-xl font-light leading-snug text-white/90 sm:text-2xl lg:text-[30px]"
+            >
+              {t.hero.titleBottom}
+            </motion.h2>
 
-          <motion.p
-            initial={{ opacity: 0, y: 18 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ ...enterTransition, delay: stagger(3) }}
-            className="mb-5 max-w-xl text-[13px] leading-relaxed text-white/80"
-          >
-            {t.hero.body}
-          </motion.p>
+            <motion.p
+              initial={{ opacity: 0, y: 18 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ ...enterTransition, delay: stagger(3) }}
+              className="mb-6 max-w-xl text-sm leading-relaxed text-white/80"
+            >
+              {t.hero.body}
+            </motion.p>
+
+            <motion.div
+              initial={{ opacity: 0, y: 18 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ ...enterTransition, delay: stagger(4) }}
+            >
+              <Link
+                href="/destinations"
+                className="group inline-flex items-center gap-2 rounded-full bg-white px-7 py-3.5 text-[11px] font-bold tracking-[0.18em] text-[#153e2a] transition-all duration-300 hover:bg-white/90 hover:shadow-[0_12px_36px_rgba(255,255,255,0.22)]"
+              >
+                {t.hero.cta}
+                <ArrowUpRight
+                  size={14}
+                  strokeWidth={2.5}
+                  className="transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
+                />
+              </Link>
+            </motion.div>
+          </div>
 
           <motion.div
-            initial={{ opacity: 0, y: 18 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ ...enterTransition, delay: stagger(4) }}
-            className="mb-5 flex flex-wrap items-center gap-x-5 gap-y-3"
+            initial={{ opacity: 0, scale: 0.97 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ ...enterTransition, delay: stagger(3) }}
+            className={`relative h-[280px] overflow-hidden sm:h-[340px] lg:h-[400px] ${glassCard}`}
           >
-            <Link
-              href="/destinations"
-              className="group inline-flex items-center gap-2 rounded-full bg-white px-6 py-3 text-[11px] font-bold tracking-[0.18em] text-[#153e2a] transition-all duration-300 hover:bg-white/90 hover:shadow-[0_10px_30px_rgba(255,255,255,0.18)]"
+            <motion.div
+              key={active.key}
+              initial={{ opacity: 0, scale: 1.06 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: duration.slow, ease: easeOut }}
+              className="absolute inset-0"
             >
-              {t.hero.cta}
-              <ArrowUpRight
-                size={14}
-                strokeWidth={2.5}
-                className="transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
-              />
-            </Link>
+              {active.key === "hiking" ? (
+                <Image
+                  src="/images/gunung-pentuho.jpg"
+                  alt={active[lang].title}
+                  fill
+                  priority
+                  className="object-cover"
+                />
+              ) : (
+                <MountainScene
+                  accent={active.accent}
+                  className="h-full w-full object-cover"
+                />
+              )}
+              <div className="absolute inset-0 bg-gradient-to-t from-[#08160f] via-[#08160f]/35 to-transparent" />
+            </motion.div>
 
-            <div className="flex flex-wrap gap-x-4 gap-y-1.5">
-              {categories.map((c) => (
-                <span
-                  key={c.key}
-                  className="text-[10px] font-semibold uppercase tracking-[0.18em] text-white/60"
-                >
-                  {c[lang].title}
+            <div className="relative flex h-full flex-col justify-end p-6 lg:p-7">
+              <motion.div
+                key={`${active.key}-text`}
+                initial={{ opacity: 0, y: 14 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: duration.base, ease: easeOut }}
+              >
+                <span className="mb-3 inline-flex h-9 w-9 items-center justify-center rounded-full bg-white/95 text-[#153e2a]">
+                  <ActiveIcon size={16} strokeWidth={2} />
                 </span>
-              ))}
+                <h3 className="mb-1.5 text-2xl font-semibold text-white lg:text-3xl">
+                  {active[lang].title}
+                </h3>
+                <p className="max-w-sm text-sm leading-relaxed text-white/80">
+                  {active[lang].desc}
+                </p>
+              </motion.div>
             </div>
           </motion.div>
         </div>
 
-        <div className="grid grid-cols-3 gap-3 sm:gap-4">
-          {highlightCards.map((d, i) => {
-            const category = categories.find((c) => c.key === d.category);
-            const Icon = categoryIcons[category?.icon ?? "mountain"];
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ ...enterTransition, delay: stagger(5) }}
+          className="mt-6 grid grid-cols-3 gap-2.5 sm:grid-cols-5 lg:mt-8 lg:gap-3"
+        >
+          {categories.map((c) => {
+            const Icon = categoryIcons[c.icon];
+            const isActive = c.key === activeKey;
 
             return (
-              <motion.div
-                key={d.key}
-                initial={{ opacity: 0, y: 26 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{
-                  duration: duration.base,
-                  ease: easeOut,
-                  delay: stagger(i, 0.09, 0.5),
-                }}
-                whileHover={{ y: -8 }}
-                className="group"
+              <button
+                key={c.key}
+                type="button"
+                onClick={() => setActiveKey(c.key)}
+                aria-pressed={isActive}
+                className={`group flex items-center gap-2.5 px-3 py-3 text-left transition-all duration-400 lg:px-4 ${
+                  isActive
+                    ? "rounded-2xl border border-white/40 bg-white/95 shadow-[0_12px_32px_rgba(0,0,0,0.35)]"
+                    : `${glassSubtle} hover:border-white/25 hover:bg-white/[0.12]`
+                }`}
               >
-                <Link
-                  href="/destinations"
-                  className="relative flex h-36 flex-col justify-end overflow-hidden rounded-2xl border border-white/15 shadow-[0_16px_40px_rgba(0,0,0,0.4)] transition-shadow duration-300 hover:border-white/30 hover:shadow-[0_26px_60px_rgba(0,0,0,0.55)] sm:h-44"
+                <span
+                  className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-full transition-colors duration-400 ${
+                    isActive
+                      ? "bg-[#153e2a] text-white"
+                      : "bg-white/15 text-white group-hover:bg-white/25"
+                  }`}
                 >
-                  {d.key === "pentuho" ? (
-                    <Image
-                      src="/images/gunung-pentuho.jpg"
-                      alt={d[lang].title}
-                      fill
-                      className="object-cover transition-transform duration-[900ms] ease-out group-hover:scale-110"
-                    />
-                  ) : (
-                    <MountainScene
-                      accent={category?.accent ?? "#2f5233"}
-                      className="h-full w-full object-cover transition-transform duration-[900ms] ease-out group-hover:scale-110"
-                    />
-                  )}
-
-                  <div className="absolute inset-0 bg-gradient-to-t from-[#08160f] via-[#08160f]/45 to-transparent transition-opacity duration-300 group-hover:from-[#08160f]/95" />
-
-                  <span className="absolute left-3 top-3 flex h-7 w-7 items-center justify-center rounded-full bg-white/95 text-[#153e2a] shadow-sm transition-transform duration-300 group-hover:scale-110">
-                    <Icon size={13} strokeWidth={2} />
-                  </span>
-
-                  <span className="absolute right-3 top-3 flex h-7 w-7 items-center justify-center rounded-full bg-white/15 text-white opacity-0 backdrop-blur-sm transition-all duration-300 group-hover:opacity-100">
-                    <ArrowUpRight size={13} strokeWidth={2.5} />
-                  </span>
-
-                  <div className="relative p-3 sm:p-4">
-                    <p className="mb-0.5 text-[8px] font-semibold uppercase tracking-[0.2em] text-white/60">
-                      {d[lang].subtitle}
-                    </p>
-                    <h3 className="truncate text-[13px] font-semibold text-white sm:text-sm">
-                      {d[lang].title}
-                    </h3>
-                    <p className="mt-1 hidden max-h-0 overflow-hidden text-[10px] leading-snug text-white/70 opacity-0 transition-all duration-500 group-hover:max-h-10 group-hover:opacity-100 sm:block">
-                      {d[lang].desc}
-                    </p>
-                  </div>
-                </Link>
-              </motion.div>
+                  <Icon size={14} strokeWidth={2} />
+                </span>
+                <span
+                  className={`truncate text-[11px] font-semibold uppercase tracking-[0.12em] transition-colors duration-400 lg:text-xs ${
+                    isActive ? "text-[#153e2a]" : "text-white/75 group-hover:text-white"
+                  }`}
+                >
+                  {c[lang].title}
+                </span>
+              </button>
             );
           })}
-        </div>
+        </motion.div>
       </div>
     </section>
   );

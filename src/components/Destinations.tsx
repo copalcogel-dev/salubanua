@@ -7,6 +7,7 @@ import { useLanguage } from "@/context/LanguageContext";
 import { destinations, categories } from "@/data/site";
 import { MountainScene } from "./MountainScene";
 import { categoryIcons } from "@/lib/categoryIcons";
+import { glassCard, glassCardInteractive, glassSubtle } from "@/lib/ui";
 
 export function Destinations() {
   const { lang, t } = useLanguage();
@@ -37,9 +38,9 @@ export function Destinations() {
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true, margin: "-40px" }}
                   transition={{ duration: 0.4, delay: i * 0.05 }}
-                  className="flex items-center gap-1.5 rounded-full border border-black/10 bg-white px-3.5 py-2 text-xs font-semibold text-[#153e2a] shadow-sm transition-transform duration-200 hover:-translate-y-0.5"
+                  className={`flex items-center gap-1.5 !rounded-full px-3.5 py-2 text-xs font-semibold text-white/85 transition-all duration-300 hover:-translate-y-0.5 hover:border-white/25 hover:bg-white/[0.12] hover:text-white ${glassSubtle}`}
                 >
-                  <Icon size={13} strokeWidth={2} className="text-[#4a7c59]" />
+                  <Icon size={13} strokeWidth={2} className="text-white/70" />
                   {c[lang].title}
                 </motion.span>
               );
@@ -101,29 +102,29 @@ export function Destinations() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: "-80px" }}
                 transition={{ duration: 0.6, delay: i * 0.1 }}
-                className="group flex flex-col overflow-hidden rounded-3xl border border-black/10 bg-white shadow-[0_2px_16px_rgba(21,62,42,0.06)] transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_20px_50px_rgba(21,62,42,0.16)]"
+                className={`group flex flex-col overflow-hidden ${glassCard} ${glassCardInteractive} hover:-translate-y-1.5`}
               >
-                <div className="relative h-24 shrink-0 overflow-hidden">
+                <div className="relative h-28 shrink-0 overflow-hidden">
                   <MountainScene
                     accent={category?.accent ?? "#2f5233"}
-                    className="h-full w-full scale-100 object-cover grayscale transition-transform duration-700 group-hover:scale-110"
+                    className="h-full w-full scale-100 object-cover transition-transform duration-700 group-hover:scale-110"
                   />
-                  <div className="absolute inset-0 bg-black/10" />
-                  <div className="absolute left-3 top-3 flex h-8 w-8 items-center justify-center rounded-full bg-white/90 text-[#153e2a]">
+                  <div className="absolute inset-0 bg-gradient-to-t from-[#08160f]/80 to-transparent" />
+                  <div className="absolute left-3 top-3 flex h-8 w-8 items-center justify-center rounded-full bg-white/95 text-[#153e2a]">
                     <Icon size={14} strokeWidth={2} />
                   </div>
-                  <span className="absolute right-3 top-3 rounded-full bg-white/90 px-3 py-1 text-[9px] font-bold uppercase tracking-wide text-[#153e2a]">
+                  <span className="absolute right-3 top-3 rounded-full bg-white/15 px-3 py-1 text-[9px] font-bold uppercase tracking-wide text-white backdrop-blur-sm">
                     {d[lang].status}
                   </span>
                 </div>
-                <div className="flex flex-1 flex-col p-4">
-                  <p className="mb-1 text-[10px] font-semibold uppercase tracking-[0.2em] text-[#4a7c59]">
+                <div className="flex flex-1 flex-col p-5">
+                  <p className="mb-1 text-[10px] font-semibold uppercase tracking-[0.2em] text-white/50">
                     {d[lang].subtitle}
                   </p>
-                  <h3 className="mb-1.5 text-base font-semibold text-[#153e2a]">
+                  <h3 className="mb-1.5 text-base font-semibold text-white">
                     {d[lang].title}
                   </h3>
-                  <p className="line-clamp-2 text-xs leading-relaxed text-[#4a4a42]">
+                  <p className="line-clamp-2 text-xs leading-relaxed text-white/70">
                     {d[lang].desc}
                   </p>
                 </div>
