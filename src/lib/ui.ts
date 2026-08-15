@@ -10,9 +10,15 @@
 export const glassCard =
   "rounded-3xl border border-white/15 bg-white/[0.07] backdrop-blur-xl shadow-[0_10px_40px_rgba(0,0,0,0.4)]";
 
-/** Tambahan interaksi untuk kartu yang bisa diklik. */
+/**
+ * Tambahan interaksi untuk kartu yang bisa diklik.
+ *
+ * Sengaja tidak memakai `transition-all`: kartu carousel lebarnya dihitung
+ * lewat JS, dan `transition-all` ikut menganimasikan `width` sehingga kartu
+ * terlihat "melar" tiap kali diukur ulang. Cukup properti visual saja.
+ */
 export const glassCardInteractive =
-  "transition-all duration-500 hover:border-white/30 hover:bg-white/[0.12] hover:shadow-[0_24px_60px_rgba(0,0,0,0.55)]";
+  "transition-[border-color,background-color,box-shadow,transform] duration-500 hover:border-white/30 hover:bg-white/[0.12] hover:shadow-[0_24px_60px_rgba(0,0,0,0.55)]";
 
 /** Varian lebih tipis, untuk elemen kecil seperti pil kategori. */
 export const glassSubtle =
