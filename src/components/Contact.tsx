@@ -10,8 +10,11 @@ export function Contact() {
   const { t } = useLanguage();
 
   return (
-    <section id="contact" className="relative overflow-hidden bg-[#f6f4ee] py-28">
-      <ImmersiveGlow />
+    <section
+      id="contact"
+      className="relative overflow-hidden bg-gradient-to-b from-[#eef4ef] to-[#f6f4ee] py-28"
+    >
+      <ImmersiveGlow tone="warm" />
       <div className="relative mx-auto max-w-5xl px-6 lg:px-10">
         <motion.div
           initial={{ opacity: 0, y: 20 }}

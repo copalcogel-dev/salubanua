@@ -11,7 +11,10 @@ export function FeaturedDestinations() {
   const { lang, t } = useLanguage();
 
   return (
-    <section id="destinations" className="bg-[#f6f4ee] py-28">
+    <section
+      id="destinations"
+      className="bg-gradient-to-b from-[#e8f1ea] to-[#f6f4ee] py-28"
+    >
       <div className="mx-auto max-w-7xl px-6 lg:px-10">
         <div className="mb-14 flex flex-col items-start justify-between gap-4 sm:flex-row sm:items-end">
           <div>

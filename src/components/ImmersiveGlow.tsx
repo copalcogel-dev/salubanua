@@ -1,17 +1,37 @@
 /**
- * Lapisan dekoratif: beberapa bulatan warna sage yang di-blur lembut untuk
- * memberi kedalaman pada section berlatar terang, tanpa mengganggu
- * keterbacaan konten di atasnya (pointer-events-none, opacity rendah).
+ * Lapisan dekoratif: bidang warna sage yang di-blur besar untuk memberi
+ * kedalaman pada section berlatar terang. Varian `tone` dipakai agar tiap
+ * section punya karakter berbeda sehingga halaman tidak terasa datar.
  */
-export function ImmersiveGlow({ className = "" }: { className?: string }) {
+export function ImmersiveGlow({
+  tone = "sage",
+  className = "",
+}: {
+  tone?: "sage" | "deep" | "warm";
+  className?: string;
+}) {
+  const palettes = {
+    sage: ["bg-[#7fb08c]/35", "bg-[#c8e0cf]/60", "bg-[#4a7c59]/20"],
+    deep: ["bg-[#4a7c59]/30", "bg-[#a8cdb6]/50", "bg-[#153e2a]/15"],
+    warm: ["bg-[#d8c9a3]/40", "bg-[#bcd8c4]/50", "bg-[#4a7c59]/20"],
+  } as const;
+
+  const [a, b, c] = palettes[tone];
+
   return (
     <div
       aria-hidden="true"
       className={`pointer-events-none absolute inset-0 overflow-hidden ${className}`}
     >
-      <div className="absolute -left-24 -top-24 h-80 w-80 rounded-full bg-[#4a7c59]/10 blur-3xl" />
-      <div className="absolute -right-20 top-1/4 h-72 w-72 rounded-full bg-[#dfece3] opacity-70 blur-3xl" />
-      <div className="absolute -bottom-16 left-1/3 h-64 w-64 rounded-full bg-[#153e2a]/[0.06] blur-3xl" />
+      <div
+        className={`absolute -left-40 -top-40 h-[36rem] w-[36rem] rounded-full ${a} blur-[110px]`}
+      />
+      <div
+        className={`absolute -right-32 top-1/3 h-[30rem] w-[30rem] rounded-full ${b} blur-[100px]`}
+      />
+      <div
+        className={`absolute -bottom-40 left-1/4 h-[32rem] w-[32rem] rounded-full ${c} blur-[120px]`}
+      />
     </div>
   );
 }

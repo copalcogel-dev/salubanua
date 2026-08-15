@@ -12,8 +12,11 @@ export function CategoryGrid() {
   const { lang, t } = useLanguage();
 
   return (
-    <section id="explore" className="relative overflow-hidden bg-[#f6f4ee] py-24">
-      <ImmersiveGlow />
+    <section
+      id="explore"
+      className="relative overflow-hidden bg-gradient-to-b from-[#f8f7f2] to-[#f6f4ee] py-24"
+    >
+      <ImmersiveGlow tone="sage" />
       <div className="relative mx-auto max-w-7xl px-6 lg:px-10">
         <div className="mx-auto mb-14 max-w-2xl text-center">
           <p className="mb-3 text-[11px] font-semibold tracking-[0.3em] text-[#4a7c59]">

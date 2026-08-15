@@ -3,6 +3,7 @@ import { Manrope } from "next/font/google";
 import "./globals.css";
 import { LanguageProvider } from "@/context/LanguageContext";
 import { PageIntro } from "@/components/PageIntro";
+import { Grain } from "@/components/Grain";
 
 const manrope = Manrope({
   variable: "--font-sans",
@@ -21,6 +22,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
     <html lang="id" className={`${manrope.variable} h-full antialiased`}>
       <body className="min-h-full flex flex-col bg-[#f6f4ee]">
         <PageIntro />
+        <Grain />
         <LanguageProvider>{children}</LanguageProvider>
       </body>
     </html>
