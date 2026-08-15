@@ -2,12 +2,15 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { Mountain, Search, Menu, X } from "lucide-react";
 import { useLanguage } from "@/context/LanguageContext";
 import { SearchDialog } from "./SearchDialog";
 
 export function Navbar() {
   const { lang, toggleLang, t } = useLanguage();
+  const pathname = usePathname();
+  const hasDarkHero = pathname === "/";
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
@@ -38,17 +41,28 @@ export function Navbar() {
     { label: t.nav.contact, href: "/#contact" },
   ];
 
+  // Only the homepage hero is a dark video/photo backdrop — every other
+  // page (and the homepage once scrolled past it) has a light background,
+  // so the nav text needs to switch to dark for contrast in those cases.
+  const onLightBg = scrolled || !hasDarkHero;
+
+  const text = onLightBg ? "text-[#153e2a]" : "text-white";
+  const textMuted = onLightBg ? "text-[#153e2a]/70" : "text-white/80";
+  const textFaint = onLightBg ? "text-[#153e2a]/40" : "text-white/40";
+
   return (
     <>
       <header
         className={`fixed top-0 z-50 w-full transition-all duration-500 ${
           scrolled
             ? "bg-white/80 backdrop-blur-md border-b border-black/5 py-3"
-            : "bg-transparent py-6"
+            : hasDarkHero
+              ? "bg-transparent py-6"
+              : "bg-[#f6f4ee]/80 backdrop-blur-md py-6"
         }`}
       >
         <div className="mx-auto flex max-w-7xl items-center justify-between px-6 lg:px-10">
-          <Link href="/" className="flex items-center gap-2 text-[#153e2a]">
+          <Link href="/" className={`flex items-center gap-2 ${text} transition-colors duration-500`}>
             <Mountain size={26} strokeWidth={1.5} />
             <span className="text-sm tracking-[0.25em] uppercase">Salubanua</span>
           </Link>
@@ -58,7 +72,9 @@ export function Navbar() {
               <Link
                 key={l.href}
                 href={l.href}
-                className="text-[13px] font-medium uppercase tracking-wide text-[#153e2a]/80 transition hover:text-[#153e2a]"
+                className={`text-[13px] font-medium uppercase tracking-wide transition-colors duration-500 ${textMuted} ${
+                  onLightBg ? "hover:text-[#153e2a]" : "hover:text-white"
+                }`}
               >
                 {l.label}
               </Link>
@@ -78,19 +94,15 @@ export function Navbar() {
             </button>
             <button
               onClick={toggleLang}
-              className="hidden items-center gap-1 text-[13px] font-semibold text-[#153e2a] sm:flex"
+              className={`hidden items-center gap-1 text-[13px] font-semibold sm:flex ${text} transition-colors duration-500`}
               aria-label="Toggle language"
             >
-              <span className={lang === "id" ? "text-[#153e2a]" : "text-[#153e2a]/40"}>
-                ID
-              </span>
-              <span className="text-[#153e2a]/40">|</span>
-              <span className={lang === "en" ? "text-[#153e2a]" : "text-[#153e2a]/40"}>
-                EN
-              </span>
+              <span className={lang === "id" ? text : textFaint}>ID</span>
+              <span className={textFaint}>|</span>
+              <span className={lang === "en" ? text : textFaint}>EN</span>
             </button>
             <button
-              className="text-[#153e2a] lg:hidden"
+              className={`lg:hidden ${text} transition-colors duration-500`}
               onClick={() => setOpen((v) => !v)}
               aria-label="Menu"
             >
