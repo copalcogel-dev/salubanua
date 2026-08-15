@@ -28,9 +28,15 @@ export const glassCard =
  * Sengaja tidak memakai `transition-all`: kartu carousel lebarnya dihitung
  * lewat JS, dan `transition-all` ikut menganimasikan `width` sehingga kartu
  * terlihat "melar" tiap kali diukur ulang. Cukup properti visual saja.
+ *
+ * Latar kartu sengaja TIDAK ikut menyala saat hover. Menaikkan opacity latar
+ * di atas `backdrop-filter` mempertegas batas elemen (Chrome menyisakan
+ * garis tipis di tepi elemen ber-backdrop-filter), sehingga hover memunculkan
+ * garis samar di sela kartu. Cukup border, bayangan, dan sedikit terangkat —
+ * hover tetap terbaca tanpa mengubah kontras di tepi.
  */
 export const glassCardInteractive =
-  "transition-[border-color,background-color,box-shadow,transform] duration-500 hover:border-white/30 hover:bg-white/[0.12] hover:shadow-[0_22px_45px_-15px_rgba(0,0,0,0.65)]";
+  "transition-[border-color,box-shadow,transform] duration-500 hover:border-white/40 hover:shadow-[0_22px_45px_-15px_rgba(0,0,0,0.65)]";
 
 /** Varian lebih tipis, untuk elemen kecil seperti pil kategori. */
 export const glassSubtle =

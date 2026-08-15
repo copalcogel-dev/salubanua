@@ -36,7 +36,7 @@ const ARROW_SIZE = 44;
  */
 const sizePresets = {
   compact: { card: [150, 186, 206], image: [166, 196, 212], maxPerPage: 6 },
-  large: { card: [156, 206, 244], image: [150, 232, 246], maxPerPage: 3 },
+  large: { card: [156, 206, 244], image: [146, 228, 242], maxPerPage: 3 },
 } as const;
 
 function pickResponsive(values: readonly number[], viewportWidth: number) {
@@ -157,7 +157,9 @@ export function DestinationCardRow({
         ref={scrollerRef}
         onScroll={syncArrows}
         style={{ width: trackWidth, gap: GAP, scrollbarWidth: "none" }}
-        className="flex max-w-full snap-x snap-mandatory overflow-x-auto scroll-smooth pb-1 [&::-webkit-scrollbar]:hidden"
+        // `overflow-x-auto` membuat overflow-y ikut jadi `auto`, jadi tanpa
+        // padding vertikal kartu yang terangkat saat hover akan terpotong.
+        className="flex max-w-full snap-x snap-mandatory overflow-x-auto scroll-smooth py-1 [&::-webkit-scrollbar]:hidden"
       >
           {items.map((item) => {
             const Icon = item.icon;
@@ -165,7 +167,7 @@ export function DestinationCardRow({
               <article
                 key={item.key}
                 style={{ width: cardW }}
-                className={`group flex shrink-0 snap-start flex-col overflow-hidden ${glassCard} ${glassCardInteractive}`}
+                className={`group flex shrink-0 snap-start flex-col overflow-hidden hover:-translate-y-0.5 ${glassCard} ${glassCardInteractive}`}
               >
                 {/* Radius atas diulang di sini: induknya memakai
                     backdrop-filter, yang membuat clip membulatnya gagal di
