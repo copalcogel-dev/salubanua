@@ -14,8 +14,8 @@ export function Hero() {
   const highlightCards = destinations.slice(0, 3);
 
   return (
-    <section id="top" className="relative w-full">
-      <div className="relative z-10 mx-auto max-w-7xl px-6 pt-32 pb-16 lg:px-10 lg:pt-40 lg:pb-24">
+    <section id="top" className="relative flex min-h-screen w-full items-center">
+      <div className="relative z-10 mx-auto w-full max-w-7xl px-6 pt-28 pb-16 lg:px-10 lg:pt-24 lg:pb-20">
         <div className="max-w-3xl">
           <motion.p
             initial={{ opacity: 0, y: 12 }}
