@@ -18,64 +18,66 @@ export function ArticleView({
   const { lang, t } = useLanguage();
 
   return (
-    <article className="bg-[#f6f4ee] pt-32 pb-24">
+    <article className="pt-32 pb-24">
       <div className="mx-auto max-w-3xl px-6 lg:px-10">
         <Link
           href="/stories"
-          className="mb-8 inline-flex items-center gap-2 text-xs font-bold uppercase tracking-[0.15em] text-[#153e2a]/70 transition hover:text-[#153e2a]"
+          className="mb-6 inline-flex items-center gap-2 text-xs font-bold uppercase tracking-[0.15em] text-white/70 transition hover:text-white"
         >
           <ArrowLeft size={14} strokeWidth={2.5} />
           {t.stories.backToStories}
         </Link>
 
-        <p className="mb-3 text-[11px] font-semibold uppercase tracking-[0.2em] text-[#4a7c59]">
-          {formatArticleDate(article.publishedAt, lang)}
-          {article.author ? ` · ${t.stories.byAuthor} ${article.author}` : ""}
-        </p>
+        <div className="rounded-[2.5rem] bg-[#f6f4ee] p-6 shadow-[0_28px_70px_rgba(0,0,0,0.35)] sm:p-10">
+          <p className="mb-3 text-[11px] font-semibold uppercase tracking-[0.2em] text-[#4a7c59]">
+            {formatArticleDate(article.publishedAt, lang)}
+            {article.author ? ` · ${t.stories.byAuthor} ${article.author}` : ""}
+          </p>
 
-        <h1 className="mb-5 text-3xl font-semibold leading-tight text-[#153e2a] sm:text-4xl">
-          {article[lang].title}
-        </h1>
+          <h1 className="mb-5 text-3xl font-semibold leading-tight text-[#153e2a] sm:text-4xl">
+            {article[lang].title}
+          </h1>
 
-        <p className="mb-8 text-lg leading-relaxed text-[#3a4a41]">
-          {article[lang].excerpt}
-        </p>
+          <p className="mb-8 text-lg leading-relaxed text-[#3a4a41]">
+            {article[lang].excerpt}
+          </p>
 
-        <div className="relative mb-10 h-64 overflow-hidden rounded-3xl sm:h-80">
-          {article.coverImageUrl ? (
-            <Image
-              src={article.coverImageUrl}
-              alt={article[lang].title}
-              fill
-              priority
-              className="object-cover"
-            />
-          ) : (
-            <Image
-              src="/images/gunung-pentuho.jpg"
-              alt="Gunung Pentuho (Buntu Pentuho), Desa Salubanua"
-              fill
-              priority
-              className="object-cover"
-            />
-          )}
-        </div>
-
-        {article.isSample && (
-          <div className="mb-10 flex items-start gap-3 rounded-2xl bg-[#fdf3e4] px-5 py-4">
-            <Info size={18} className="mt-0.5 shrink-0 text-[#b9822c]" />
-            <p className="text-sm leading-relaxed text-[#7a5716]">
-              {t.stories.sampleNotice}
-            </p>
+          <div className="relative mb-10 h-64 overflow-hidden rounded-3xl sm:h-80">
+            {article.coverImageUrl ? (
+              <Image
+                src={article.coverImageUrl}
+                alt={article[lang].title}
+                fill
+                priority
+                className="object-cover"
+              />
+            ) : (
+              <Image
+                src="/images/gunung-pentuho.jpg"
+                alt="Gunung Pentuho (Buntu Pentuho), Desa Salubanua"
+                fill
+                priority
+                className="object-cover"
+              />
+            )}
           </div>
-        )}
 
-        <ArticleBody body={article.body[lang]} />
+          {article.isSample && (
+            <div className="mb-10 flex items-start gap-3 rounded-2xl bg-[#fdf3e4] px-5 py-4">
+              <Info size={18} className="mt-0.5 shrink-0 text-[#b9822c]" />
+              <p className="text-sm leading-relaxed text-[#7a5716]">
+                {t.stories.sampleNotice}
+              </p>
+            </div>
+          )}
+
+          <ArticleBody body={article.body[lang]} />
+        </div>
       </div>
 
       {related.length > 0 && (
         <div className="mx-auto mt-20 max-w-5xl px-6 lg:px-10">
-          <h2 className="mb-8 text-2xl font-semibold text-[#153e2a]">
+          <h2 className="mb-8 text-2xl font-semibold text-white">
             {t.stories.title}
           </h2>
           <div className="grid grid-cols-1 gap-5 sm:grid-cols-3">

@@ -1,15 +1,12 @@
 "use client";
 
 import Image from "next/image";
+import Link from "next/link";
 import { motion } from "framer-motion";
 import { useLanguage } from "@/context/LanguageContext";
 import { categories, destinations } from "@/data/site";
 import { MountainScene } from "./MountainScene";
-import { FadeToColor } from "./FadeToColor";
 import { categoryIcons } from "@/lib/categoryIcons";
-
-const HERO_VIDEO_URL =
-  "https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260329_050842_be71947f-f16e-4a14-810c-06e83d23ddb5.mp4";
 
 export function Hero() {
   const { lang, t } = useLanguage();
@@ -17,27 +14,8 @@ export function Hero() {
   const highlightCards = destinations.slice(0, 3);
 
   return (
-    <section id="top" className="relative w-full overflow-hidden">
-      <div className="absolute inset-0">
-        <video
-          src={HERO_VIDEO_URL}
-          autoPlay
-          muted
-          loop
-          playsInline
-          className="h-full w-full object-cover"
-        />
-        <div className="absolute inset-0 bg-gradient-to-b from-black/55 via-black/25 to-black/60" />
-        <div
-          className="absolute inset-0"
-          style={{
-            background:
-              "radial-gradient(ellipse at center, transparent 40%, rgba(0,0,0,0.35) 100%)",
-          }}
-        />
-      </div>
-
-      <div className="relative z-10 mx-auto flex min-h-screen w-full max-w-7xl flex-col justify-center px-6 pt-32 pb-20 lg:px-10 lg:pt-28">
+    <section id="top" className="relative w-full">
+      <div className="relative z-10 mx-auto max-w-7xl px-6 pt-32 pb-16 lg:px-10 lg:pt-40 lg:pb-24">
         <div className="max-w-3xl">
           <motion.p
             initial={{ opacity: 0, y: 12 }}
@@ -52,7 +30,7 @@ export function Hero() {
             initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, delay: 0.1 }}
-            className="text-[56px] font-bold leading-[0.95] tracking-tight text-white sm:text-[80px] lg:text-[104px]"
+            className="text-[48px] font-bold leading-[0.95] tracking-tight text-white sm:text-[68px] lg:text-[88px]"
           >
             {t.hero.titleTop}
           </motion.h1>
@@ -60,7 +38,7 @@ export function Hero() {
             initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, delay: 0.2 }}
-            className="mb-6 text-2xl font-light text-white/90 sm:text-3xl lg:text-[40px]"
+            className="mb-5 text-xl font-light text-white/90 sm:text-2xl lg:text-[32px]"
           >
             {t.hero.titleBottom}
           </motion.h2>
@@ -69,7 +47,7 @@ export function Hero() {
             initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, delay: 0.3 }}
-            className="mb-8 max-w-xl text-[15px] leading-relaxed text-white/85"
+            className="mb-6 max-w-xl text-[15px] leading-relaxed text-white/85"
           >
             {t.hero.body}
           </motion.p>
@@ -78,14 +56,14 @@ export function Hero() {
             initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, delay: 0.4 }}
-            className="mb-10"
+            className="mb-8"
           >
-            <a
-              href="#destinations"
+            <Link
+              href="/destinations"
               className="inline-block rounded-full bg-white px-8 py-4 text-xs font-bold tracking-[0.2em] text-[#153e2a] transition hover:scale-105 hover:bg-white/90"
             >
               {t.hero.cta}
-            </a>
+            </Link>
           </motion.div>
 
           <div className="flex flex-wrap gap-x-6 gap-y-3">
@@ -100,19 +78,26 @@ export function Hero() {
           </div>
         </div>
 
-        <div className="mt-16 grid grid-cols-1 gap-5 sm:grid-cols-3">
+        <div className="mt-10 grid grid-cols-1 gap-4 sm:grid-cols-3">
           {highlightCards.map((d, i) => {
             const category = categories.find((c) => c.key === d.category);
             const Icon = categoryIcons[category?.icon ?? "mountain"];
             return (
               <motion.div
                 key={d.key}
-                initial={{ opacity: 0, y: 24 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: 0.5 + i * 0.1 }}
-                className="flex flex-col overflow-hidden rounded-2xl border border-white/20 bg-white/10 shadow-lg backdrop-blur-sm transition-all duration-300 hover:-translate-y-1 hover:bg-white/15"
+                initial={{ opacity: 0, y: 30, scale: 0.96 }}
+                animate={{ opacity: 1, y: 0, scale: 1 }}
+                transition={{
+                  duration: 0.6,
+                  delay: 0.5 + i * 0.12,
+                  type: "spring",
+                  stiffness: 130,
+                  damping: 18,
+                }}
+                whileHover={{ y: -6, scale: 1.02 }}
+                className="flex flex-col overflow-hidden rounded-2xl border border-white/20 bg-white/10 shadow-lg backdrop-blur-sm transition-shadow duration-300 hover:bg-white/15 hover:shadow-2xl"
               >
-                <div className="relative h-32 w-full">
+                <div className="relative h-28 w-full">
                   {d.key === "pentuho" ? (
                     <Image
                       src="/images/gunung-pentuho.jpg"
@@ -127,31 +112,29 @@ export function Hero() {
                     />
                   )}
                   <div className="absolute inset-0 bg-black/20" />
-                  <div className="absolute left-3 top-3 flex h-9 w-9 items-center justify-center rounded-full bg-white/90 text-[#153e2a]">
-                    <Icon size={16} strokeWidth={2} />
+                  <div className="absolute left-3 top-3 flex h-8 w-8 items-center justify-center rounded-full bg-white/90 text-[#153e2a]">
+                    <Icon size={15} strokeWidth={2} />
                   </div>
                 </div>
-                <div className="flex flex-1 flex-col p-5">
-                  <h3 className="mb-2 text-base font-semibold text-white">
+                <div className="flex flex-1 flex-col p-4">
+                  <h3 className="mb-1.5 text-sm font-semibold text-white">
                     {d[lang].title}
                   </h3>
-                  <p className="mb-4 line-clamp-3 text-[12px] leading-relaxed text-white/80">
+                  <p className="mb-3 line-clamp-2 text-[11px] leading-relaxed text-white/80">
                     {d[lang].desc}
                   </p>
-                  <a
-                    href="#destinations"
+                  <Link
+                    href="/destinations"
                     className="mt-auto inline-block rounded-full bg-white px-4 py-2 text-center text-[10px] font-bold tracking-[0.15em] text-[#153e2a] transition hover:bg-white/90"
                   >
                     {t.destinations.readMore.toUpperCase()}
-                  </a>
+                  </Link>
                 </div>
               </motion.div>
             );
           })}
         </div>
       </div>
-
-      <FadeToColor color="#f6f4ee" className="h-56 sm:h-72" />
     </section>
   );
 }

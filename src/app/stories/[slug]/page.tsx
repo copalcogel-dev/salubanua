@@ -17,7 +17,7 @@ export async function generateMetadata({
 }: PageProps<"/stories/[slug]">): Promise<Metadata> {
   const { slug } = await params;
   const article = await getArticle(slug);
-  if (!article) return { title: "Cerita | Salubanua" };
+  if (!article) return { title: "Artikel | Salubanua" };
 
   return {
     title: `${article.id.title} | Salubanua`,

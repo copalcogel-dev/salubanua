@@ -9,15 +9,14 @@ export function Footer() {
   const { t } = useLanguage();
 
   const links = [
-    { label: t.nav.explore, href: "/#explore" },
-    { label: t.nav.destinations, href: "/#destinations" },
+    { label: t.nav.destinations, href: "/destinations" },
     { label: t.nav.stories, href: "/stories" },
-    { label: t.nav.managedBy, href: "/#local" },
-    { label: t.nav.contact, href: "/#contact" },
+    { label: t.nav.managedBy, href: "/about" },
+    { label: t.nav.contact, href: "/contact" },
   ];
 
   return (
-    <footer className="bg-[#153e2a] py-14 text-white/70">
+    <footer className="border-t border-white/10 py-14 text-white/70">
       <div className="mx-auto grid max-w-7xl grid-cols-1 gap-10 px-6 sm:grid-cols-2 lg:grid-cols-4 lg:px-10">
         <div>
           <div className="mb-4 flex items-center gap-2 text-white">
@@ -31,7 +30,7 @@ export function Footer() {
 
         <div>
           <p className="mb-3 text-[11px] font-semibold uppercase tracking-[0.2em] text-white/50">
-            {t.nav.explore}
+            {t.nav.menu}
           </p>
           <ul className="space-y-2">
             {links.map((l) => (

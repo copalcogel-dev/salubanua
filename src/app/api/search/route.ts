@@ -23,7 +23,7 @@ export async function GET(request: Request) {
         type: "destination",
         title: d[lang].title,
         description: d[lang].desc,
-        href: "/#destinations",
+        href: "/destinations",
       });
     }
   }
@@ -34,7 +34,7 @@ export async function GET(request: Request) {
         type: "category",
         title: c[lang].title,
         description: c[lang].desc,
-        href: "/#explore",
+        href: "/destinations",
       });
     }
   }

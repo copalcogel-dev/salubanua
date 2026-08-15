@@ -111,9 +111,9 @@ export const destinations = [
 export const dictionary = {
   id: {
     nav: {
-      explore: "Jelajahi",
+      menu: "Menu",
       destinations: "Destinasi",
-      stories: "Cerita",
+      stories: "Artikel",
       managedBy: "Pengelola",
       contact: "Kontak",
     },
@@ -138,7 +138,7 @@ export const dictionary = {
     },
     destinations: {
       kicker: "DESTINASI PILIHAN",
-      title: "FEATURED DESTINATIONS",
+      title: "Destinasi Pilihan",
       readMore: "Baca Selengkapnya",
     },
     local: {
@@ -163,7 +163,7 @@ export const dictionary = {
       sampleBadge: "CONTOH",
       sampleNotice:
         "Artikel ini adalah contoh untuk mengisi tampilan. Konten asli akan menggantikannya setelah dipublikasikan melalui dashboard admin.",
-      allTitle: "Semua Cerita",
+      allTitle: "Semua Artikel",
       byAuthor: "Oleh",
     },
     search: {
@@ -198,9 +198,9 @@ export const dictionary = {
   },
   en: {
     nav: {
-      explore: "Explore",
+      menu: "Menu",
       destinations: "Destinations",
-      stories: "Stories",
+      stories: "Articles",
       managedBy: "Managed By",
       contact: "Contact",
     },
@@ -250,7 +250,7 @@ export const dictionary = {
       sampleBadge: "SAMPLE",
       sampleNotice:
         "This article is a sample used to fill the layout. Real content will replace it once published through the admin dashboard.",
-      allTitle: "All Stories",
+      allTitle: "All Articles",
       byAuthor: "By",
     },
     search: {

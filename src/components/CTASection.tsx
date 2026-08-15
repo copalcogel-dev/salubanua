@@ -3,20 +3,19 @@
 import Image from "next/image";
 import { motion } from "framer-motion";
 import { useLanguage } from "@/context/LanguageContext";
-import { FadeToColor } from "./FadeToColor";
 
 export function CTASection() {
   const { t } = useLanguage();
 
   return (
-    <section id="cta" className="relative overflow-hidden bg-[#f6f4ee] py-24">
+    <section id="cta" className="relative py-16 lg:py-24">
       <div className="mx-auto max-w-5xl px-6 lg:px-10">
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
+          initial={{ opacity: 1, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-100px" }}
           transition={{ duration: 0.7 }}
-          className="relative overflow-hidden rounded-[2.5rem] px-6 py-24 text-center"
+          className="relative overflow-hidden rounded-[2.5rem] px-6 py-16 text-center sm:py-20"
         >
           <Image src="/images/gunung-pentuho.jpg" alt="" fill className="object-cover" />
           <div className="absolute inset-0 bg-black/60" />
@@ -34,8 +33,6 @@ export function CTASection() {
           </div>
         </motion.div>
       </div>
-
-      <FadeToColor color="#153e2a" className="h-40 sm:h-56" />
     </section>
   );
 }

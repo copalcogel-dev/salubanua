@@ -2,15 +2,12 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
 import { Mountain, Search, Menu, X } from "lucide-react";
 import { useLanguage } from "@/context/LanguageContext";
 import { SearchDialog } from "./SearchDialog";
 
 export function Navbar() {
   const { lang, toggleLang, t } = useLanguage();
-  const pathname = usePathname();
-  const hasDarkHero = pathname === "/";
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
@@ -34,35 +31,23 @@ export function Navbar() {
   }, []);
 
   const links = [
-    { label: t.nav.explore, href: "/#explore" },
-    { label: t.nav.destinations, href: "/#destinations" },
+    { label: t.nav.destinations, href: "/destinations" },
     { label: t.nav.stories, href: "/stories" },
-    { label: t.nav.managedBy, href: "/#local" },
-    { label: t.nav.contact, href: "/#contact" },
+    { label: t.nav.managedBy, href: "/about" },
+    { label: t.nav.contact, href: "/contact" },
   ];
-
-  // Only the homepage hero is a dark video/photo backdrop — every other
-  // page (and the homepage once scrolled past it) has a light background,
-  // so the nav text needs to switch to dark for contrast in those cases.
-  const onLightBg = scrolled || !hasDarkHero;
-
-  const text = onLightBg ? "text-[#153e2a]" : "text-white";
-  const textMuted = onLightBg ? "text-[#153e2a]/70" : "text-white/80";
-  const textFaint = onLightBg ? "text-[#153e2a]/40" : "text-white/40";
 
   return (
     <>
       <header
-        className={`fixed top-0 z-50 w-full transition-all duration-500 ${
+        className={`fixed top-0 z-50 w-full text-white transition-all duration-500 ${
           scrolled
-            ? "bg-white/80 backdrop-blur-md border-b border-black/5 py-3"
-            : hasDarkHero
-              ? "bg-transparent py-6"
-              : "bg-[#f6f4ee]/80 backdrop-blur-md py-6"
+            ? "bg-black/30 backdrop-blur-md border-b border-white/10 py-3"
+            : "bg-transparent py-6"
         }`}
       >
         <div className="mx-auto flex max-w-7xl items-center justify-between px-6 lg:px-10">
-          <Link href="/" className={`flex items-center gap-2 ${text} transition-colors duration-500`}>
+          <Link href="/" className="flex items-center gap-2">
             <Mountain size={26} strokeWidth={1.5} />
             <span className="text-sm tracking-[0.25em] uppercase">Salubanua</span>
           </Link>
@@ -72,9 +57,7 @@ export function Navbar() {
               <Link
                 key={l.href}
                 href={l.href}
-                className={`text-[13px] font-medium uppercase tracking-wide transition-colors duration-500 ${textMuted} ${
-                  onLightBg ? "hover:text-[#153e2a]" : "hover:text-white"
-                }`}
+                className="text-[13px] font-medium uppercase tracking-wide text-white/80 transition hover:text-white"
               >
                 {l.label}
               </Link>
@@ -85,7 +68,7 @@ export function Navbar() {
             <button
               onClick={() => setSearchOpen(true)}
               aria-label={t.search.open}
-              className="flex items-center gap-2 rounded-full bg-[#e6f5ea] px-4 py-2 text-[#153e2a] transition hover:bg-[#d3edda]"
+              className="flex items-center gap-2 rounded-full bg-white/15 px-4 py-2 text-white backdrop-blur-sm transition hover:bg-white/25"
             >
               <Search size={16} />
               <span className="hidden text-xs font-medium sm:inline">
@@ -94,15 +77,15 @@ export function Navbar() {
             </button>
             <button
               onClick={toggleLang}
-              className={`hidden items-center gap-1 text-[13px] font-semibold sm:flex ${text} transition-colors duration-500`}
+              className="hidden items-center gap-1 text-[13px] font-semibold sm:flex"
               aria-label="Toggle language"
             >
-              <span className={lang === "id" ? text : textFaint}>ID</span>
-              <span className={textFaint}>|</span>
-              <span className={lang === "en" ? text : textFaint}>EN</span>
+              <span className={lang === "id" ? "text-white" : "text-white/40"}>ID</span>
+              <span className="text-white/40">|</span>
+              <span className={lang === "en" ? "text-white" : "text-white/40"}>EN</span>
             </button>
             <button
-              className={`lg:hidden ${text} transition-colors duration-500`}
+              className="lg:hidden"
               onClick={() => setOpen((v) => !v)}
               aria-label="Menu"
             >
@@ -112,28 +95,24 @@ export function Navbar() {
         </div>
 
         {open && (
-          <div className="mx-6 mt-4 flex flex-col gap-4 rounded-2xl bg-white p-6 shadow-lg lg:hidden">
+          <div className="mx-6 mt-4 flex flex-col gap-4 rounded-2xl bg-[#0d2a1d]/95 p-6 shadow-lg backdrop-blur-md lg:hidden">
             {links.map((l) => (
               <Link
                 key={l.href}
                 href={l.href}
                 onClick={() => setOpen(false)}
-                className="text-sm font-medium uppercase tracking-wide text-[#153e2a]"
+                className="text-sm font-medium uppercase tracking-wide text-white"
               >
                 {l.label}
               </Link>
             ))}
             <button
               onClick={toggleLang}
-              className="flex items-center gap-1 text-sm font-semibold text-[#153e2a]"
+              className="flex items-center gap-1 text-sm font-semibold"
             >
-              <span className={lang === "id" ? "text-[#153e2a]" : "text-[#153e2a]/40"}>
-                ID
-              </span>
-              <span className="text-[#153e2a]/40">|</span>
-              <span className={lang === "en" ? "text-[#153e2a]" : "text-[#153e2a]/40"}>
-                EN
-              </span>
+              <span className={lang === "id" ? "text-white" : "text-white/40"}>ID</span>
+              <span className="text-white/40">|</span>
+              <span className={lang === "en" ? "text-white" : "text-white/40"}>EN</span>
             </button>
           </div>
         )}

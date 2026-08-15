@@ -5,7 +5,7 @@ import { StoriesList } from "@/components/StoriesList";
 import { getArticles } from "@/lib/content";
 
 export const metadata: Metadata = {
-  title: "Cerita | Salubanua",
+  title: "Artikel | Salubanua",
   description:
     "Catatan perjalanan, panduan praktis, dan kabar seputar pengembangan wisata Desa Salubanua.",
 };

@@ -4,6 +4,7 @@ import "./globals.css";
 import { LanguageProvider } from "@/context/LanguageContext";
 import { PageIntro } from "@/components/PageIntro";
 import { Grain } from "@/components/Grain";
+import { SiteBackground } from "@/components/SiteBackground";
 
 const manrope = Manrope({
   variable: "--font-sans",
@@ -20,10 +21,13 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html lang="id" className={`${manrope.variable} h-full antialiased`}>
-      <body className="min-h-full flex flex-col bg-[#f6f4ee]">
+      <body className="min-h-full flex flex-col bg-[#0d2a1d]">
+        <SiteBackground />
         <PageIntro />
         <Grain />
-        <LanguageProvider>{children}</LanguageProvider>
+        <LanguageProvider>
+          <div className="relative z-10 flex min-h-full flex-col">{children}</div>
+        </LanguageProvider>
       </body>
     </html>
   );

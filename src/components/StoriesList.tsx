@@ -14,22 +14,22 @@ export function StoriesList({ articles }: { articles: Article[] }) {
   const { lang, t } = useLanguage();
 
   return (
-    <section className="bg-[#f6f4ee] pt-36 pb-24">
-      <div className="mx-auto max-w-7xl px-6 lg:px-10">
+    <section className="relative pt-36 pb-24">
+      <div className="relative mx-auto max-w-7xl px-6 lg:px-10">
         <div className="mb-12 max-w-2xl">
-          <p className="mb-3 text-[11px] font-semibold tracking-[0.3em] text-[#4a7c59]">
+          <p className="mb-3 text-[11px] font-semibold tracking-[0.3em] text-white/70">
             {t.stories.kicker}
           </p>
-          <h1 className="mb-4 text-4xl font-semibold text-[#153e2a] sm:text-5xl">
+          <h1 className="mb-4 text-4xl font-semibold text-white sm:text-5xl">
             {t.stories.allTitle}
           </h1>
-          <p className="text-[15px] leading-relaxed text-[#4a4a42]">
+          <p className="text-[15px] leading-relaxed text-white/80">
             {t.stories.body}
           </p>
         </div>
 
         {articles.length === 0 ? (
-          <p className="py-16 text-center text-sm text-[#153e2a]/60">
+          <p className="py-16 text-center text-sm text-white/60">
             {t.stories.empty}
           </p>
         ) : (
@@ -37,7 +37,7 @@ export function StoriesList({ articles }: { articles: Article[] }) {
             {articles.map((a, i) => (
               <motion.article
                 key={a.slug}
-                initial={{ opacity: 0, y: 24 }}
+                initial={{ opacity: 1, y: 24 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: "-60px" }}
                 transition={{ duration: 0.5, delay: (i % 3) * 0.08 }}
