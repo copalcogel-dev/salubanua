@@ -9,14 +9,18 @@
 /**
  * Kartu kaca standar di atas latar video.
  *
- * Bayangannya memakai spread negatif supaya jangkauan menyampingnya
- * (spread + blur/2) tetap lebih kecil dari jarak antar kartu. Tanpa itu
- * bayangan kartu jatuh ke kartu sebelahnya, lalu ikut ter-blur oleh
- * `backdrop-filter` kartu tersebut dan memunculkan garis vertikal samar
- * di sela-sela kartu — paling kelihatan saat kartu di-hover.
+ * Dua hal menjaga agar tidak muncul garis vertikal samar di sela kartu
+ * (paling kelihatan saat kartu di-hover):
+ *
+ *  - Bayangan memakai spread negatif, supaya jangkauan menyampingnya
+ *    (spread + blur/2) lebih kecil dari jarak antar kartu.
+ *  - Blur backdrop ditahan di `lg` (16px). Kernel blur menyerap piksel
+ *    sampai ~1.5x radius ke luar tepi elemen, jadi radius yang terlalu
+ *    besar akan ikut menyeret tepi kartu tetangga ke dalam dirinya.
+ *    Jarak antar kartu harus tetap lebih besar dari angka itu.
  */
 export const glassCard =
-  "rounded-3xl border border-white/15 bg-white/[0.07] backdrop-blur-xl shadow-[0_10px_30px_-10px_rgba(0,0,0,0.5)]";
+  "rounded-3xl border border-white/15 bg-white/[0.07] backdrop-blur-lg shadow-[0_10px_30px_-10px_rgba(0,0,0,0.5)]";
 
 /**
  * Tambahan interaksi untuk kartu yang bisa diklik.

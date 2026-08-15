@@ -18,7 +18,13 @@ export type DestinationCardItem = {
   isSample?: boolean;
 };
 
-const GAP = 16;
+/**
+ * Jarak antar kartu harus lebih besar dari jangkauan blur backdrop kartu
+ * (~1.5x radius blur, lihat catatan di `glassCard`). Kalau tidak, tiap
+ * kartu ikut menyerap tepi kartu sebelahnya dan muncul garis samar di
+ * selanya saat di-hover.
+ */
+const GAP = 28;
 const ARROW_SIZE = 44;
 
 /**
