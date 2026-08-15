@@ -44,7 +44,7 @@ export function StoriesList({ articles }: { articles: Article[] }) {
               >
                 <Link
                   href={`/stories/${a.slug}`}
-                  className="group flex h-full flex-col overflow-hidden rounded-3xl border border-black/5 bg-white shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-lg"
+                  className="group flex h-full flex-col overflow-hidden rounded-3xl border border-black/5 bg-white shadow-[0_2px_16px_rgba(21,62,42,0.06)] transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_18px_45px_rgba(21,62,42,0.14)]"
                 >
                   <div className="relative h-44 shrink-0 overflow-hidden">
                     {a.coverImageUrl ? (

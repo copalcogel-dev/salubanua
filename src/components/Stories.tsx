@@ -17,7 +17,7 @@ export function Stories({ articles }: { articles: Article[] }) {
   return (
     <section id="stories" className="bg-[#f6f4ee] py-24">
       <div className="mx-auto max-w-7xl px-6 lg:px-10">
-        <div className="rounded-[2.5rem] bg-gradient-to-br from-[#e8f1ea] via-[#dfece3] to-[#d6e7dc] px-6 py-12 shadow-sm sm:px-10 sm:py-14">
+        <div className="rounded-[2.5rem] bg-gradient-to-br from-[#e8f1ea] via-[#dfece3] to-[#d6e7dc] px-6 py-12 shadow-[0_2px_16px_rgba(21,62,42,0.06)] sm:px-10 sm:py-14">
           <div className="mb-10 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
             <div>
               <p className="mb-3 text-[11px] font-semibold tracking-[0.3em] text-[#4a7c59]">

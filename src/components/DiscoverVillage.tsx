@@ -40,7 +40,7 @@ export function DiscoverVillage() {
         >
           <motion.div
             style={{ y: mediaY }}
-            className="relative aspect-[4/5] overflow-hidden rounded-[2.5rem] shadow-2xl sm:aspect-[4/3] lg:aspect-[4/5]"
+            className="relative aspect-[4/5] overflow-hidden rounded-[2.5rem] shadow-[0_28px_70px_rgba(21,62,42,0.24)] sm:aspect-[4/3] lg:aspect-[4/5]"
           >
             <video
               src={VILLAGE_VIDEO_URL}
@@ -53,7 +53,7 @@ export function DiscoverVillage() {
             <div className="absolute inset-0 bg-gradient-to-t from-[#0d2a1d]/45 via-transparent to-transparent" />
           </motion.div>
 
-          <div className="absolute -bottom-8 -right-4 hidden rounded-3xl bg-white/90 px-7 py-5 shadow-xl backdrop-blur-sm sm:block">
+          <div className="absolute -bottom-8 -right-4 hidden rounded-3xl bg-white/90 px-7 py-5 shadow-[0_18px_45px_rgba(21,62,42,0.14)] backdrop-blur-sm sm:block">
             <p className="text-[10px] font-semibold uppercase tracking-[0.2em] text-[#4a7c59]">
               {t.discover.points[1].label}
             </p>
@@ -93,7 +93,7 @@ export function DiscoverVillage() {
               return (
                 <div
                   key={p.label}
-                  className="rounded-2xl border border-white/60 p-5 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-md"
+                  className="rounded-2xl border border-white/60 p-5 shadow-[0_2px_16px_rgba(21,62,42,0.06)] transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_10px_30px_rgba(21,62,42,0.1)]"
                   style={{ background: cardTints[i % cardTints.length] }}
                 >
                   <Icon size={18} strokeWidth={1.5} className="mb-3 text-[#4a7c59]" />

@@ -41,7 +41,7 @@ export function FeaturedDestinations() {
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true, margin: "-80px" }}
                   transition={{ duration: 0.6 }}
-                  className="group relative min-h-[320px] overflow-hidden rounded-3xl shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl md:col-span-2 md:row-span-2"
+                  className="group relative min-h-[320px] overflow-hidden rounded-3xl shadow-[0_2px_16px_rgba(21,62,42,0.06)] transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_24px_60px_rgba(21,62,42,0.22)] md:col-span-2 md:row-span-2"
                 >
                   <Image
                     src="/images/gunung-pentuho.jpg"
@@ -81,7 +81,7 @@ export function FeaturedDestinations() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: "-80px" }}
                 transition={{ duration: 0.6, delay: i * 0.1 }}
-                className="group flex flex-col overflow-hidden rounded-3xl border border-black/10 bg-white shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-xl"
+                className="group flex flex-col overflow-hidden rounded-3xl border border-black/10 bg-white shadow-[0_2px_16px_rgba(21,62,42,0.06)] transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_20px_50px_rgba(21,62,42,0.16)]"
               >
                 <div className="relative h-28 shrink-0 overflow-hidden">
                   <MountainScene

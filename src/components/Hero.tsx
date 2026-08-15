@@ -5,7 +5,7 @@ import { motion } from "framer-motion";
 import { useLanguage } from "@/context/LanguageContext";
 import { categories, destinations } from "@/data/site";
 import { MountainScene } from "./MountainScene";
-import { MountainDivider } from "./MountainDivider";
+import { FadeToColor } from "./FadeToColor";
 import { categoryIcons } from "@/lib/categoryIcons";
 
 const HERO_VIDEO_URL =
@@ -28,6 +28,13 @@ export function Hero() {
           className="h-full w-full object-cover"
         />
         <div className="absolute inset-0 bg-gradient-to-b from-black/55 via-black/25 to-black/60" />
+        <div
+          className="absolute inset-0"
+          style={{
+            background:
+              "radial-gradient(ellipse at center, transparent 40%, rgba(0,0,0,0.35) 100%)",
+          }}
+        />
       </div>
 
       <div className="relative z-10 mx-auto flex min-h-screen w-full max-w-7xl flex-col justify-center px-6 pt-32 pb-20 lg:px-10 lg:pt-28">
@@ -144,7 +151,7 @@ export function Hero() {
         </div>
       </div>
 
-      <MountainDivider fill="#f6f4ee" />
+      <FadeToColor color="#f6f4ee" className="h-56 sm:h-72" />
     </section>
   );
 }

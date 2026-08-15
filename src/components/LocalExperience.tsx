@@ -16,7 +16,7 @@ export function LocalExperience() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-100px" }}
           transition={{ duration: 0.7 }}
-          className="rounded-[2.5rem] bg-gradient-to-br from-[#153e2a] via-[#1f5539] to-[#2a6b47] px-8 py-16 text-center shadow-2xl sm:px-14"
+          className="rounded-[2.5rem] bg-gradient-to-br from-[#153e2a] via-[#1f5539] to-[#2a6b47] px-8 py-16 text-center shadow-[0_28px_70px_rgba(21,62,42,0.24)] sm:px-14"
         >
           <div className="mb-6 flex justify-center">
             <div className="flex h-14 w-14 items-center justify-center rounded-full bg-white/15 text-white backdrop-blur-sm">

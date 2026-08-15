@@ -3,7 +3,7 @@
 import Image from "next/image";
 import { motion } from "framer-motion";
 import { useLanguage } from "@/context/LanguageContext";
-import { MountainDivider } from "./MountainDivider";
+import { FadeToColor } from "./FadeToColor";
 
 export function CTASection() {
   const { t } = useLanguage();
@@ -35,7 +35,7 @@ export function CTASection() {
         </motion.div>
       </div>
 
-      <MountainDivider fill="#153e2a" />
+      <FadeToColor color="#153e2a" className="h-40 sm:h-56" />
     </section>
   );
 }

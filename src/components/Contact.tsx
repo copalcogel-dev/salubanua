@@ -30,7 +30,7 @@ export function Contact() {
           </h2>
 
           <div className="grid grid-cols-1 gap-8 sm:grid-cols-3">
-            <div className="rounded-2xl border border-black/10 bg-white p-6 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-lg">
+            <div className="rounded-2xl border border-black/10 bg-white p-6 shadow-[0_2px_16px_rgba(21,62,42,0.06)] transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_18px_45px_rgba(21,62,42,0.14)]">
               <MapPin size={22} strokeWidth={1.5} className="mb-4 text-[#4a7c59]" />
               <p className="mb-2 text-[11px] font-semibold uppercase tracking-[0.2em] text-[#153e2a]/60">
                 {t.contact.addressLabel}
@@ -44,7 +44,7 @@ export function Contact() {
               </p>
             </div>
 
-            <div className="rounded-2xl border border-black/10 bg-white p-6 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-lg">
+            <div className="rounded-2xl border border-black/10 bg-white p-6 shadow-[0_2px_16px_rgba(21,62,42,0.06)] transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_18px_45px_rgba(21,62,42,0.14)]">
               <Users2 size={22} strokeWidth={1.5} className="mb-4 text-[#4a7c59]" />
               <p className="mb-2 text-[11px] font-semibold uppercase tracking-[0.2em] text-[#153e2a]/60">
                 {t.contact.managedByLabel}
