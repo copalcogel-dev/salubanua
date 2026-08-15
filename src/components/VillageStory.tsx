@@ -6,7 +6,7 @@ import { Home, MapPin, Building2, Landmark, Flag, Users2 } from "lucide-react";
 import { useLanguage } from "@/context/LanguageContext";
 import { villageProfile, categories } from "@/data/site";
 import { categoryIcons } from "@/lib/categoryIcons";
-import { glassCard, glassCardInteractive } from "@/lib/ui";
+import { glassCard } from "@/lib/ui";
 import { enterTransition, stagger } from "@/lib/motion";
 import { DestinationCardRow, type DestinationCardItem } from "./DestinationCardRow";
 import type { DestinationEntry } from "@/lib/destinations";
@@ -61,7 +61,7 @@ export function VillageStory({ destinations }: { destinations: DestinationEntry[
             return (
               <div
                 key={p.label}
-                className={`!rounded-2xl p-4 text-center hover:-translate-y-1 ${glassCard} ${glassCardInteractive}`}
+                className={`!rounded-2xl p-4 text-center ${glassCard}`}
               >
                 <Icon size={16} strokeWidth={1.5} className="mx-auto mb-2 text-white/70" />
                 <p className="mb-0.5 text-[9px] font-semibold uppercase tracking-[0.2em] text-white/50">
@@ -88,7 +88,7 @@ export function VillageStory({ destinations }: { destinations: DestinationEntry[
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-80px" }}
           transition={{ ...enterTransition, delay: stagger(3) }}
-          className={`mt-10 flex flex-col items-center gap-6 !rounded-[2rem] p-7 text-center sm:flex-row sm:justify-between sm:p-10 sm:text-left ${glassCard} ${glassCardInteractive}`}
+          className={`mt-10 flex flex-col items-center gap-6 !rounded-[2rem] p-7 text-center sm:flex-row sm:justify-between sm:p-10 sm:text-left ${glassCard}`}
         >
           <div className="flex flex-col items-center gap-4 sm:flex-row">
             <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-white/15 text-white backdrop-blur-sm">

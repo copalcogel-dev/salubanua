@@ -7,7 +7,7 @@ import { ArrowUpRight } from "lucide-react";
 import { useLanguage } from "@/context/LanguageContext";
 import { formatArticleDate, type Article } from "@/lib/content";
 import { MountainScene } from "./MountainScene";
-import { glassCard, glassCardInteractive } from "@/lib/ui";
+import { glassCard } from "@/lib/ui";
 
 const fallbackAccents = ["#2f6b74", "#5a5433", "#4a5d3a", "#6b4a3f", "#3f6b4f"];
 
@@ -45,7 +45,9 @@ export function StoriesList({ articles }: { articles: Article[] }) {
               >
                 <Link
                   href={`/stories/${a.slug}`}
-                  className={`group flex h-full flex-col overflow-hidden ${glassCard} ${glassCardInteractive} hover:-translate-y-1.5`}
+                  // Isyarat hover ditaruh di dalam kartu (gambar & panah),
+                  // bukan di permukaan/tepinya — lihat catatan di lib/ui.ts.
+                  className={`group flex h-full flex-col overflow-hidden ${glassCard}`}
                 >
                   <div className="relative h-44 shrink-0 overflow-hidden rounded-t-3xl">
                     {a.coverImageUrl ? (

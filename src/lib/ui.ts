@@ -23,20 +23,20 @@ export const glassCard =
   "rounded-3xl border border-white/15 bg-white/[0.07] backdrop-blur-lg shadow-[0_10px_30px_-10px_rgba(0,0,0,0.5)]";
 
 /**
- * Tambahan interaksi untuk kartu yang bisa diklik.
+ * Kartu kaca sengaja TIDAK punya efek hover pada permukaannya.
  *
- * Sengaja tidak memakai `transition-all`: kartu carousel lebarnya dihitung
- * lewat JS, dan `transition-all` ikut menganimasikan `width` sehingga kartu
- * terlihat "melar" tiap kali diukur ulang. Cukup properti visual saja.
+ * Setiap perubahan di tepi kartu saat hover — latar, border, bayangan,
+ * maupun terangkat — memunculkan garis samar di sela kartu. Penyebabnya
+ * `backdrop-filter`: kernel blur kartu menyerap piksel dari luar tepinya,
+ * sehingga perubahan pada satu kartu justru terlihat di kartu sebelahnya,
+ * dan Chrome juga menyisakan garis tipis di batas elemen ber-backdrop-filter.
+ * Melebarkan jarak antar kartu dan mengecilkan radius blur hanya menyamarkan,
+ * tidak menghilangkan.
  *
- * Latar kartu sengaja TIDAK ikut menyala saat hover. Menaikkan opacity latar
- * di atas `backdrop-filter` mempertegas batas elemen (Chrome menyisakan
- * garis tipis di tepi elemen ber-backdrop-filter), sehingga hover memunculkan
- * garis samar di sela kartu. Cukup border, bayangan, dan sedikit terangkat —
- * hover tetap terbaca tanpa mengubah kontras di tepi.
+ * Karena itu isyarat hover diletakkan di DALAM kartu saja (mis. panah atau
+ * gambar), jauh dari tepi — lihat StoriesList/ArticleView. Kartu yang memang
+ * tidak bisa diklik tidak diberi isyarat hover sama sekali.
  */
-export const glassCardInteractive =
-  "transition-[border-color,box-shadow,transform] duration-500 hover:border-white/40 hover:shadow-[0_22px_45px_-15px_rgba(0,0,0,0.65)]";
 
 /** Varian lebih tipis, untuk elemen kecil seperti pil kategori. */
 export const glassSubtle =
@@ -62,9 +62,12 @@ export const surfaceTransition =
  * meninggalkan garis lurus di tepi kartu. `rounded-[inherit]` menjaga
  * sudutnya tetap membulat meski induknya gagal meng-clip (bug Chrome:
  * `overflow-hidden` + `border-radius` + `backdrop-filter`).
+ *
+ * Kilaunya statis, tidak ikut menyala saat hover — lihat catatan di atas
+ * soal perubahan terang di dekat tepi kartu.
  */
 export const cardSheen =
-  "pointer-events-none absolute inset-0 rounded-[inherit] bg-[radial-gradient(60%_55%_at_100%_0%,rgba(255,255,255,0.10),rgba(255,255,255,0)_70%)] opacity-70 transition-opacity duration-500 group-hover:opacity-100";
+  "pointer-events-none absolute inset-0 rounded-[inherit] bg-[radial-gradient(60%_55%_at_100%_0%,rgba(255,255,255,0.10),rgba(255,255,255,0)_70%)]";
 
 /**
  * Permukaan buram untuk teks panjang (mis. isi artikel).

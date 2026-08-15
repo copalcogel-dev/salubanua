@@ -5,7 +5,7 @@ import Image from "next/image";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 import { MountainScene } from "./MountainScene";
-import { glassCard, glassCardInteractive, surfaceTransition } from "@/lib/ui";
+import { glassCard, surfaceTransition } from "@/lib/ui";
 
 export type DestinationCardItem = {
   key: string;
@@ -40,7 +40,7 @@ const ARROW_SIZE = 44;
  */
 const sizePresets = {
   compact: { card: [150, 186, 206], image: [166, 196, 212], maxPerPage: 6 },
-  large: { card: [156, 206, 244], image: [146, 228, 242], maxPerPage: 3 },
+  large: { card: [156, 206, 244], image: [150, 232, 246], maxPerPage: 3 },
 } as const;
 
 function pickResponsive(values: readonly number[], viewportWidth: number) {
@@ -164,9 +164,7 @@ export function DestinationCardRow({
         ref={scrollerRef}
         onScroll={syncArrows}
         style={{ width: trackWidth, gap, scrollbarWidth: "none" }}
-        // `overflow-x-auto` membuat overflow-y ikut jadi `auto`, jadi tanpa
-        // padding vertikal kartu yang terangkat saat hover akan terpotong.
-        className="flex max-w-full snap-x snap-mandatory overflow-x-auto scroll-smooth py-1 [&::-webkit-scrollbar]:hidden"
+        className="flex max-w-full snap-x snap-mandatory overflow-x-auto scroll-smooth pb-1 [&::-webkit-scrollbar]:hidden"
       >
           {items.map((item) => {
             const Icon = item.icon;
@@ -174,7 +172,9 @@ export function DestinationCardRow({
               <article
                 key={item.key}
                 style={{ width: cardW }}
-                className={`group flex shrink-0 snap-start flex-col overflow-hidden hover:-translate-y-0.5 ${glassCard} ${glassCardInteractive}`}
+                // Kartu ini hanya tampilan, bukan tautan — jadi memang tidak
+                // diberi isyarat hover sama sekali.
+                className={`flex shrink-0 snap-start flex-col overflow-hidden ${glassCard}`}
               >
                 {/* Radius atas diulang di sini: induknya memakai
                     backdrop-filter, yang membuat clip membulatnya gagal di
@@ -184,16 +184,11 @@ export function DestinationCardRow({
                   className="relative shrink-0 overflow-hidden rounded-t-3xl"
                 >
                   {item.image ? (
-                    <Image
-                      src={item.image}
-                      alt={item.title}
-                      fill
-                      className="object-cover transition-transform duration-700 group-hover:scale-110"
-                    />
+                    <Image src={item.image} alt={item.title} fill className="object-cover" />
                   ) : (
                     <MountainScene
                       accent={item.accent}
-                      className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-110"
+                      className="h-full w-full object-cover"
                     />
                   )}
                   <div className="absolute inset-0 bg-gradient-to-t from-[#08160f]/75 to-transparent" />

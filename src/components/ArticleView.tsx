@@ -7,7 +7,7 @@ import { useLanguage } from "@/context/LanguageContext";
 import { formatArticleDate, type Article, type ArticleDetail } from "@/lib/content";
 import { ArticleBody } from "./ArticleBody";
 import { MountainScene } from "./MountainScene";
-import { glassCard, glassCardInteractive, readingSurface } from "@/lib/ui";
+import { glassCard, readingSurface } from "@/lib/ui";
 
 export function ArticleView({
   article,
@@ -86,7 +86,7 @@ export function ArticleView({
               <Link
                 key={r.slug}
                 href={`/stories/${r.slug}`}
-                className={`group overflow-hidden ${glassCard} ${glassCardInteractive} hover:-translate-y-1.5`}
+                className={`group overflow-hidden ${glassCard}`}
               >
                 <div className="relative h-32 overflow-hidden rounded-t-3xl">
                   {r.coverImageUrl ? (

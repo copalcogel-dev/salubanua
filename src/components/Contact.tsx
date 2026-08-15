@@ -5,7 +5,7 @@ import { MapPin, Phone, Users2, Share2, Info, type LucideIcon } from "lucide-rea
 import { useLanguage } from "@/context/LanguageContext";
 import { villageProfile } from "@/data/site";
 import { enterTransition, stagger } from "@/lib/motion";
-import { cardSheen, glassCard, glassCardInteractive } from "@/lib/ui";
+import { cardSheen, glassCard } from "@/lib/ui";
 import type { SiteContactInfo } from "@/lib/siteSettings";
 
 function ContactCard({
@@ -35,9 +35,7 @@ function ContactCard({
       viewport={{ once: true, margin: "-80px" }}
       transition={{ ...enterTransition, delay: stagger(index) }}
       className={`group relative overflow-hidden p-7 ${glassCard} ${
-        pending
-          ? "border-dashed"
-          : `${glassCardInteractive} hover:-translate-y-1.5`
+        pending ? "border-dashed" : ""
       }`}
     >
       {/* Kilau lembut di sudut atas agar permukaan kaca terasa punya dimensi. */}
