@@ -17,12 +17,36 @@ export type DestinationCardItem = {
   accent: string;
 };
 
+const sizeStyles = {
+  compact: {
+    card: "w-[240px] sm:w-[270px]",
+    image: "h-24 sm:h-28",
+    pad: "p-3 sm:p-4",
+    title: "text-sm",
+    desc: "line-clamp-1 text-xs sm:line-clamp-2",
+  },
+  large: {
+    card: "w-[280px] sm:w-[360px] lg:w-[400px]",
+    image: "h-28 sm:h-52 lg:h-56",
+    pad: "p-3 sm:p-5",
+    title: "text-base sm:text-lg",
+    desc: "line-clamp-1 text-xs sm:line-clamp-2 sm:text-sm",
+  },
+} as const;
+
 /**
  * Baris kartu dengan tombol panah kiri/kanan. Panah otomatis nonaktif
  * (memudar) saat semua kartu sudah muat tanpa perlu digeser — jujur soal
  * kapan benar-benar ada lebih banyak konten untuk dilihat.
  */
-export function DestinationCardRow({ items }: { items: DestinationCardItem[] }) {
+export function DestinationCardRow({
+  items,
+  size = "compact",
+}: {
+  items: DestinationCardItem[];
+  size?: "compact" | "large";
+}) {
+  const s = sizeStyles[size];
   const scrollerRef = useRef<HTMLDivElement>(null);
   const [canLeft, setCanLeft] = useState(false);
   const [canRight, setCanRight] = useState(false);
@@ -60,16 +84,16 @@ export function DestinationCardRow({ items }: { items: DestinationCardItem[] }) 
         ref={scrollerRef}
         onScroll={updateArrows}
         style={{ scrollbarWidth: "none" }}
-        className="flex gap-4 overflow-x-auto scroll-smooth pb-1 [&::-webkit-scrollbar]:hidden"
+        className="flex justify-center gap-4 overflow-x-auto scroll-smooth pb-1 [&::-webkit-scrollbar]:hidden sm:gap-5"
       >
         {items.map((item) => {
           const Icon = item.icon;
           return (
             <article
               key={item.key}
-              className={`group flex w-[240px] shrink-0 flex-col overflow-hidden sm:w-[270px] ${glassCard} ${glassCardInteractive}`}
+              className={`group flex shrink-0 flex-col overflow-hidden ${s.card} ${glassCard} ${glassCardInteractive}`}
             >
-              <div className="relative h-24 shrink-0 overflow-hidden sm:h-28">
+              <div className={`relative shrink-0 overflow-hidden ${s.image}`}>
                 {item.image ? (
                   <Image
                     src={item.image}
@@ -88,14 +112,12 @@ export function DestinationCardRow({ items }: { items: DestinationCardItem[] }) 
                   <Icon size={14} strokeWidth={2} />
                 </div>
               </div>
-              <div className="p-3 sm:p-4">
+              <div className={s.pad}>
                 <p className="mb-1 text-[10px] font-semibold uppercase tracking-[0.18em] text-white/50">
                   {item.subtitle}
                 </p>
-                <h4 className="mb-1 text-sm font-semibold text-white">{item.title}</h4>
-                <p className="line-clamp-1 text-xs leading-relaxed text-white/70 sm:line-clamp-2">
-                  {item.desc}
-                </p>
+                <h4 className={`mb-1 font-semibold text-white ${s.title}`}>{item.title}</h4>
+                <p className={`leading-relaxed text-white/70 ${s.desc}`}>{item.desc}</p>
               </div>
             </article>
           );

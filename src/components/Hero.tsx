@@ -46,14 +46,14 @@ export function Hero() {
         ];
 
   return (
-    <section id="top" className="relative flex flex-1 flex-col justify-center py-4 sm:py-6 lg:py-8">
+    <section id="top" className="relative flex flex-1 flex-col justify-center py-2 sm:py-5 lg:py-6">
       <div className="mx-auto w-full max-w-7xl px-6 lg:px-10">
         <div className="mx-auto max-w-3xl text-center">
           <motion.p
             initial={{ opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ ...enterTransition, delay: stagger(0) }}
-            className="mb-2 text-[10px] font-semibold tracking-[0.32em] text-white/70 sm:mb-3"
+            className="mb-1 text-[10px] font-semibold tracking-[0.32em] text-white/70 sm:mb-3"
           >
             {t.hero.kicker}
           </motion.p>
@@ -62,7 +62,7 @@ export function Hero() {
             initial={{ opacity: 0, y: 18 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ ...enterTransition, delay: stagger(1) }}
-            className="text-[34px] font-bold leading-[0.95] tracking-tight text-white sm:text-[56px] lg:text-[68px]"
+            className="text-[30px] font-bold leading-[0.95] tracking-tight text-white sm:text-[52px] lg:text-[64px]"
           >
             {t.hero.titleTop}
           </motion.h1>
@@ -71,7 +71,7 @@ export function Hero() {
             initial={{ opacity: 0, y: 18 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ ...enterTransition, delay: stagger(2) }}
-            className="mb-3 text-base font-light leading-snug text-white/90 sm:mb-4 sm:text-xl lg:text-2xl"
+            className="mb-2 text-sm font-light leading-snug text-white/90 sm:mb-3 sm:text-xl lg:text-2xl"
           >
             {t.hero.titleBottom}
           </motion.h2>
@@ -80,7 +80,7 @@ export function Hero() {
             initial={{ opacity: 0, y: 18 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ ...enterTransition, delay: stagger(3) }}
-            className="mx-auto mb-4 max-w-xl text-sm leading-relaxed text-white/80 sm:mb-6"
+            className="mx-auto mb-3 max-w-xl text-xs leading-relaxed text-white/80 sm:mb-5 sm:text-sm"
           >
             {t.hero.body}
           </motion.p>
@@ -92,7 +92,7 @@ export function Hero() {
           >
             <Link
               href="/destinations"
-              className="group inline-flex items-center gap-2 rounded-full bg-white px-7 py-3.5 text-[11px] font-bold tracking-[0.18em] text-[#153e2a] transition-all duration-300 hover:bg-white/90 hover:shadow-[0_12px_36px_rgba(255,255,255,0.22)]"
+              className="group inline-flex items-center gap-2 rounded-full bg-white px-6 py-2.5 text-[11px] font-bold tracking-[0.18em] text-[#153e2a] transition-all duration-300 hover:bg-white/90 hover:shadow-[0_12px_36px_rgba(255,255,255,0.22)] sm:px-7 sm:py-3.5"
             >
               {t.hero.cta}
               <ArrowUpRight
@@ -108,7 +108,7 @@ export function Hero() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ ...enterTransition, delay: stagger(5) }}
-          className="mx-auto mt-5 max-w-3xl sm:mt-8 lg:mt-9"
+          className="mx-auto mt-3 max-w-3xl sm:mt-6 lg:mt-7"
         >
           <CategorySelector activeKey={activeKey} onSelect={setActiveKey} />
         </motion.div>
@@ -118,10 +118,10 @@ export function Hero() {
           initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ ...enterTransition, delay: stagger(0) }}
-          className="mt-4 flex justify-center sm:mt-6 lg:mt-7"
+          className="mt-3 flex justify-center sm:mt-5 lg:mt-5"
         >
-          <div className="w-full max-w-4xl">
-            <DestinationCardRow items={cards} />
+          <div className="w-full max-w-6xl">
+            <DestinationCardRow items={cards} size="large" />
           </div>
         </motion.div>
       </div>
