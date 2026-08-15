@@ -5,13 +5,14 @@ import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
 import { motion } from "framer-motion";
 import { useLanguage } from "@/context/LanguageContext";
-import { categories, destinations } from "@/data/site";
+import { categories } from "@/data/site";
 import { categoryIcons } from "@/lib/categoryIcons";
 import { enterTransition, stagger } from "@/lib/motion";
 import { CategorySelector } from "./CategorySelector";
 import { DestinationCardRow, type DestinationCardItem } from "./DestinationCardRow";
+import type { DestinationEntry } from "@/lib/destinations";
 
-export function Hero() {
+export function Hero({ destinations }: { destinations: DestinationEntry[] }) {
   const { lang, t } = useLanguage();
   const [activeKey, setActiveKey] = useState<string>(categories[0].key);
 
@@ -30,8 +31,9 @@ export function Hero() {
             title: d[lang].title,
             subtitle: d[lang].subtitle,
             desc: d[lang].desc,
-            image: d.key === "pentuho" ? "/images/gunung-pentuho.jpg" : undefined,
+            image: d.coverImageUrl ?? undefined,
             accent: cat.accent,
+            isSample: d.isSample,
           };
         })
       : [
@@ -121,7 +123,7 @@ export function Hero() {
           className="mt-3 flex justify-center sm:mt-5 lg:mt-5"
         >
           <div className="w-full max-w-6xl">
-            <DestinationCardRow items={cards} size="large" />
+            <DestinationCardRow items={cards} size="large" sampleLabel={t.stories.sampleBadge} />
           </div>
         </motion.div>
       </div>

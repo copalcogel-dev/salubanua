@@ -15,6 +15,7 @@ export type DestinationCardItem = {
   desc: string;
   image?: string;
   accent: string;
+  isSample?: boolean;
 };
 
 const sizeStyles = {
@@ -42,9 +43,11 @@ const sizeStyles = {
 export function DestinationCardRow({
   items,
   size = "compact",
+  sampleLabel = "CONTOH",
 }: {
   items: DestinationCardItem[];
   size?: "compact" | "large";
+  sampleLabel?: string;
 }) {
   const s = sizeStyles[size];
   const scrollerRef = useRef<HTMLDivElement>(null);
@@ -111,6 +114,11 @@ export function DestinationCardRow({
                 <div className="absolute left-3 top-3 flex h-8 w-8 items-center justify-center rounded-full bg-white/95 text-[#153e2a]">
                   <Icon size={14} strokeWidth={2} />
                 </div>
+                {item.isSample && (
+                  <span className="absolute right-3 top-3 rounded-full bg-white/15 px-2.5 py-1 text-[9px] font-bold tracking-wide text-white backdrop-blur-sm">
+                    {sampleLabel}
+                  </span>
+                )}
               </div>
               <div className={s.pad}>
                 <p className="mb-1 text-[10px] font-semibold uppercase tracking-[0.18em] text-white/50">

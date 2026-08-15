@@ -80,3 +80,64 @@ export async function fetchSanitySlugs(): Promise<string[]> {
     return [];
   }
 }
+
+export type SanityDestination = {
+  _id: string;
+  category: string;
+  titleId: string;
+  titleEn: string;
+  subtitleId: string | null;
+  subtitleEn: string | null;
+  descId: string;
+  descEn: string;
+  coverImage: SanityImageRef;
+  available: boolean;
+  statusId: string | null;
+  statusEn: string | null;
+};
+
+const DESTINATION_FIELDS = /* groq */ `
+  _id,
+  category,
+  "titleId": title.id,
+  "titleEn": title.en,
+  "subtitleId": subtitle.id,
+  "subtitleEn": subtitle.en,
+  "descId": description.id,
+  "descEn": description.en,
+  coverImage,
+  available,
+  "statusId": status.id,
+  "statusEn": status.en
+`;
+
+const ALL_DESTINATIONS_QUERY = /* groq */ `
+  *[_type == "destination" && defined(title.id)] | order(_createdAt asc) { ${DESTINATION_FIELDS} }
+`;
+
+export async function fetchSanityDestinations(): Promise<SanityDestination[]> {
+  if (!isSanityConfigured || !client) return [];
+  try {
+    return await client.fetch(ALL_DESTINATIONS_QUERY, {}, { next: { revalidate: 60 } });
+  } catch {
+    return [];
+  }
+}
+
+export type SanitySiteSettings = {
+  phone: string | null;
+  socials: { platform: string; handle: string; url: string }[];
+};
+
+const SITE_SETTINGS_QUERY = /* groq */ `
+  *[_type == "siteSettings"][0] { phone, socials }
+`;
+
+export async function fetchSanitySiteSettings(): Promise<SanitySiteSettings | null> {
+  if (!isSanityConfigured || !client) return null;
+  try {
+    return await client.fetch(SITE_SETTINGS_QUERY, {}, { next: { revalidate: 60 } });
+  } catch {
+    return null;
+  }
+}

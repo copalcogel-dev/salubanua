@@ -71,42 +71,105 @@ export const destinations = [
       status: "Trail & facility details coming soon",
     },
     available: true,
+    isSample: false,
   },
   {
     key: "waterfall-1",
     category: "waterfall",
     id: {
-      title: "Air Terjun",
-      subtitle: "Segera Hadir",
-      desc: "Data destinasi air terjun sedang dikumpulkan bersama PokDarWis Pentuho Malolo.",
-      status: "Segera hadir",
+      title: "Air Terjun Lombo' Ipo",
+      subtitle: "Contoh Destinasi",
+      desc: "Aliran air terjun bertingkat yang dikelilingi hutan pegunungan, sekitar 30 menit jalan kaki dari permukiman warga. Cocok untuk berenang santai dan berfoto di kolam alami di bawahnya.",
+      status: "Contoh tampilan",
     },
     en: {
-      title: "Waterfall",
-      subtitle: "Coming Soon",
-      desc: "Waterfall destination data is being compiled together with PokDarWis Pentuho Malolo.",
-      status: "Coming soon",
+      title: "Lombo' Ipo Waterfall",
+      subtitle: "Sample Destination",
+      desc: "A tiered waterfall surrounded by mountain forest, about a 30-minute walk from the settlement. Great for a casual swim and photos at the natural pool below.",
+      status: "Sample preview",
     },
-    available: false,
+    available: true,
+    isSample: true,
   },
   {
     key: "camping-1",
     category: "camping",
     id: {
-      title: "Camping Ground",
-      subtitle: "Segera Hadir",
-      desc: "Area camping di kaki Gunung Pentuho sedang dalam tahap pendataan fasilitas.",
-      status: "Segera hadir",
+      title: "Camping Ground Pentuho",
+      subtitle: "Contoh Destinasi",
+      desc: "Area lapang di kaki Gunung Pentuho dengan pemandangan lembah, cocok untuk mendirikan tenda dan menikmati suhu sejuk malam pegunungan Mamasa.",
+      status: "Contoh tampilan",
     },
     en: {
-      title: "Camping Ground",
-      subtitle: "Coming Soon",
-      desc: "The camping area at the foot of Mount Pentuho is currently being documented.",
-      status: "Coming soon",
+      title: "Pentuho Camping Ground",
+      subtitle: "Sample Destination",
+      desc: "An open area at the foot of Mount Pentuho with a valley view, ideal for pitching a tent and enjoying the cool mountain nights of Mamasa.",
+      status: "Sample preview",
     },
-    available: false,
+    available: true,
+    isSample: true,
+  },
+  {
+    key: "viewpoint-1",
+    category: "viewpoint",
+    id: {
+      title: "Puncak Rante Bulahan",
+      subtitle: "Contoh Destinasi",
+      desc: "Titik panorama dengan pemandangan lembah dan lautan awan di pagi hari, favorit pengunjung untuk berfoto dan menikmati matahari terbit.",
+      status: "Contoh tampilan",
+    },
+    en: {
+      title: "Rante Bulahan Peak",
+      subtitle: "Sample Destination",
+      desc: "A panorama point overlooking the valley and morning sea of clouds, a visitor favourite for photos and sunrise views.",
+      status: "Sample preview",
+    },
+    available: true,
+    isSample: true,
+  },
+  {
+    key: "homestay-1",
+    category: "homestay",
+    id: {
+      title: "Homestay Warga Lombo' Ipo",
+      subtitle: "Contoh Destinasi",
+      desc: "Menginap di rumah warga Dusun Lombo' Ipo, merasakan keseharian dan keramahan masyarakat sekitar sekaligus mendukung ekonomi lokal.",
+      status: "Contoh tampilan",
+    },
+    en: {
+      title: "Lombo' Ipo Homestay",
+      subtitle: "Sample Destination",
+      desc: "Stay with a local family in Lombo' Ipo Hamlet, experiencing everyday life and the community's warmth while supporting the local economy.",
+      status: "Sample preview",
+    },
+    available: true,
+    isSample: true,
   },
 ];
+
+/**
+ * Kontak & sosial media contoh — belum ada nomor/akun resmi dari desa,
+ * jadi diisi placeholder yang jelas ditandai sebagai contoh (lihat
+ * `getSiteSettings` di src/lib/siteSettings.ts) supaya tampilan Kontak
+ * tidak kosong sambil menunggu data asli.
+ */
+export const contactInfo = {
+  isSample: true,
+  phone: "+62 813-4567-8900",
+  whatsappUrl: "https://wa.me/6281345678900",
+  socials: [
+    {
+      platform: "Instagram",
+      handle: "@salubanua.wisata",
+      url: "https://instagram.com/salubanua.wisata",
+    },
+    {
+      platform: "Facebook",
+      handle: "Desa Wisata Salubanua",
+      url: "https://facebook.com/desasalubanua",
+    },
+  ],
+};
 
 export const dictionary = {
   id: {
@@ -184,6 +247,9 @@ export const dictionary = {
       managedByLabel: "Dikelola oleh",
       phoneLabel: "WhatsApp / Telepon",
       phonePlaceholder: "Nomor kontak akan segera ditambahkan",
+      socialLabel: "Sosial Media",
+      sampleNotice:
+        "Nomor dan akun sosial media di halaman ini adalah contoh tampilan. Kontak resmi akan menggantikannya setelah tersedia dari pengelola.",
     },
     cta: {
       title: "SAMPAI JUMPA DI JALUR PENDAKIAN",
@@ -271,6 +337,9 @@ export const dictionary = {
       managedByLabel: "Managed by",
       phoneLabel: "WhatsApp / Phone",
       phonePlaceholder: "Contact number coming soon",
+      socialLabel: "Social Media",
+      sampleNotice:
+        "The phone number and social accounts on this page are sample placeholders. Official contacts will replace them once available from the managers.",
     },
     cta: {
       title: "SEE YOU ON THE TRAIL",

@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Destinations } from "@/components/Destinations";
 import { getArticles } from "@/lib/content";
+import { getDestinations } from "@/lib/destinations";
 
 export const metadata: Metadata = {
   title: "Destinasi | Salubanua",
@@ -11,7 +12,7 @@ export const metadata: Metadata = {
 export const revalidate = 60;
 
 export default async function DestinationsPage() {
-  const articles = await getArticles();
+  const [articles, destinations] = await Promise.all([getArticles(), getDestinations()]);
 
-  return <Destinations articles={articles} />;
+  return <Destinations articles={articles} destinations={destinations} />;
 }

@@ -4,19 +4,19 @@ import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { motion } from "framer-motion";
-import { ArrowUpRight, Images } from "lucide-react";
+import { ArrowUpRight, Images, PlayCircle } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 import { useLanguage } from "@/context/LanguageContext";
-import { categories, destinations, type Lang } from "@/data/site";
+import { categories, type Lang } from "@/data/site";
 import { categoryIcons } from "@/lib/categoryIcons";
 import { duration, easeOut } from "@/lib/motion";
 import { glassCard, glassSubtle } from "@/lib/ui";
 import { MountainScene } from "./MountainScene";
 import { CategorySelector } from "./CategorySelector";
 import type { Article } from "@/lib/content";
+import type { DestinationEntry } from "@/lib/destinations";
 
 type Category = (typeof categories)[number];
-type Destination = (typeof destinations)[number];
 
 /**
  * Artikel yang isinya benar-benar membahas kategori terkait. Kategori tanpa
@@ -28,7 +28,13 @@ const categoryArticleSlug: Partial<Record<string, string>> = {
   homestay: "mengenal-dusun-lombo-ipo",
 };
 
-export function Destinations({ articles }: { articles: Article[] }) {
+export function Destinations({
+  articles,
+  destinations,
+}: {
+  articles: Article[];
+  destinations: DestinationEntry[];
+}) {
   const { lang, t } = useLanguage();
   const [activeKey, setActiveKey] = useState<string>(categories[0].key);
 
@@ -63,7 +69,12 @@ export function Destinations({ articles }: { articles: Article[] }) {
           className={`mt-8 overflow-hidden lg:mt-10 ${glassCard}`}
         >
           {active.key === "viewpoint" ? (
-            <GalleryPanel category={active} lang={lang} />
+            <GalleryPanel
+              category={active}
+              destination={destination}
+              lang={lang}
+              sampleLabel={t.stories.sampleBadge}
+            />
           ) : (
             <ArticlePanel
               category={active}
@@ -72,6 +83,7 @@ export function Destinations({ articles }: { articles: Article[] }) {
               article={article}
               lang={lang}
               readMoreLabel={t.destinations.readMore}
+              sampleLabel={t.stories.sampleBadge}
             />
           )}
         </motion.div>
@@ -87,27 +99,30 @@ function ArticlePanel({
   article,
   lang,
   readMoreLabel,
+  sampleLabel,
 }: {
   category: Category;
   ActiveIcon: LucideIcon;
-  destination: Destination | undefined;
+  destination: DestinationEntry | undefined;
   article: Article | undefined;
   lang: Lang;
   readMoreLabel: string;
+  sampleLabel: string;
 }) {
-  const hasRealPhoto = destination?.key === "pentuho";
-  const statusLabel = destination
-    ? destination[lang].status
-    : lang === "id"
-      ? "Segera hadir"
-      : "Coming soon";
+  const statusLabel = destination?.isSample
+    ? sampleLabel
+    : destination
+      ? destination[lang].status
+      : lang === "id"
+        ? "Segera hadir"
+        : "Coming soon";
 
   return (
     <div className="grid grid-cols-1 lg:grid-cols-[1.05fr_1fr]">
       <div className="relative h-56 sm:h-72 lg:h-full lg:min-h-[380px]">
-        {hasRealPhoto ? (
+        {destination?.coverImageUrl ? (
           <Image
-            src="/images/gunung-pentuho.jpg"
+            src={destination.coverImageUrl}
             alt={destination[lang].title}
             fill
             priority
@@ -120,9 +135,11 @@ function ArticlePanel({
         <div className="absolute left-5 top-5 flex h-10 w-10 items-center justify-center rounded-full bg-white/90 text-[#153e2a]">
           <ActiveIcon size={18} strokeWidth={2} />
         </div>
-        <span className="absolute right-5 top-5 rounded-full bg-white/15 px-3 py-1 text-[9px] font-bold uppercase tracking-wide text-white backdrop-blur-sm">
-          {statusLabel}
-        </span>
+        {statusLabel && (
+          <span className="absolute right-5 top-5 rounded-full bg-white/15 px-3 py-1 text-[9px] font-bold uppercase tracking-wide text-white backdrop-blur-sm">
+            {statusLabel}
+          </span>
+        )}
       </div>
 
       <div className="flex flex-col justify-center p-7 sm:p-9">
@@ -175,33 +192,66 @@ function ArticlePanel({
   );
 }
 
-function GalleryPanel({ category, lang }: { category: Category; lang: Lang }) {
+function GalleryPanel({
+  category,
+  destination,
+  lang,
+  sampleLabel,
+}: {
+  category: Category;
+  destination: DestinationEntry | undefined;
+  lang: Lang;
+  sampleLabel: string;
+}) {
+  const tileAccents = [category.accent, "#7fa9a3", "#4a5d3a", "#2f5233"];
+
   return (
     <div className="p-7 sm:p-9">
       <p className="mb-2 text-[11px] font-semibold uppercase tracking-[0.2em] text-white/50">
         {category[lang].title}
       </p>
       <h2 className="mb-3 text-2xl font-semibold text-white sm:text-3xl">
-        {category[lang].title}
+        {destination ? destination[lang].title : category[lang].title}
       </h2>
-      <p className="mb-6 max-w-xl text-sm leading-relaxed text-white/75">{category[lang].desc}</p>
+      <p className="mb-6 max-w-xl text-sm leading-relaxed text-white/75">
+        {destination ? destination[lang].desc : category[lang].desc}
+      </p>
 
       <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
-        {[0, 1, 2, 3].map((i) => (
+        {tileAccents.map((accent, i) => (
           <div key={i} className="relative aspect-square overflow-hidden rounded-2xl">
-            <MountainScene accent={category.accent} className="h-full w-full object-cover opacity-70" />
-            <div className="absolute inset-0 flex items-center justify-center bg-black/45 text-center text-[9px] font-semibold uppercase tracking-wide text-white/80">
-              {lang === "id" ? "Segera Hadir" : "Coming Soon"}
-            </div>
+            {i === 0 && destination?.coverImageUrl ? (
+              <Image
+                src={destination.coverImageUrl}
+                alt={destination[lang].title}
+                fill
+                className="object-cover"
+              />
+            ) : (
+              <MountainScene accent={accent} className="h-full w-full object-cover" />
+            )}
+            {destination?.isSample && (
+              <span className="absolute right-2 top-2 rounded-full bg-white/15 px-2 py-0.5 text-[8px] font-bold uppercase tracking-wide text-white backdrop-blur-sm">
+                {sampleLabel}
+              </span>
+            )}
           </div>
         ))}
+        <div className="relative flex aspect-square items-center justify-center overflow-hidden rounded-2xl border border-dashed border-white/20 bg-white/[0.03] text-white/50">
+          <div className="flex flex-col items-center gap-1.5 px-3 text-center">
+            <PlayCircle size={22} strokeWidth={1.5} />
+            <span className="text-[9px] font-semibold uppercase tracking-wide">
+              {lang === "id" ? "Video Contoh" : "Sample Video"}
+            </span>
+          </div>
+        </div>
       </div>
 
       <div className="mt-4 flex items-center gap-3 rounded-2xl border border-dashed border-white/20 p-4 text-xs leading-relaxed text-white/60">
         <Images size={16} className="shrink-0 text-white/40" />
         {lang === "id"
-          ? "Galeri foto dan video untuk spot foto sedang dikumpulkan bersama PokDarWis Pentuho Malolo."
-          : "The photo and video gallery for this viewpoint is being compiled together with PokDarWis Pentuho Malolo."}
+          ? "Foto dan video di atas adalah contoh tampilan. Galeri asli akan menggantikannya setelah tersedia dari PokDarWis Pentuho Malolo."
+          : "The photos and video above are sample placeholders. The real gallery will replace them once available from PokDarWis Pentuho Malolo."}
       </div>
     </div>
   );

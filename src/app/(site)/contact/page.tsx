@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Contact } from "@/components/Contact";
+import { getSiteSettings } from "@/lib/siteSettings";
 
 export const metadata: Metadata = {
   title: "Kontak | Salubanua",
@@ -7,6 +8,10 @@ export const metadata: Metadata = {
     "Alamat, pengelola, dan kontak Desa Salubanua, Kecamatan Mambi, Kabupaten Mamasa, Sulawesi Barat.",
 };
 
-export default function ContactPage() {
-  return <Contact />;
+export const revalidate = 60;
+
+export default async function ContactPage() {
+  const contactInfo = await getSiteSettings();
+
+  return <Contact contactInfo={contactInfo} />;
 }

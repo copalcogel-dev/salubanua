@@ -128,4 +128,85 @@ export const localArticles: LocalArticle[] = [
       ],
     },
   },
+  {
+    slug: "rute-menuju-lombo-ipo",
+    category: "travel-guide",
+    publishedAt: "2026-05-20",
+    author: "PokDarWis Pentuho Malolo",
+    isSample: true,
+    id: {
+      title: "Rute Perjalanan Menuju Dusun Lombo' Ipo",
+      excerpt:
+        "Gambaran contoh rute darat dari pusat Kecamatan Mambi menuju titik awal pendakian Gunung Pentuho.",
+      body: [
+        "Dusun Lombo' Ipo dapat dijangkau melalui jalur darat dari pusat Kecamatan Mambi, dilanjutkan dengan perjalanan menuju Desa Salubanua di kaki Gunung Pentuho.",
+        "Kondisi jalan sebagian sudah beraspal dan sebagian masih berupa jalan desa, sehingga kendaraan dengan ground clearance cukup tinggi disarankan, terutama saat musim hujan.",
+        "PokDarWis Pentuho Malolo berencana menyusun peta rute yang lebih rinci beserta estimasi waktu tempuh dari beberapa titik keberangkatan umum di Kabupaten Mamasa.",
+      ],
+    },
+    en: {
+      title: "The Route to Lombo' Ipo Hamlet",
+      excerpt:
+        "A sample overview of the overland route from central Mambi District to the starting point of the Mount Pentuho hike.",
+      body: [
+        "Lombo' Ipo Hamlet can be reached by road from central Mambi District, continuing on to Salubanua Village at the foot of Mount Pentuho.",
+        "Part of the road is paved while some sections remain village roads, so a vehicle with reasonably high ground clearance is recommended, especially during the rainy season.",
+        "PokDarWis Pentuho Malolo plans to prepare a more detailed route map with estimated travel times from several common departure points in Mamasa Regency.",
+      ],
+    },
+  },
+  {
+    slug: "festival-panen-desa-salubanua",
+    category: "events",
+    publishedAt: "2026-05-05",
+    author: "Pemerintah Desa Salubanua",
+    isSample: true,
+    id: {
+      title: "Rencana Festival Panen di Desa Salubanua",
+      excerpt:
+        "Contoh gambaran acara tahunan yang direncanakan untuk memperkenalkan budaya dan hasil bumi warga Salubanua.",
+      body: [
+        "Sebagai bagian dari pengembangan wisata berbasis budaya, Pemerintah Desa Salubanua bersama PokDarWis Pentuho Malolo tengah mempertimbangkan penyelenggaraan festival panen tahunan.",
+        "Acara ini direncanakan menampilkan hasil bumi lokal, kesenian warga, serta kuliner khas Dusun Lombo' Ipo sebagai daya tarik tambahan bagi pengunjung.",
+        "Jadwal dan bentuk kegiatan pasti masih dalam tahap perencanaan bersama tokoh masyarakat setempat.",
+      ],
+    },
+    en: {
+      title: "Plans for a Harvest Festival in Salubanua Village",
+      excerpt:
+        "A sample outline of an annual event being considered to showcase the culture and produce of the Salubanua community.",
+      body: [
+        "As part of culture-based tourism development, the Salubanua Village Government and PokDarWis Pentuho Malolo are considering holding an annual harvest festival.",
+        "The event is planned to feature local produce, community arts, and Lombo' Ipo Hamlet's signature dishes as an additional draw for visitors.",
+        "The exact schedule and format are still being planned together with local community leaders.",
+      ],
+    },
+  },
+  {
+    slug: "flora-dan-fauna-kawasan-pentuho",
+    category: "nature",
+    publishedAt: "2026-04-18",
+    author: "PokDarWis Pentuho Malolo",
+    isSample: true,
+    id: {
+      title: "Mengenal Flora dan Fauna di Kawasan Gunung Pentuho",
+      excerpt:
+        "Contoh catatan awal keanekaragaman hayati yang dapat dijumpai di sepanjang jalur dan kawasan sekitar Buntu Pentuho.",
+      body: [
+        "Kawasan Gunung Pentuho berada di zona pegunungan Sulawesi Barat yang dikenal memiliki keanekaragaman hayati khas dataran tinggi.",
+        "Di sepanjang jalur, pengunjung berpotensi menjumpai berbagai jenis vegetasi hutan pegunungan serta suara satwa liar, meski pendataan spesies secara rinci belum dilakukan.",
+        "PokDarWis Pentuho Malolo berencana bekerja sama dengan pihak terkait untuk menyusun dokumentasi flora dan fauna yang lebih lengkap di masa mendatang.",
+      ],
+    },
+    en: {
+      title: "Getting to Know the Flora and Fauna of the Mount Pentuho Area",
+      excerpt:
+        "A sample early note on the biodiversity that can be found along the trail and surrounding area of Buntu Pentuho.",
+      body: [
+        "The Mount Pentuho area lies within a West Sulawesi mountain zone known for biodiversity typical of highland terrain.",
+        "Along the trail, visitors may encounter various types of mountain forest vegetation and the sounds of wildlife, though a detailed species survey has not yet been carried out.",
+        "PokDarWis Pentuho Malolo plans to work with relevant parties to compile more complete flora and fauna documentation in the future.",
+      ],
+    },
+  },
 ];

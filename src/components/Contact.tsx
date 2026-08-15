@@ -1,11 +1,12 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { MapPin, Phone, Users2, type LucideIcon } from "lucide-react";
+import { MapPin, Phone, Users2, Share2, Info, type LucideIcon } from "lucide-react";
 import { useLanguage } from "@/context/LanguageContext";
 import { villageProfile } from "@/data/site";
 import { enterTransition, stagger } from "@/lib/motion";
 import { glassCard, glassCardInteractive } from "@/lib/ui";
+import type { SiteContactInfo } from "@/lib/siteSettings";
 
 function ContactCard({
   icon: Icon,
@@ -13,15 +14,22 @@ function ContactCard({
   children,
   index,
   pending = false,
+  sampleBadge,
+  href,
 }: {
   icon: LucideIcon;
   label: string;
   children: React.ReactNode;
   index: number;
   pending?: boolean;
+  sampleBadge?: string;
+  href?: string;
 }) {
+  const Wrapper = href ? motion.a : motion.div;
+
   return (
-    <motion.div
+    <Wrapper
+      {...(href ? { href, target: "_blank", rel: "noopener noreferrer" } : {})}
       initial={{ opacity: 0, y: 22 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-80px" }}
@@ -37,6 +45,12 @@ function ContactCard({
         aria-hidden="true"
         className="pointer-events-none absolute -right-16 -top-16 h-40 w-40 rounded-full bg-white/[0.07] blur-2xl transition-opacity duration-500 group-hover:bg-white/[0.12]"
       />
+
+      {sampleBadge && (
+        <span className="absolute right-5 top-5 rounded-full bg-white/15 px-2.5 py-1 text-[9px] font-bold uppercase tracking-wide text-white backdrop-blur-sm">
+          {sampleBadge}
+        </span>
+      )}
 
       <span
         className={`relative mb-5 flex h-11 w-11 items-center justify-center rounded-2xl transition-colors duration-500 ${
@@ -57,12 +71,13 @@ function ContactCard({
       >
         {children}
       </div>
-    </motion.div>
+    </Wrapper>
   );
 }
 
-export function Contact() {
+export function Contact({ contactInfo }: { contactInfo: SiteContactInfo }) {
   const { t } = useLanguage();
+  const sampleBadge = contactInfo.isSample ? t.stories.sampleBadge : undefined;
 
   return (
     <section id="contact" className="relative py-16 lg:py-20">
@@ -82,7 +97,7 @@ export function Contact() {
           </h2>
         </motion.div>
 
-        <div className="grid grid-cols-1 gap-5 sm:grid-cols-3">
+        <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
           <ContactCard icon={MapPin} label={t.contact.addressLabel} index={0}>
             Dusun {villageProfile.dusun}, Desa {villageProfile.desa}
             <br />
@@ -97,10 +112,62 @@ export function Contact() {
             {villageProfile.pengelola.mitra}
           </ContactCard>
 
-          <ContactCard icon={Phone} label={t.contact.phoneLabel} index={2} pending>
-            {t.contact.phonePlaceholder}
-          </ContactCard>
+          {contactInfo.phone ? (
+            <ContactCard
+              icon={Phone}
+              label={t.contact.phoneLabel}
+              index={2}
+              sampleBadge={sampleBadge}
+              href={contactInfo.whatsappUrl ?? undefined}
+            >
+              {contactInfo.phone}
+            </ContactCard>
+          ) : (
+            <ContactCard icon={Phone} label={t.contact.phoneLabel} index={2} pending>
+              {t.contact.phonePlaceholder}
+            </ContactCard>
+          )}
+
+          {contactInfo.socials.length > 0 ? (
+            <ContactCard
+              icon={Share2}
+              label={t.contact.socialLabel}
+              index={3}
+              sampleBadge={sampleBadge}
+            >
+              <div className="flex flex-col gap-1">
+                {contactInfo.socials.map((s) => (
+                  <a
+                    key={s.platform}
+                    href={s.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="transition hover:text-white"
+                  >
+                    {s.platform}: {s.handle}
+                  </a>
+                ))}
+              </div>
+            </ContactCard>
+          ) : (
+            <ContactCard icon={Share2} label={t.contact.socialLabel} index={3} pending>
+              {t.contact.phonePlaceholder}
+            </ContactCard>
+          )}
         </div>
+
+        {contactInfo.isSample && (
+          <motion.div
+            initial={{ opacity: 0, y: 12 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-60px" }}
+            transition={{ ...enterTransition, delay: stagger(4) }}
+            className="mt-6 flex items-start gap-3 rounded-2xl border border-dashed border-white/20 p-4 text-xs leading-relaxed text-white/60"
+          >
+            <Info size={16} className="mt-0.5 shrink-0 text-white/40" />
+            {t.contact.sampleNotice}
+          </motion.div>
+        )}
       </div>
     </section>
   );

@@ -4,15 +4,16 @@ import Link from "next/link";
 import { motion } from "framer-motion";
 import { Home, MapPin, Building2, Landmark, Flag, Users2 } from "lucide-react";
 import { useLanguage } from "@/context/LanguageContext";
-import { villageProfile, categories, destinations } from "@/data/site";
+import { villageProfile, categories } from "@/data/site";
 import { categoryIcons } from "@/lib/categoryIcons";
 import { glassCard, glassCardInteractive } from "@/lib/ui";
 import { enterTransition, stagger } from "@/lib/motion";
 import { DestinationCardRow, type DestinationCardItem } from "./DestinationCardRow";
+import type { DestinationEntry } from "@/lib/destinations";
 
 const pointIcons = [Home, MapPin, Building2, Landmark, Flag];
 
-export function VillageStory() {
+export function VillageStory({ destinations }: { destinations: DestinationEntry[] }) {
   const { lang, t } = useLanguage();
 
   const cards: DestinationCardItem[] = destinations.map((d) => {
@@ -23,8 +24,9 @@ export function VillageStory() {
       title: d[lang].title,
       subtitle: d[lang].subtitle,
       desc: d[lang].desc,
-      image: d.key === "pentuho" ? "/images/gunung-pentuho.jpg" : undefined,
+      image: d.coverImageUrl ?? undefined,
       accent: cat?.accent ?? "#2f5233",
+      isSample: d.isSample,
     };
   });
 
@@ -78,7 +80,7 @@ export function VillageStory() {
           transition={{ ...enterTransition, delay: stagger(2) }}
           className="mt-14"
         >
-          <DestinationCardRow items={cards} />
+          <DestinationCardRow items={cards} sampleLabel={t.stories.sampleBadge} />
         </motion.div>
 
         <motion.div
