@@ -5,7 +5,7 @@ import { MapPin, Phone, Users2, Share2, Info, type LucideIcon } from "lucide-rea
 import { useLanguage } from "@/context/LanguageContext";
 import { villageProfile } from "@/data/site";
 import { enterTransition, stagger } from "@/lib/motion";
-import { glassCard, glassCardInteractive } from "@/lib/ui";
+import { cardSheen, glassCard, glassCardInteractive } from "@/lib/ui";
 import type { SiteContactInfo } from "@/lib/siteSettings";
 
 function ContactCard({
@@ -41,10 +41,7 @@ function ContactCard({
       }`}
     >
       {/* Kilau lembut di sudut atas agar permukaan kaca terasa punya dimensi. */}
-      <div
-        aria-hidden="true"
-        className="pointer-events-none absolute -right-16 -top-16 h-40 w-40 rounded-full bg-white/[0.07] blur-2xl transition-opacity duration-500 group-hover:bg-white/[0.12]"
-      />
+      <div aria-hidden="true" className={cardSheen} />
 
       {sampleBadge && (
         <span className="absolute right-5 top-5 rounded-full bg-white/15 px-2.5 py-1 text-[9px] font-bold uppercase tracking-wide text-white backdrop-blur-sm">

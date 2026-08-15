@@ -2,7 +2,7 @@
 
 import { categories } from "@/data/site";
 import { categoryIcons } from "@/lib/categoryIcons";
-import { glassSubtle } from "@/lib/ui";
+import { glassSubtle, surfaceTransition } from "@/lib/ui";
 import { useLanguage } from "@/context/LanguageContext";
 
 /**
@@ -32,7 +32,7 @@ export function CategorySelector({
             type="button"
             onClick={() => onSelect(c.key)}
             aria-pressed={isActive}
-            className={`group flex items-center gap-2.5 px-3 py-2.5 text-left transition-all duration-400 sm:py-3 lg:px-4 ${
+            className={`group flex items-center gap-2.5 px-3 py-2.5 text-left ${surfaceTransition} duration-400 sm:py-3 lg:px-4 ${
               isActive
                 ? "rounded-2xl border border-white/40 bg-white/95 shadow-[0_12px_32px_rgba(0,0,0,0.35)]"
                 : `${glassSubtle} hover:border-white/25 hover:bg-white/[0.12]`

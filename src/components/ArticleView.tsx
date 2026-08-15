@@ -88,7 +88,7 @@ export function ArticleView({
                 href={`/stories/${r.slug}`}
                 className={`group overflow-hidden ${glassCard} ${glassCardInteractive} hover:-translate-y-1.5`}
               >
-                <div className="relative h-32 overflow-hidden">
+                <div className="relative h-32 overflow-hidden rounded-t-3xl">
                   {r.coverImageUrl ? (
                     <Image
                       src={r.coverImageUrl}

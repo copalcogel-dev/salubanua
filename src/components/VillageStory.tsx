@@ -61,7 +61,7 @@ export function VillageStory({ destinations }: { destinations: DestinationEntry[
             return (
               <div
                 key={p.label}
-                className={`!rounded-2xl p-4 text-center transition-all duration-500 hover:-translate-y-1 hover:border-white/30 hover:bg-white/[0.12] ${glassCard}`}
+                className={`!rounded-2xl p-4 text-center hover:-translate-y-1 ${glassCard} ${glassCardInteractive}`}
               >
                 <Icon size={16} strokeWidth={1.5} className="mx-auto mb-2 text-white/70" />
                 <p className="mb-0.5 text-[9px] font-semibold uppercase tracking-[0.2em] text-white/50">

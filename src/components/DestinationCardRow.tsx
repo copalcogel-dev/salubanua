@@ -5,7 +5,7 @@ import Image from "next/image";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 import { MountainScene } from "./MountainScene";
-import { glassCard, glassCardInteractive } from "@/lib/ui";
+import { glassCard, glassCardInteractive, surfaceTransition } from "@/lib/ui";
 
 export type DestinationCardItem = {
   key: string;
@@ -48,8 +48,7 @@ function pickResponsive(values: readonly number[], viewportWidth: number) {
 const useIsomorphicLayoutEffect =
   typeof window !== "undefined" ? useLayoutEffect : useEffect;
 
-const arrowButtonClass =
-  "hidden h-11 w-11 shrink-0 items-center justify-center rounded-full border border-white/25 bg-white/10 text-white shadow-[0_8px_28px_rgba(0,0,0,0.35)] backdrop-blur-md transition-all duration-300 hover:border-white/40 hover:bg-white/25 sm:flex disabled:cursor-not-allowed disabled:opacity-30 disabled:hover:border-white/25 disabled:hover:bg-white/10";
+const arrowButtonClass = `hidden h-11 w-11 shrink-0 items-center justify-center rounded-full border border-white/25 bg-white/10 text-white shadow-[0_8px_28px_rgba(0,0,0,0.35)] backdrop-blur-md ${surfaceTransition} duration-300 hover:border-white/40 hover:bg-white/25 sm:flex disabled:cursor-not-allowed disabled:opacity-30 disabled:hover:border-white/25 disabled:hover:bg-white/10`;
 
 /**
  * Carousel kartu yang bergeser per halaman.
@@ -162,9 +161,12 @@ export function DestinationCardRow({
                 style={{ width: cardW }}
                 className={`group flex shrink-0 snap-start flex-col overflow-hidden ${glassCard} ${glassCardInteractive}`}
               >
+                {/* Radius atas diulang di sini: induknya memakai
+                    backdrop-filter, yang membuat clip membulatnya gagal di
+                    Chrome sehingga foto tampil bersudut siku. */}
                 <div
                   style={{ height: imageH }}
-                  className="relative shrink-0 overflow-hidden"
+                  className="relative shrink-0 overflow-hidden rounded-t-3xl"
                 >
                   {item.image ? (
                     <Image

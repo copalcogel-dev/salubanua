@@ -10,7 +10,7 @@ import { useLanguage } from "@/context/LanguageContext";
 import { categories, type Lang } from "@/data/site";
 import { categoryIcons } from "@/lib/categoryIcons";
 import { duration, easeOut } from "@/lib/motion";
-import { glassCard, glassSubtle } from "@/lib/ui";
+import { glassCard, glassSubtle, surfaceTransition } from "@/lib/ui";
 import { MountainScene } from "./MountainScene";
 import { CategorySelector } from "./CategorySelector";
 import type { Article } from "@/lib/content";
@@ -119,7 +119,7 @@ function ArticlePanel({
 
   return (
     <div className="grid grid-cols-1 lg:grid-cols-[1.05fr_1fr]">
-      <div className="relative h-56 sm:h-72 lg:h-full lg:min-h-[380px]">
+      <div className="relative h-56 overflow-hidden rounded-t-3xl sm:h-72 lg:h-full lg:min-h-[380px] lg:rounded-l-3xl lg:rounded-tr-none">
         {destination?.coverImageUrl ? (
           <Image
             src={destination.coverImageUrl}
@@ -156,7 +156,7 @@ function ArticlePanel({
         {article ? (
           <Link
             href={`/stories/${article.slug}`}
-            className={`group flex items-center justify-between gap-4 !rounded-2xl p-4 transition-all duration-400 hover:border-white/25 hover:bg-white/[0.12] ${glassSubtle}`}
+            className={`group flex items-center justify-between gap-4 !rounded-2xl p-4 ${surfaceTransition} duration-400 hover:border-white/25 hover:bg-white/[0.12] ${glassSubtle}`}
           >
             <div className="min-w-0">
               <p className="mb-1 text-[9px] font-semibold uppercase tracking-[0.18em] text-white/50">
