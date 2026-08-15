@@ -1,138 +1,208 @@
 "use client";
 
+import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { motion } from "framer-motion";
+import { ArrowUpRight, Images } from "lucide-react";
+import type { LucideIcon } from "lucide-react";
 import { useLanguage } from "@/context/LanguageContext";
-import { destinations, categories } from "@/data/site";
-import { MountainScene } from "./MountainScene";
+import { categories, destinations, type Lang } from "@/data/site";
 import { categoryIcons } from "@/lib/categoryIcons";
-import { glassCard, glassCardInteractive, glassSubtle } from "@/lib/ui";
+import { duration, easeOut } from "@/lib/motion";
+import { glassCard, glassSubtle } from "@/lib/ui";
+import { MountainScene } from "./MountainScene";
+import { CategorySelector } from "./CategorySelector";
+import type { Article } from "@/lib/content";
 
-export function Destinations() {
+type Category = (typeof categories)[number];
+type Destination = (typeof destinations)[number];
+
+/**
+ * Artikel yang isinya benar-benar membahas kategori terkait. Kategori tanpa
+ * entri di sini sengaja tidak diberi artikel paksaan — panel akan
+ * menampilkan status "segera hadir" yang jujur.
+ */
+const categoryArticleSlug: Partial<Record<string, string>> = {
+  hiking: "persiapan-mendaki-buntu-pentuho",
+  homestay: "mengenal-dusun-lombo-ipo",
+};
+
+export function Destinations({ articles }: { articles: Article[] }) {
   const { lang, t } = useLanguage();
+  const [activeKey, setActiveKey] = useState<string>(categories[0].key);
+
+  const active = categories.find((c) => c.key === activeKey) ?? categories[0];
+  const ActiveIcon = categoryIcons[active.icon];
+  const destination = destinations.find((d) => d.category === activeKey);
+  const articleSlug = categoryArticleSlug[activeKey];
+  const article = articleSlug ? articles.find((a) => a.slug === articleSlug) : undefined;
 
   return (
     <section className="relative py-16 lg:py-20">
-      <div className="relative mx-auto max-w-7xl px-6 lg:px-10">
-        <div className="mb-8 flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
-          <div className="max-w-xl">
-            <p className="mb-3 text-[11px] font-semibold tracking-[0.3em] text-white/70">
-              {t.explore.kicker}
-            </p>
-            <h2 className="mb-3 text-3xl font-semibold text-white sm:text-4xl">
-              {t.destinations.title}
-            </h2>
-            <p className="text-sm leading-relaxed text-white/80">
-              {t.explore.body}
-            </p>
-          </div>
-
-          <div className="flex flex-wrap gap-2">
-            {categories.map((c, i) => {
-              const Icon = categoryIcons[c.icon];
-              return (
-                <motion.span
-                  key={c.key}
-                  initial={{ opacity: 0, y: 10 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true, margin: "-40px" }}
-                  transition={{ duration: 0.4, delay: i * 0.05 }}
-                  className={`flex items-center gap-1.5 !rounded-full px-3.5 py-2 text-xs font-semibold text-white/85 transition-all duration-300 hover:-translate-y-0.5 hover:border-white/25 hover:bg-white/[0.12] hover:text-white ${glassSubtle}`}
-                >
-                  <Icon size={13} strokeWidth={2} className="text-white/70" />
-                  {c[lang].title}
-                </motion.span>
-              );
-            })}
-          </div>
+      <div className="mx-auto max-w-6xl px-6 lg:px-10">
+        <div className="mx-auto max-w-2xl text-center">
+          <p className="mb-3 text-[11px] font-semibold tracking-[0.3em] text-white/70">
+            {t.explore.kicker}
+          </p>
+          <h1 className="mb-4 text-3xl font-semibold text-white sm:text-4xl">
+            {t.destinations.title}
+          </h1>
+          <p className="text-sm leading-relaxed text-white/80">{t.explore.body}</p>
         </div>
 
-        <div className="grid grid-cols-1 gap-4 md:grid-cols-3 md:grid-rows-2 md:h-[500px]">
-          {destinations.map((d, i) => {
-            const category = categories.find((c) => c.key === d.category);
-            const Icon = categoryIcons[category?.icon ?? "mountain"];
-            const featured = i === 0;
-
-            if (featured) {
-              return (
-                <motion.article
-                  key={d.key}
-                  initial={{ opacity: 0, y: 24 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true, margin: "-80px" }}
-                  transition={{ duration: 0.6 }}
-                  className="group relative min-h-[280px] overflow-hidden rounded-3xl shadow-[0_2px_16px_rgba(21,62,42,0.06)] transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_24px_60px_rgba(21,62,42,0.22)] md:col-span-2 md:row-span-2"
-                >
-                  <Image
-                    src="/images/gunung-pentuho.jpg"
-                    alt="Gunung Pentuho (Buntu Pentuho)"
-                    fill
-                    className="object-cover transition-transform duration-700 group-hover:scale-105"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/20 to-black/10" />
-                  <div className="absolute left-5 top-5 flex h-10 w-10 items-center justify-center rounded-full bg-white/90 text-[#153e2a]">
-                    <Icon size={18} strokeWidth={2} />
-                  </div>
-                  <div className="absolute inset-x-0 bottom-0 p-7">
-                    <p className="mb-2 text-[11px] font-semibold uppercase tracking-[0.2em] text-[#bdeecb]">
-                      {d[lang].subtitle}
-                    </p>
-                    <h3 className="mb-3 text-2xl font-semibold text-white sm:text-3xl">
-                      {d[lang].title}
-                    </h3>
-                    <p className="mb-5 max-w-md text-sm leading-relaxed text-white/80">
-                      {d[lang].desc}
-                    </p>
-                    <Link
-                      href="/about"
-                      className="inline-block rounded-full bg-white px-5 py-2.5 text-xs font-bold uppercase tracking-[0.15em] text-[#153e2a] transition hover:bg-white/90"
-                    >
-                      {t.destinations.readMore}
-                    </Link>
-                  </div>
-                </motion.article>
-              );
-            }
-
-            return (
-              <motion.article
-                key={d.key}
-                initial={{ opacity: 0, y: 24 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: "-80px" }}
-                transition={{ duration: 0.6, delay: i * 0.1 }}
-                className={`group flex flex-col overflow-hidden ${glassCard} ${glassCardInteractive} hover:-translate-y-1.5`}
-              >
-                <div className="relative h-28 shrink-0 overflow-hidden">
-                  <MountainScene
-                    accent={category?.accent ?? "#2f5233"}
-                    className="h-full w-full scale-100 object-cover transition-transform duration-700 group-hover:scale-110"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-[#08160f]/80 to-transparent" />
-                  <div className="absolute left-3 top-3 flex h-8 w-8 items-center justify-center rounded-full bg-white/95 text-[#153e2a]">
-                    <Icon size={14} strokeWidth={2} />
-                  </div>
-                  <span className="absolute right-3 top-3 rounded-full bg-white/15 px-3 py-1 text-[9px] font-bold uppercase tracking-wide text-white backdrop-blur-sm">
-                    {d[lang].status}
-                  </span>
-                </div>
-                <div className="flex flex-1 flex-col p-5">
-                  <p className="mb-1 text-[10px] font-semibold uppercase tracking-[0.2em] text-white/50">
-                    {d[lang].subtitle}
-                  </p>
-                  <h3 className="mb-1.5 text-base font-semibold text-white">
-                    {d[lang].title}
-                  </h3>
-                  <p className="line-clamp-2 text-xs leading-relaxed text-white/70">
-                    {d[lang].desc}
-                  </p>
-                </div>
-              </motion.article>
-            );
-          })}
+        <div className="mx-auto mt-8 max-w-3xl lg:mt-10">
+          <CategorySelector activeKey={activeKey} onSelect={setActiveKey} />
         </div>
+
+        <motion.div
+          key={activeKey}
+          initial={{ opacity: 0, y: 16 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: duration.base, ease: easeOut }}
+          className={`mt-8 overflow-hidden lg:mt-10 ${glassCard}`}
+        >
+          {active.key === "viewpoint" ? (
+            <GalleryPanel category={active} lang={lang} />
+          ) : (
+            <ArticlePanel
+              category={active}
+              ActiveIcon={ActiveIcon}
+              destination={destination}
+              article={article}
+              lang={lang}
+              readMoreLabel={t.destinations.readMore}
+            />
+          )}
+        </motion.div>
       </div>
     </section>
+  );
+}
+
+function ArticlePanel({
+  category,
+  ActiveIcon,
+  destination,
+  article,
+  lang,
+  readMoreLabel,
+}: {
+  category: Category;
+  ActiveIcon: LucideIcon;
+  destination: Destination | undefined;
+  article: Article | undefined;
+  lang: Lang;
+  readMoreLabel: string;
+}) {
+  const hasRealPhoto = destination?.key === "pentuho";
+  const statusLabel = destination
+    ? destination[lang].status
+    : lang === "id"
+      ? "Segera hadir"
+      : "Coming soon";
+
+  return (
+    <div className="grid grid-cols-1 lg:grid-cols-[1.05fr_1fr]">
+      <div className="relative h-56 sm:h-72 lg:h-full lg:min-h-[380px]">
+        {hasRealPhoto ? (
+          <Image
+            src="/images/gunung-pentuho.jpg"
+            alt={destination[lang].title}
+            fill
+            priority
+            className="object-cover"
+          />
+        ) : (
+          <MountainScene accent={category.accent} className="h-full w-full object-cover" />
+        )}
+        <div className="absolute inset-0 bg-gradient-to-t from-[#08160f]/75 via-[#08160f]/10 to-transparent" />
+        <div className="absolute left-5 top-5 flex h-10 w-10 items-center justify-center rounded-full bg-white/90 text-[#153e2a]">
+          <ActiveIcon size={18} strokeWidth={2} />
+        </div>
+        <span className="absolute right-5 top-5 rounded-full bg-white/15 px-3 py-1 text-[9px] font-bold uppercase tracking-wide text-white backdrop-blur-sm">
+          {statusLabel}
+        </span>
+      </div>
+
+      <div className="flex flex-col justify-center p-7 sm:p-9">
+        <p className="mb-2 text-[11px] font-semibold uppercase tracking-[0.2em] text-white/50">
+          {category[lang].title}
+        </p>
+        <h2 className="mb-3 text-2xl font-semibold text-white sm:text-3xl">
+          {destination ? destination[lang].title : category[lang].title}
+        </h2>
+        <p className="mb-6 text-sm leading-relaxed text-white/75">
+          {destination ? destination[lang].desc : category[lang].desc}
+        </p>
+
+        {article ? (
+          <Link
+            href={`/stories/${article.slug}`}
+            className={`group flex items-center justify-between gap-4 !rounded-2xl p-4 transition-all duration-400 hover:border-white/25 hover:bg-white/[0.12] ${glassSubtle}`}
+          >
+            <div className="min-w-0">
+              <p className="mb-1 text-[9px] font-semibold uppercase tracking-[0.18em] text-white/50">
+                {lang === "id" ? "Artikel terkait" : "Related article"}
+              </p>
+              <p className="truncate text-sm font-semibold text-white">
+                {article[lang].title}
+              </p>
+            </div>
+            <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-white/15 text-white transition-transform duration-300 group-hover:translate-x-0.5">
+              <ArrowUpRight size={14} strokeWidth={2.5} />
+            </span>
+          </Link>
+        ) : (
+          <div className="rounded-2xl border border-dashed border-white/20 p-4 text-xs leading-relaxed text-white/60">
+            {lang === "id"
+              ? "Artikel terkait kategori ini akan segera ditambahkan."
+              : "A related article for this category is coming soon."}
+          </div>
+        )}
+
+        {article && (
+          <Link
+            href="/stories"
+            className="mt-4 inline-flex items-center gap-1.5 self-start text-[11px] font-bold uppercase tracking-[0.15em] text-white/70 transition hover:text-white"
+          >
+            {readMoreLabel}
+            <ArrowUpRight size={12} strokeWidth={2.5} />
+          </Link>
+        )}
+      </div>
+    </div>
+  );
+}
+
+function GalleryPanel({ category, lang }: { category: Category; lang: Lang }) {
+  return (
+    <div className="p-7 sm:p-9">
+      <p className="mb-2 text-[11px] font-semibold uppercase tracking-[0.2em] text-white/50">
+        {category[lang].title}
+      </p>
+      <h2 className="mb-3 text-2xl font-semibold text-white sm:text-3xl">
+        {category[lang].title}
+      </h2>
+      <p className="mb-6 max-w-xl text-sm leading-relaxed text-white/75">{category[lang].desc}</p>
+
+      <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
+        {[0, 1, 2, 3].map((i) => (
+          <div key={i} className="relative aspect-square overflow-hidden rounded-2xl">
+            <MountainScene accent={category.accent} className="h-full w-full object-cover opacity-70" />
+            <div className="absolute inset-0 flex items-center justify-center bg-black/45 text-center text-[9px] font-semibold uppercase tracking-wide text-white/80">
+              {lang === "id" ? "Segera Hadir" : "Coming Soon"}
+            </div>
+          </div>
+        ))}
+      </div>
+
+      <div className="mt-4 flex items-center gap-3 rounded-2xl border border-dashed border-white/20 p-4 text-xs leading-relaxed text-white/60">
+        <Images size={16} className="shrink-0 text-white/40" />
+        {lang === "id"
+          ? "Galeri foto dan video untuk spot foto sedang dikumpulkan bersama PokDarWis Pentuho Malolo."
+          : "The photo and video gallery for this viewpoint is being compiled together with PokDarWis Pentuho Malolo."}
+      </div>
+    </div>
   );
 }
