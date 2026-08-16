@@ -70,6 +70,14 @@ export const postType = defineType({
       title: "Tanggal Terbit",
       type: "datetime",
     }),
+    defineField({
+      name: "isSample",
+      title: "Ini konten contoh",
+      description:
+        "Aktifkan bila isinya belum resmi. Artikel akan diberi badge CONTOH di situs supaya pengunjung tahu ini bukan kabar resmi desa. Matikan setelah isinya diganti yang sebenarnya.",
+      type: "boolean",
+      initialValue: false,
+    }),
   ],
   preview: {
     select: { title: "title.id", media: "coverImage" },

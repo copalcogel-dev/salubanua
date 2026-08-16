@@ -75,6 +75,14 @@ export const destinationType = defineType({
       initialValue: true,
     }),
     defineField({
+      name: "isSample",
+      title: "Ini konten contoh",
+      description:
+        "Aktifkan bila datanya belum dikonfirmasi. Destinasi akan diberi badge CONTOH di situs. Matikan setelah datanya benar.",
+      type: "boolean",
+      initialValue: false,
+    }),
+    defineField({
       name: "status",
       title: "Label Status (opsional)",
       description: "Contoh: 'Segera hadir' atau 'Jalur sudah dibuka'.",

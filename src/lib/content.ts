@@ -56,7 +56,7 @@ export async function getArticles(): Promise<Article[]> {
       coverImageUrl: p.coverImage
         ? urlForImage(p.coverImage).width(1200).height(800).url()
         : null,
-      isSample: false,
+      isSample: p.isSample ?? false,
       id: { title: p.titleId, excerpt: p.excerptId },
       en: { title: p.titleEn, excerpt: p.excerptEn },
     }));
@@ -77,7 +77,7 @@ export async function getArticle(slug: string): Promise<ArticleDetail | null> {
       coverImageUrl: post.coverImage
         ? urlForImage(post.coverImage).width(1600).height(900).url()
         : null,
-      isSample: false,
+      isSample: post.isSample ?? false,
       id: { title: post.titleId, excerpt: post.excerptId },
       en: { title: post.titleEn, excerpt: post.excerptEn },
       body: {

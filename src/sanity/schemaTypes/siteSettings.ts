@@ -57,6 +57,15 @@ export const siteSettingsType = defineType({
     }),
 
     defineField({
+      name: "contactIsSample",
+      title: "Kontak ini masih contoh",
+      description:
+        "Aktifkan selama nomor & akun di bawah belum resmi. Halaman Kontak akan memberi keterangan bahwa datanya contoh. Matikan setelah nomor aslinya diisi.",
+      type: "boolean",
+      initialValue: false,
+      group: "kontak",
+    }),
+    defineField({
       name: "phone",
       title: "Nomor WhatsApp / Telepon",
       description: "Contoh: +62 813-4567-8900",

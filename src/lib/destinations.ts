@@ -36,7 +36,7 @@ export async function getDestinations(): Promise<DestinationEntry[]> {
     return sanityItems.map((d) => ({
       key: d._id,
       category: d.category,
-      isSample: false,
+      isSample: d.isSample ?? false,
       available: d.available,
       coverImageUrl: d.coverImage
         ? urlForImage(d.coverImage).width(1200).height(800).url()

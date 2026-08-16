@@ -15,6 +15,7 @@ export type SanityPostSummary = {
   publishedAt: string;
   author: string | null;
   coverImage: SanityImageRef;
+  isSample: boolean | null;
 };
 
 export type SanityPostDetail = SanityPostSummary & {
@@ -32,7 +33,8 @@ const POST_FIELDS = /* groq */ `
   category,
   publishedAt,
   author,
-  coverImage
+  coverImage,
+  isSample
 `;
 
 const ALL_POSTS_QUERY = /* groq */ `
@@ -96,6 +98,7 @@ export type SanityDestination = {
   statusEn: string | null;
   gallery: SanityImageRef[] | null;
   videoUrl: string | null;
+  isSample: boolean | null;
 };
 
 const DESTINATION_FIELDS = /* groq */ `
@@ -112,7 +115,8 @@ const DESTINATION_FIELDS = /* groq */ `
   "statusId": status.id,
   "statusEn": status.en,
   gallery,
-  videoUrl
+  videoUrl,
+  isSample
 `;
 
 const ALL_DESTINATIONS_QUERY = /* groq */ `
@@ -130,6 +134,7 @@ export async function fetchSanityDestinations(): Promise<SanityDestination[]> {
 
 export type SanitySiteSettings = {
   phone: string | null;
+  contactIsSample: boolean | null;
   socials: { platform: string; handle: string; url: string }[] | null;
   dusun: string | null;
   desa: string | null;
@@ -142,7 +147,7 @@ export type SanitySiteSettings = {
 
 const SITE_SETTINGS_QUERY = /* groq */ `
   *[_type == "siteSettings"][0] {
-    phone, socials,
+    phone, contactIsSample, socials,
     dusun, desa, kecamatan, kabupaten, provinsi,
     pengelolaNama, pengelolaMitra
   }

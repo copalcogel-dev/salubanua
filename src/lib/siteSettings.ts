@@ -30,16 +30,23 @@ export type SiteSettings = {
 export async function getSiteSettings(): Promise<SiteSettings> {
   const cms = await fetchSanitySiteSettings();
 
-  const hasRealContact = Boolean(cms?.phone?.trim() || cms?.socials?.length);
+  const hasCmsContact = Boolean(cms?.phone?.trim() || cms?.socials?.length);
 
   const phone = cms?.phone?.trim() ? cms.phone : contactInfo.phone;
   const socials =
     cms?.socials?.length ? cms.socials : contactInfo.socials;
 
+  /**
+   * Kontak dianggap contoh bila memang belum ada di CMS, ATAU bila
+   * pengelola menandainya sendiri lewat tombol "Kontak ini masih contoh".
+   * Tanpa penanda kedua itu, nomor contoh yang diisikan ke CMS akan
+   * tampil seolah-olah nomor resmi desa.
+   */
+  const isSample = hasCmsContact ? cms?.contactIsSample === true : true;
+
   return {
     contact: {
-      // Badge "CONTOH" hanya hilang setelah kontak asli benar-benar diisi.
-      isSample: !hasRealContact,
+      isSample,
       phone,
       whatsappUrl: phone ? `https://wa.me/${phone.replace(/\D/g, "")}` : null,
       socials,
