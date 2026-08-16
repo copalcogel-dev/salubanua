@@ -13,13 +13,11 @@ const typeIcon = {
   story: FileText,
 } as const;
 
-export function SearchDialog({
-  open,
-  onClose,
-}: {
-  open: boolean;
-  onClose: () => void;
-}) {
+/**
+ * Dialog ini hanya dirender saat terbuka (lihat Navbar), jadi state-nya
+ * bersih sendiri lewat unmount — tidak perlu direset lewat effect.
+ */
+export function SearchDialog({ onClose }: { onClose: () => void }) {
   const { lang, t } = useLanguage();
   const [query, setQuery] = useState("");
   const [results, setResults] = useState<SearchResult[]>([]);
@@ -37,7 +35,6 @@ export function SearchDialog({
   );
 
   useEffect(() => {
-    if (!open) return;
     const onKey = (e: KeyboardEvent) => {
       if (e.key === "Escape") onClose();
     };
@@ -48,23 +45,18 @@ export function SearchDialog({
       window.removeEventListener("keydown", onKey);
       document.body.style.overflow = "";
     };
-  }, [open, onClose]);
+  }, [onClose]);
+
+  const trimmed = query.trim();
 
   useEffect(() => {
-    if (!open) {
-      setQuery("");
-      setResults([]);
-      return;
-    }
-    const trimmed = query.trim();
-    if (trimmed.length < 2) {
-      setResults([]);
-      setLoading(false);
-      return;
-    }
-    setLoading(true);
+    if (trimmed.length < 2) return;
+
     const controller = new AbortController();
+    // setState hanya dipanggil di dalam callback, bukan di badan effect,
+    // supaya tidak memicu render bertingkat.
     const timer = setTimeout(async () => {
+      setLoading(true);
       try {
         const res = await fetch(
           `/api/search?q=${encodeURIComponent(trimmed)}&lang=${lang}`,
@@ -82,11 +74,11 @@ export function SearchDialog({
       controller.abort();
       clearTimeout(timer);
     };
-  }, [query, lang, open]);
+  }, [trimmed, lang]);
 
-  const trimmed = query.trim();
-
-  if (!open) return null;
+  // Hasil untuk kata kunci yang terlalu pendek diturunkan dari state,
+  // bukan dengan mengosongkan `results` lewat effect.
+  const visibleResults = trimmed.length >= 2 ? results : [];
 
   return (
     <motion.div
@@ -135,13 +127,13 @@ export function SearchDialog({
             <p className="px-4 py-8 text-center text-sm text-[#153e2a]/50">
               {t.search.hint}
             </p>
-          ) : results.length === 0 && !loading ? (
+          ) : visibleResults.length === 0 && !loading ? (
             <p className="px-4 py-8 text-center text-sm text-[#153e2a]/50">
               {t.search.noResults} &ldquo;{trimmed}&rdquo;
             </p>
           ) : (
             <ul className="space-y-1">
-              {results.map((r, i) => {
+              {visibleResults.map((r, i) => {
                 const Icon = typeIcon[r.type];
                 return (
                   <li key={`${r.href}-${i}`}>

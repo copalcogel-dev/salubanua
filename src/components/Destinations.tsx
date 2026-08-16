@@ -126,6 +126,7 @@ function ArticlePanel({
             alt={destination[lang].title}
             fill
             priority
+            sizes="(min-width: 1024px) 600px, 100vw"
             className="object-cover"
           />
         ) : (
@@ -225,6 +226,7 @@ function GalleryPanel({
                 src={destination.coverImageUrl}
                 alt={destination[lang].title}
                 fill
+                sizes="(min-width: 640px) 260px, 45vw"
                 className="object-cover"
               />
             ) : (

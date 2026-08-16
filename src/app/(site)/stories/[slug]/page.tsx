@@ -15,11 +15,19 @@ export async function generateMetadata({
 }: PageProps<"/stories/[slug]">): Promise<Metadata> {
   const { slug } = await params;
   const article = await getArticle(slug);
-  if (!article) return { title: "Artikel | Salubanua" };
+  if (!article) return { title: "Artikel" };
 
   return {
-    title: `${article.id.title} | Salubanua`,
+    title: article.id.title,
     description: article.id.excerpt,
+    // Pratinjau tautan per artikel memakai foto sampulnya sendiri.
+    openGraph: {
+      type: "article",
+      title: article.id.title,
+      description: article.id.excerpt,
+      publishedTime: article.publishedAt,
+      images: [article.coverImageUrl ?? "/images/gunung-pentuho.jpg"],
+    },
   };
 }
 

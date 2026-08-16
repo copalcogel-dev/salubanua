@@ -3,7 +3,7 @@ import { Contact } from "@/components/Contact";
 import { getSiteSettings } from "@/lib/siteSettings";
 
 export const metadata: Metadata = {
-  title: "Kontak | Salubanua",
+  title: "Kontak",
   description:
     "Alamat, pengelola, dan kontak Desa Salubanua, Kecamatan Mambi, Kabupaten Mamasa, Sulawesi Barat.",
 };

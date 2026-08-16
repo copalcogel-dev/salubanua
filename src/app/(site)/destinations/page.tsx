@@ -4,7 +4,7 @@ import { getArticles } from "@/lib/content";
 import { getDestinations } from "@/lib/destinations";
 
 export const metadata: Metadata = {
-  title: "Destinasi | Salubanua",
+  title: "Destinasi",
   description:
     "Jelajahi kategori wisata dan destinasi pilihan Desa Salubanua, mulai dari Gunung Pentuho hingga air terjun dan camping ground.",
 };

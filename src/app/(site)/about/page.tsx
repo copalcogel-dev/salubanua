@@ -3,7 +3,7 @@ import { VillageStory } from "@/components/VillageStory";
 import { getDestinations } from "@/lib/destinations";
 
 export const metadata: Metadata = {
-  title: "Pengelola | Salubanua",
+  title: "Pengelola",
   description:
     "Cerita di balik Gunung Pentuho dan PokDarWis Pentuho Malolo, pengelola wisata Desa Salubanua.",
 };

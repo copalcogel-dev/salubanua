@@ -184,7 +184,16 @@ export function DestinationCardRow({
                   className="relative shrink-0 overflow-hidden rounded-t-3xl"
                 >
                   {item.image ? (
-                    <Image src={item.image} alt={item.title} fill className="object-cover" />
+                    <Image
+                      src={item.image}
+                      alt={item.title}
+                      fill
+                      // Lebar kartu sudah pasti (lihat sizePresets), jadi
+                      // beritahu Next ukurannya supaya tidak mengunduh
+                      // gambar selebar layar.
+                      sizes="(min-width: 1024px) 250px, (min-width: 640px) 210px, 160px"
+                      className="object-cover"
+                    />
                   ) : (
                     <MountainScene
                       accent={item.accent}

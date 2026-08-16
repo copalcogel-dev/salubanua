@@ -159,7 +159,7 @@ export function Navbar() {
         )}
       </header>
 
-      <SearchDialog open={searchOpen} onClose={() => setSearchOpen(false)} />
+      {searchOpen && <SearchDialog onClose={() => setSearchOpen(false)} />}
     </>
   );
 }

@@ -50,6 +50,7 @@ export function ArticleView({
                 alt={article[lang].title}
                 fill
                 priority
+                sizes="(min-width: 768px) 768px, 100vw"
                 className="object-cover"
               />
             ) : (
@@ -58,6 +59,7 @@ export function ArticleView({
                 alt="Gunung Pentuho (Buntu Pentuho), Desa Salubanua"
                 fill
                 priority
+                sizes="(min-width: 768px) 768px, 100vw"
                 className="object-cover"
               />
             )}
@@ -94,6 +96,7 @@ export function ArticleView({
                       src={r.coverImageUrl}
                       alt={r[lang].title}
                       fill
+                      sizes="(min-width: 640px) 340px, 100vw"
                       className="object-cover transition-transform duration-700 group-hover:scale-110"
                     />
                   ) : (

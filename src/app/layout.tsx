@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Manrope } from "next/font/google";
+import { siteUrl } from "@/lib/siteUrl";
 import "./globals.css";
 
 const manrope = Manrope({
@@ -8,10 +9,55 @@ const manrope = Manrope({
   weight: ["400", "500", "600", "700", "800"],
 });
 
+const siteName = "Salubanua";
+const siteTitle = "Salubanua | Jelajahi Pegunungan & Kehidupan Desa";
+const siteDescription =
+  "Gerbang digital menuju Gunung Pentuho, Dusun Lombo' Ipo, Desa Salubanua, Kecamatan Mambi, Kabupaten Mamasa, Sulawesi Barat.";
+
 export const metadata: Metadata = {
-  title: "Salubanua | Jelajahi Pegunungan & Kehidupan Desa",
-  description:
-    "Gerbang digital menuju Gunung Pentuho, Dusun Lombo' Ipo, Desa Salubanua, Kecamatan Mambi, Kabupaten Mamasa, Sulawesi Barat.",
+  metadataBase: new URL(siteUrl),
+  title: {
+    default: siteTitle,
+    // Judul tiap halaman ("Destinasi", "Kontak", …) otomatis diberi akhiran.
+    template: `%s | ${siteName}`,
+  },
+  description: siteDescription,
+  applicationName: siteName,
+  keywords: [
+    "Desa Salubanua",
+    "Gunung Pentuho",
+    "Buntu Pentuho",
+    "Dusun Lombo' Ipo",
+    "Mambi",
+    "Mamasa",
+    "Sulawesi Barat",
+    "wisata desa",
+    "PokDarWis Pentuho Malolo",
+  ],
+  // Pratinjau saat tautan dibagikan di WhatsApp, Facebook, dll.
+  openGraph: {
+    type: "website",
+    siteName,
+    locale: "id_ID",
+    title: siteTitle,
+    description: siteDescription,
+    url: siteUrl,
+    images: [
+      {
+        url: "/images/gunung-pentuho.jpg",
+        width: 1200,
+        height: 630,
+        alt: "Gunung Pentuho (Buntu Pentuho), Desa Salubanua",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: siteTitle,
+    description: siteDescription,
+    images: ["/images/gunung-pentuho.jpg"],
+  },
+  robots: { index: true, follow: true },
 };
 
 /**
