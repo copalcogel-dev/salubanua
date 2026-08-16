@@ -41,7 +41,7 @@ export function StoriesList({
             {t.stories.empty}
           </p>
         ) : (
-          <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+          <div className="grid grid-cols-1 gap-7 sm:grid-cols-2 lg:grid-cols-3">
             {articles.map((a, i) => (
               <motion.article
                 key={a.slug}

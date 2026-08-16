@@ -48,10 +48,10 @@ function ContactCard({
       )}
 
       <span
-        className={`relative mb-5 flex h-11 w-11 items-center justify-center rounded-2xl transition-colors duration-500 ${
-          pending
-            ? "bg-white/10 text-white/45"
-            : "bg-white/15 text-white group-hover:bg-white/25"
+        // Tanpa perubahan saat hover: menaikkan terang di dalam kartu kaca
+        // ikut terserap kartu sebelahnya dan memunculkan garis di selanya.
+        className={`relative mb-5 flex h-11 w-11 items-center justify-center rounded-2xl ${
+          pending ? "bg-white/10 text-white/45" : "bg-white/15 text-white"
         }`}
       >
         <Icon size={19} strokeWidth={1.6} />
@@ -100,7 +100,7 @@ export function Contact({
           </h2>
         </motion.div>
 
-        <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
+        <div className="grid grid-cols-1 gap-7 sm:grid-cols-2 lg:grid-cols-4">
           <ContactCard icon={MapPin} label={t.contact.addressLabel} index={0}>
             Dusun {village.dusun}, Desa {village.desa}
             <br />

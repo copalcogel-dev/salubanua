@@ -83,7 +83,7 @@ export function ArticleView({
           <h2 className="mb-8 text-2xl font-semibold text-white">
             {t.stories.title}
           </h2>
-          <div className="grid grid-cols-1 gap-5 sm:grid-cols-3">
+          <div className="grid grid-cols-1 gap-7 sm:grid-cols-3">
             {related.map((r, i) => (
               <Link
                 key={r.slug}

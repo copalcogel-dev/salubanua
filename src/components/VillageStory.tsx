@@ -75,7 +75,7 @@ export function VillageStory({
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-100px" }}
           transition={{ ...enterTransition, delay: stagger(1) }}
-          className="mx-auto mt-10 grid max-w-4xl grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-5"
+          className="mx-auto mt-10 grid max-w-4xl grid-cols-2 gap-7 sm:grid-cols-3 lg:grid-cols-5"
         >
           {points.map((p, i) => {
             const Icon = pointIcons[i % pointIcons.length];
