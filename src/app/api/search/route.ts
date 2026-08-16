@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
-import { categories } from "@/data/site";
 import { getArticles } from "@/lib/content";
 import { getDestinations } from "@/lib/destinations";
+import { getCategories } from "@/lib/categories";
 import type { SearchResult } from "@/lib/searchTypes";
 
 function matches(query: string, ...fields: (string | null | undefined)[]) {
@@ -30,6 +30,7 @@ export async function GET(request: Request) {
     }
   }
 
+  const categories = await getCategories();
   for (const c of categories) {
     if (matches(query, c[lang].title, c[lang].desc, c.key)) {
       results.push({

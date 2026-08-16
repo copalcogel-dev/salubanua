@@ -5,14 +5,23 @@ import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
 import { motion } from "framer-motion";
 import { useLanguage } from "@/context/LanguageContext";
-import { categories } from "@/data/site";
 import { categoryIcons } from "@/lib/categoryIcons";
 import { enterTransition, stagger } from "@/lib/motion";
 import { CategorySelector } from "./CategorySelector";
 import { DestinationCardRow, type DestinationCardItem } from "./DestinationCardRow";
 import type { DestinationEntry } from "@/lib/destinations";
+import type { CategoryEntry } from "@/lib/categories";
+import type { PageContent } from "@/lib/pageContent";
 
-export function Hero({ destinations }: { destinations: DestinationEntry[] }) {
+export function Hero({
+  content,
+  categories,
+  destinations,
+}: {
+  content: PageContent;
+  categories: CategoryEntry[];
+  destinations: DestinationEntry[];
+}) {
   const { lang, t } = useLanguage();
   const [activeKey, setActiveKey] = useState<string>(categories[0].key);
 
@@ -57,7 +66,7 @@ export function Hero({ destinations }: { destinations: DestinationEntry[] }) {
             transition={{ ...enterTransition, delay: stagger(0) }}
             className="mb-1 text-[10px] font-semibold tracking-[0.32em] text-white/70 sm:mb-3"
           >
-            {t.hero.kicker}
+            {content.kicker[lang]}
           </motion.p>
 
           <motion.h1
@@ -66,7 +75,7 @@ export function Hero({ destinations }: { destinations: DestinationEntry[] }) {
             transition={{ ...enterTransition, delay: stagger(1) }}
             className="text-[34px] font-bold leading-[0.95] tracking-tight text-white sm:text-[58px] lg:text-[72px]"
           >
-            {t.hero.titleTop}
+            {content.title[lang]}
           </motion.h1>
 
           <motion.h2
@@ -75,7 +84,7 @@ export function Hero({ destinations }: { destinations: DestinationEntry[] }) {
             transition={{ ...enterTransition, delay: stagger(2) }}
             className="mb-2 text-sm font-light leading-snug text-white/90 sm:mb-3 sm:text-xl lg:text-2xl"
           >
-            {t.hero.titleBottom}
+            {content.subtitle[lang]}
           </motion.h2>
 
           <motion.p
@@ -84,7 +93,7 @@ export function Hero({ destinations }: { destinations: DestinationEntry[] }) {
             transition={{ ...enterTransition, delay: stagger(3) }}
             className="mx-auto mb-3 max-w-xl text-xs leading-relaxed text-white/80 sm:mb-5 sm:text-sm"
           >
-            {t.hero.body}
+            {content.body[lang]}
           </motion.p>
 
           <motion.div
@@ -96,7 +105,7 @@ export function Hero({ destinations }: { destinations: DestinationEntry[] }) {
               href="/destinations"
               className="group inline-flex items-center gap-2 rounded-full bg-white px-6 py-2.5 text-[11px] font-bold tracking-[0.18em] text-[#153e2a] transition-all duration-300 hover:bg-white/90 hover:shadow-[0_12px_36px_rgba(255,255,255,0.22)] sm:px-7 sm:py-3.5"
             >
-              {t.hero.cta}
+              {content.ctaLabel[lang]}
               <ArrowUpRight
                 size={14}
                 strokeWidth={2.5}
@@ -112,7 +121,11 @@ export function Hero({ destinations }: { destinations: DestinationEntry[] }) {
           transition={{ ...enterTransition, delay: stagger(5) }}
           className="mx-auto mt-3 max-w-4xl sm:mt-6 lg:mt-6"
         >
-          <CategorySelector activeKey={activeKey} onSelect={setActiveKey} />
+          <CategorySelector
+            categories={categories}
+            activeKey={activeKey}
+            onSelect={setActiveKey}
+          />
         </motion.div>
 
         <motion.div

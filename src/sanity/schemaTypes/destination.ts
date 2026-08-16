@@ -54,6 +54,20 @@ export const destinationType = defineType({
       options: { hotspot: true },
     }),
     defineField({
+      name: "gallery",
+      title: "Galeri Foto",
+      description:
+        "Dipakai pada kategori Spot Foto — foto-foto ini tampil sebagai galeri di halaman Destinasi.",
+      type: "array",
+      of: [{ type: "image", options: { hotspot: true } }],
+    }),
+    defineField({
+      name: "videoUrl",
+      title: "Tautan Video",
+      description: "Opsional. Tautan video (mis. YouTube) untuk kategori Spot Foto.",
+      type: "url",
+    }),
+    defineField({
       name: "available",
       title: "Informasinya sudah lengkap?",
       description: "Nonaktifkan jika destinasi ini masih dalam tahap pendataan.",

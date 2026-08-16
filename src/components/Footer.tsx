@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { Mountain } from "lucide-react";
 import { useLanguage } from "@/context/LanguageContext";
-import { villageProfile } from "@/data/site";
+import type { VillageProfile } from "@/lib/siteSettings";
 
 /**
  * Satu footer untuk seluruh situs.
@@ -11,7 +11,7 @@ import { villageProfile } from "@/data/site";
  * Sengaja ringkas satu baris agar identik di setiap halaman — termasuk di
  * beranda yang dirancang muat satu layar tanpa scroll.
  */
-export function Footer() {
+export function Footer({ village }: { village: VillageProfile }) {
   const { t } = useLanguage();
 
   const links = [
@@ -45,12 +45,12 @@ export function Footer() {
         </nav>
 
         <p className="text-[11px] leading-tight">
-          Dusun {villageProfile.dusun}, {villageProfile.desa} &middot; Kec.{" "}
-          {villageProfile.kecamatan}, {villageProfile.kabupaten}
+          Dusun {village.dusun}, {village.desa} &middot; Kec. {village.kecamatan},{" "}
+          {village.kabupaten}
         </p>
 
         <p className="shrink-0 text-[11px] text-white/40">
-          &copy; {new Date().getFullYear()} {villageProfile.pengelola.nama}
+          &copy; {new Date().getFullYear()} {village.pengelola.nama}
         </p>
       </div>
     </footer>

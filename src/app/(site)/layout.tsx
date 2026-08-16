@@ -5,6 +5,7 @@ import { SiteBackground } from "@/components/SiteBackground";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import { PageTransition } from "@/components/PageTransition";
+import { getSiteSettings } from "@/lib/siteSettings";
 
 /**
  * Kulit situs yang persisten.
@@ -13,7 +14,11 @@ import { PageTransition } from "@/components/PageTransition";
  * di-mount ulang saat pindah halaman — hanya bagian tengah (children) yang
  * berganti, lengkap dengan animasi transisinya.
  */
-export default function SiteLayout({ children }: LayoutProps<"/">) {
+export const revalidate = 60;
+
+export default async function SiteLayout({ children }: LayoutProps<"/">) {
+  const { village } = await getSiteSettings();
+
   return (
     <>
       <SiteBackground />
@@ -25,7 +30,7 @@ export default function SiteLayout({ children }: LayoutProps<"/">) {
           <main className="flex flex-1 flex-col pt-20">
             <PageTransition>{children}</PageTransition>
           </main>
-          <Footer />
+          <Footer village={village} />
         </div>
       </LanguageProvider>
     </>

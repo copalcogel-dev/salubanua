@@ -7,7 +7,7 @@ import { motion } from "framer-motion";
 import { ArrowUpRight, Images, PlayCircle } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 import { useLanguage } from "@/context/LanguageContext";
-import { categories, type Lang } from "@/data/site";
+import { type Lang } from "@/data/site";
 import { categoryIcons } from "@/lib/categoryIcons";
 import { duration, easeOut } from "@/lib/motion";
 import { glassCard, glassSubtle, surfaceTransition } from "@/lib/ui";
@@ -15,8 +15,8 @@ import { MountainScene } from "./MountainScene";
 import { CategorySelector } from "./CategorySelector";
 import type { Article } from "@/lib/content";
 import type { DestinationEntry } from "@/lib/destinations";
-
-type Category = (typeof categories)[number];
+import type { CategoryEntry } from "@/lib/categories";
+import type { PageContent } from "@/lib/pageContent";
 
 /**
  * Artikel yang isinya benar-benar membahas kategori terkait. Kategori tanpa
@@ -29,10 +29,14 @@ const categoryArticleSlug: Partial<Record<string, string>> = {
 };
 
 export function Destinations({
+  content,
   articles,
+  categories,
   destinations,
 }: {
+  content: PageContent;
   articles: Article[];
+  categories: CategoryEntry[];
   destinations: DestinationEntry[];
 }) {
   const { lang, t } = useLanguage();
@@ -49,16 +53,20 @@ export function Destinations({
       <div className="mx-auto max-w-6xl px-6 lg:px-10">
         <div className="mx-auto max-w-2xl text-center">
           <p className="mb-3 text-[11px] font-semibold tracking-[0.3em] text-white/70">
-            {t.explore.kicker}
+            {content.kicker[lang]}
           </p>
           <h1 className="mb-4 text-3xl font-semibold text-white sm:text-4xl">
-            {t.destinations.title}
+            {content.title[lang]}
           </h1>
-          <p className="text-sm leading-relaxed text-white/80">{t.explore.body}</p>
+          <p className="text-sm leading-relaxed text-white/80">{content.body[lang]}</p>
         </div>
 
         <div className="mx-auto mt-8 max-w-4xl lg:mt-10">
-          <CategorySelector activeKey={activeKey} onSelect={setActiveKey} />
+          <CategorySelector
+            categories={categories}
+            activeKey={activeKey}
+            onSelect={setActiveKey}
+          />
         </div>
 
         <motion.div
@@ -101,7 +109,7 @@ function ArticlePanel({
   readMoreLabel,
   sampleLabel,
 }: {
-  category: Category;
+  category: CategoryEntry;
   ActiveIcon: LucideIcon;
   destination: DestinationEntry | undefined;
   article: Article | undefined;
@@ -199,12 +207,21 @@ function GalleryPanel({
   lang,
   sampleLabel,
 }: {
-  category: Category;
+  category: CategoryEntry;
   destination: DestinationEntry | undefined;
   lang: Lang;
   sampleLabel: string;
 }) {
-  const tileAccents = [category.accent, "#7fa9a3", "#4a5d3a", "#2f5233"];
+  // Foto galeri dari Studio dipakai bila ada; kalau belum, foto sampul dan
+  // ilustrasi bawaan mengisi kotaknya supaya tata letaknya tetap utuh.
+  const photos = destination?.galleryUrls.length
+    ? destination.galleryUrls.slice(0, 4)
+    : destination?.coverImageUrl
+      ? [destination.coverImageUrl]
+      : [];
+  const placeholderAccents = [category.accent, "#7fa9a3", "#4a5d3a", "#2f5233"];
+  const tiles = Array.from({ length: 4 }, (_, i) => photos[i] ?? null);
+  const usingRealGallery = (destination?.galleryUrls.length ?? 0) > 0;
 
   return (
     <div className="p-7 sm:p-9">
@@ -219,18 +236,21 @@ function GalleryPanel({
       </p>
 
       <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
-        {tileAccents.map((accent, i) => (
+        {tiles.map((photo, i) => (
           <div key={i} className="relative aspect-square overflow-hidden rounded-2xl">
-            {i === 0 && destination?.coverImageUrl ? (
+            {photo ? (
               <Image
-                src={destination.coverImageUrl}
-                alt={destination[lang].title}
+                src={photo}
+                alt={destination?.[lang].title ?? category[lang].title}
                 fill
                 sizes="(min-width: 640px) 260px, 45vw"
                 className="object-cover"
               />
             ) : (
-              <MountainScene accent={accent} className="h-full w-full object-cover" />
+              <MountainScene
+                accent={placeholderAccents[i % placeholderAccents.length]}
+                className="h-full w-full object-cover"
+              />
             )}
             {destination?.isSample && (
               <span className="absolute right-2 top-2 rounded-full bg-white/15 px-2 py-0.5 text-[8px] font-bold uppercase tracking-wide text-white backdrop-blur-sm">
@@ -239,22 +259,41 @@ function GalleryPanel({
             )}
           </div>
         ))}
-        <div className="relative flex aspect-square items-center justify-center overflow-hidden rounded-2xl border border-dashed border-white/20 bg-white/[0.03] text-white/50">
-          <div className="flex flex-col items-center gap-1.5 px-3 text-center">
-            <PlayCircle size={22} strokeWidth={1.5} />
-            <span className="text-[9px] font-semibold uppercase tracking-wide">
-              {lang === "id" ? "Video Contoh" : "Sample Video"}
-            </span>
+
+        {destination?.videoUrl ? (
+          <a
+            href={destination.videoUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className={`group relative flex aspect-square items-center justify-center overflow-hidden !rounded-2xl text-white/70 ${surfaceTransition} duration-300 hover:text-white ${glassSubtle}`}
+          >
+            <div className="flex flex-col items-center gap-1.5 px-3 text-center">
+              <PlayCircle size={22} strokeWidth={1.5} />
+              <span className="text-[9px] font-semibold uppercase tracking-wide">
+                {lang === "id" ? "Tonton Video" : "Watch Video"}
+              </span>
+            </div>
+          </a>
+        ) : (
+          <div className="relative flex aspect-square items-center justify-center overflow-hidden rounded-2xl border border-dashed border-white/20 bg-white/[0.03] text-white/50">
+            <div className="flex flex-col items-center gap-1.5 px-3 text-center">
+              <PlayCircle size={22} strokeWidth={1.5} />
+              <span className="text-[9px] font-semibold uppercase tracking-wide">
+                {lang === "id" ? "Video Menyusul" : "Video Coming Soon"}
+              </span>
+            </div>
           </div>
-        </div>
+        )}
       </div>
 
-      <div className="mt-4 flex items-center gap-3 rounded-2xl border border-dashed border-white/20 p-4 text-xs leading-relaxed text-white/60">
-        <Images size={16} className="shrink-0 text-white/40" />
-        {lang === "id"
-          ? "Foto dan video di atas adalah contoh tampilan. Galeri asli akan menggantikannya setelah tersedia dari PokDarWis Pentuho Malolo."
-          : "The photos and video above are sample placeholders. The real gallery will replace them once available from PokDarWis Pentuho Malolo."}
-      </div>
+      {!usingRealGallery && (
+        <div className="mt-4 flex items-center gap-3 rounded-2xl border border-dashed border-white/20 p-4 text-xs leading-relaxed text-white/60">
+          <Images size={16} className="shrink-0 text-white/40" />
+          {lang === "id"
+            ? "Foto di atas masih contoh tampilan. Unggah foto galeri di dasbor admin untuk menggantikannya."
+            : "The photos above are still placeholders. Upload gallery photos in the admin dashboard to replace them."}
+        </div>
+      )}
     </div>
   );
 }

@@ -1,19 +1,21 @@
 "use client";
 
-import { categories } from "@/data/site";
 import { categoryIcons } from "@/lib/categoryIcons";
 import { glassSubtle, surfaceTransition } from "@/lib/ui";
 import { useLanguage } from "@/context/LanguageContext";
+import type { CategoryEntry } from "@/lib/categories";
 
 /**
  * Baris tombol kategori yang dipakai di Beranda dan Destinasi, supaya
  * tampilan & perilakunya identik di kedua halaman.
  */
 export function CategorySelector({
+  categories,
   activeKey,
   onSelect,
   className = "",
 }: {
+  categories: CategoryEntry[];
   activeKey: string;
   onSelect: (key: string) => void;
   className?: string;

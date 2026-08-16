@@ -1,17 +1,25 @@
 import type { Metadata } from "next";
 import { StoriesList } from "@/components/StoriesList";
 import { getArticles } from "@/lib/content";
-
-export const metadata: Metadata = {
-  title: "Artikel",
-  description:
-    "Catatan perjalanan, panduan praktis, dan kabar seputar pengembangan wisata Desa Salubanua.",
-};
+import { getPageContent } from "@/lib/pageContent";
 
 export const revalidate = 60;
 
-export default async function StoriesPage() {
-  const articles = await getArticles();
+export async function generateMetadata(): Promise<Metadata> {
+  const content = await getPageContent("stories");
+  return {
+    title: content.seoTitle ?? "Artikel",
+    description:
+      content.seoDescription ??
+      "Catatan perjalanan, panduan praktis, dan kabar seputar pengembangan wisata Desa Salubanua.",
+  };
+}
 
-  return <StoriesList articles={articles} />;
+export default async function StoriesPage() {
+  const [content, articles] = await Promise.all([
+    getPageContent("stories"),
+    getArticles(),
+  ]);
+
+  return <StoriesList articles={articles} content={content} />;
 }

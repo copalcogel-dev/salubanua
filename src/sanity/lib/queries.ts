@@ -94,6 +94,8 @@ export type SanityDestination = {
   available: boolean;
   statusId: string | null;
   statusEn: string | null;
+  gallery: SanityImageRef[] | null;
+  videoUrl: string | null;
 };
 
 const DESTINATION_FIELDS = /* groq */ `
@@ -108,7 +110,9 @@ const DESTINATION_FIELDS = /* groq */ `
   coverImage,
   available,
   "statusId": status.id,
-  "statusEn": status.en
+  "statusEn": status.en,
+  gallery,
+  videoUrl
 `;
 
 const ALL_DESTINATIONS_QUERY = /* groq */ `
@@ -126,11 +130,22 @@ export async function fetchSanityDestinations(): Promise<SanityDestination[]> {
 
 export type SanitySiteSettings = {
   phone: string | null;
-  socials: { platform: string; handle: string; url: string }[];
+  socials: { platform: string; handle: string; url: string }[] | null;
+  dusun: string | null;
+  desa: string | null;
+  kecamatan: string | null;
+  kabupaten: string | null;
+  provinsi: string | null;
+  pengelolaNama: string | null;
+  pengelolaMitra: string | null;
 };
 
 const SITE_SETTINGS_QUERY = /* groq */ `
-  *[_type == "siteSettings"][0] { phone, socials }
+  *[_type == "siteSettings"][0] {
+    phone, socials,
+    dusun, desa, kecamatan, kabupaten, provinsi,
+    pengelolaNama, pengelolaMitra
+  }
 `;
 
 export async function fetchSanitySiteSettings(): Promise<SanitySiteSettings | null> {
@@ -139,5 +154,52 @@ export async function fetchSanitySiteSettings(): Promise<SanitySiteSettings | nu
     return await client.fetch(SITE_SETTINGS_QUERY, {}, { next: { revalidate: 60 } });
   } catch {
     return null;
+  }
+}
+
+type SanityBilingual = { id: string | null; en: string | null } | null;
+
+export type SanityPage = {
+  key: string;
+  kicker: SanityBilingual;
+  title: SanityBilingual;
+  subtitle: SanityBilingual;
+  body: SanityBilingual;
+  ctaLabel: SanityBilingual;
+  seoTitle: string | null;
+  seoDescription: string | null;
+};
+
+const PAGE_QUERY = /* groq */ `
+  *[_type == "page" && key == $key][0] {
+    key, kicker, title, subtitle, body, ctaLabel, seoTitle, seoDescription
+  }
+`;
+
+export async function fetchSanityPage(key: string): Promise<SanityPage | null> {
+  if (!isSanityConfigured || !client) return null;
+  try {
+    return await client.fetch(PAGE_QUERY, { key }, { next: { revalidate: 60 } });
+  } catch {
+    return null;
+  }
+}
+
+export type SanityCategory = {
+  key: string;
+  title: SanityBilingual;
+  description: SanityBilingual;
+};
+
+const CATEGORIES_QUERY = /* groq */ `
+  *[_type == "category" && defined(key)] { key, title, description }
+`;
+
+export async function fetchSanityCategories(): Promise<SanityCategory[]> {
+  if (!isSanityConfigured || !client) return [];
+  try {
+    return await client.fetch(CATEGORIES_QUERY, {}, { next: { revalidate: 60 } });
+  } catch {
+    return [];
   }
 }

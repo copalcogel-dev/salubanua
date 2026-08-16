@@ -8,6 +8,9 @@ export type DestinationEntry = {
   isSample: boolean;
   available: boolean;
   coverImageUrl: string | null;
+  /** Foto tambahan, dipakai galeri pada kategori Spot Foto. */
+  galleryUrls: string[];
+  videoUrl: string | null;
   id: { title: string; subtitle: string; desc: string; status: string };
   en: { title: string; subtitle: string; desc: string; status: string };
 };
@@ -19,6 +22,8 @@ function localToDestination(d: (typeof localDestinations)[number]): DestinationE
     isSample: d.isSample,
     available: d.available,
     coverImageUrl: d.key === "pentuho" ? "/images/gunung-pentuho.jpg" : null,
+    galleryUrls: [],
+    videoUrl: null,
     id: d.id,
     en: d.en,
   };
@@ -36,6 +41,10 @@ export async function getDestinations(): Promise<DestinationEntry[]> {
       coverImageUrl: d.coverImage
         ? urlForImage(d.coverImage).width(1200).height(800).url()
         : null,
+      galleryUrls: (d.gallery ?? [])
+        .filter(Boolean)
+        .map((img) => urlForImage(img!).width(800).height(800).url()),
+      videoUrl: d.videoUrl ?? null,
       id: {
         title: d.titleId,
         subtitle: d.subtitleId ?? "",

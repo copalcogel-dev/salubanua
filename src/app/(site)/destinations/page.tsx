@@ -2,17 +2,35 @@ import type { Metadata } from "next";
 import { Destinations } from "@/components/Destinations";
 import { getArticles } from "@/lib/content";
 import { getDestinations } from "@/lib/destinations";
-
-export const metadata: Metadata = {
-  title: "Destinasi",
-  description:
-    "Jelajahi kategori wisata dan destinasi pilihan Desa Salubanua, mulai dari Gunung Pentuho hingga air terjun dan camping ground.",
-};
+import { getCategories } from "@/lib/categories";
+import { getPageContent } from "@/lib/pageContent";
 
 export const revalidate = 60;
 
-export default async function DestinationsPage() {
-  const [articles, destinations] = await Promise.all([getArticles(), getDestinations()]);
+export async function generateMetadata(): Promise<Metadata> {
+  const content = await getPageContent("destinations");
+  return {
+    title: content.seoTitle ?? "Destinasi",
+    description:
+      content.seoDescription ??
+      "Jelajahi kategori wisata dan destinasi pilihan Desa Salubanua, mulai dari Gunung Pentuho hingga air terjun dan camping ground.",
+  };
+}
 
-  return <Destinations articles={articles} destinations={destinations} />;
+export default async function DestinationsPage() {
+  const [content, articles, categories, destinations] = await Promise.all([
+    getPageContent("destinations"),
+    getArticles(),
+    getCategories(),
+    getDestinations(),
+  ]);
+
+  return (
+    <Destinations
+      content={content}
+      articles={articles}
+      categories={categories}
+      destinations={destinations}
+    />
+  );
 }

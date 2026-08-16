@@ -8,10 +8,17 @@ import { useLanguage } from "@/context/LanguageContext";
 import { formatArticleDate, type Article } from "@/lib/content";
 import { MountainScene } from "./MountainScene";
 import { glassCard } from "@/lib/ui";
+import type { PageContent } from "@/lib/pageContent";
 
 const fallbackAccents = ["#2f6b74", "#5a5433", "#4a5d3a", "#6b4a3f", "#3f6b4f"];
 
-export function StoriesList({ articles }: { articles: Article[] }) {
+export function StoriesList({
+  articles,
+  content,
+}: {
+  articles: Article[];
+  content: PageContent;
+}) {
   const { lang, t } = useLanguage();
 
   return (
@@ -19,13 +26,13 @@ export function StoriesList({ articles }: { articles: Article[] }) {
       <div className="relative mx-auto max-w-7xl px-6 lg:px-10">
         <div className="mb-12 max-w-2xl">
           <p className="mb-3 text-[11px] font-semibold tracking-[0.3em] text-white/70">
-            {t.stories.kicker}
+            {content.kicker[lang]}
           </p>
           <h1 className="mb-4 text-4xl font-semibold text-white sm:text-5xl">
-            {t.stories.allTitle}
+            {content.title[lang]}
           </h1>
           <p className="text-[15px] leading-relaxed text-white/80">
-            {t.stories.body}
+            {content.body[lang]}
           </p>
         </div>
 

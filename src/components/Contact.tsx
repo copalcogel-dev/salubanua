@@ -3,10 +3,10 @@
 import { motion } from "framer-motion";
 import { MapPin, Phone, Users2, Share2, Info, type LucideIcon } from "lucide-react";
 import { useLanguage } from "@/context/LanguageContext";
-import { villageProfile } from "@/data/site";
 import { enterTransition, stagger } from "@/lib/motion";
 import { cardSheen, glassCard } from "@/lib/ui";
-import type { SiteContactInfo } from "@/lib/siteSettings";
+import type { SiteContactInfo, VillageProfile } from "@/lib/siteSettings";
+import type { PageContent } from "@/lib/pageContent";
 
 function ContactCard({
   icon: Icon,
@@ -70,8 +70,16 @@ function ContactCard({
   );
 }
 
-export function Contact({ contactInfo }: { contactInfo: SiteContactInfo }) {
-  const { t } = useLanguage();
+export function Contact({
+  content,
+  contactInfo,
+  village,
+}: {
+  content: PageContent;
+  contactInfo: SiteContactInfo;
+  village: VillageProfile;
+}) {
+  const { lang, t } = useLanguage();
   const sampleBadge = contactInfo.isSample ? t.stories.sampleBadge : undefined;
 
   return (
@@ -85,26 +93,26 @@ export function Contact({ contactInfo }: { contactInfo: SiteContactInfo }) {
           className="mb-10"
         >
           <p className="mb-3 text-[11px] font-semibold tracking-[0.3em] text-white/70">
-            {t.contact.kicker}
+            {content.kicker[lang]}
           </p>
           <h2 className="text-3xl font-semibold text-white sm:text-4xl lg:text-5xl">
-            {t.contact.title}
+            {content.title[lang]}
           </h2>
         </motion.div>
 
         <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
           <ContactCard icon={MapPin} label={t.contact.addressLabel} index={0}>
-            Dusun {villageProfile.dusun}, Desa {villageProfile.desa}
+            Dusun {village.dusun}, Desa {village.desa}
             <br />
-            Kec. {villageProfile.kecamatan}, Kab. {villageProfile.kabupaten}
+            Kec. {village.kecamatan}, Kab. {village.kabupaten}
             <br />
-            {villageProfile.provinsi}
+            {village.provinsi}
           </ContactCard>
 
           <ContactCard icon={Users2} label={t.contact.managedByLabel} index={1}>
-            {villageProfile.pengelola.nama}
+            {village.pengelola.nama}
             <br />
-            {villageProfile.pengelola.mitra}
+            {village.pengelola.mitra}
           </ContactCard>
 
           {contactInfo.phone ? (
