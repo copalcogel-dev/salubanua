@@ -99,6 +99,7 @@ export type SanityDestination = {
   gallery: SanityImageRef[] | null;
   videoUrl: string | null;
   isSample: boolean | null;
+  order: number | null;
 };
 
 const DESTINATION_FIELDS = /* groq */ `
@@ -116,11 +117,15 @@ const DESTINATION_FIELDS = /* groq */ `
   "statusEn": status.en,
   gallery,
   videoUrl,
-  isSample
+  isSample,
+  order
 `;
 
 const ALL_DESTINATIONS_QUERY = /* groq */ `
-  *[_type == "destination" && defined(title.id)] | order(_createdAt asc) { ${DESTINATION_FIELDS} }
+  // "@." wajib di sini: tanpa itu GROQ membaca "order" sebagai nama fungsi
+  // pengurutannya sendiri, bukan sebagai kolom dokumen, dan urutannya diabaikan.
+  *[_type == "destination" && defined(title.id)]
+    | order(coalesce(@.order, 100) asc, _createdAt asc) { ${DESTINATION_FIELDS} }
 `;
 
 export async function fetchSanityDestinations(): Promise<SanityDestination[]> {

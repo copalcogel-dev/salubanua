@@ -6,8 +6,11 @@
  * Yang perlu diketahui:
  *  - Butuh SANITY_API_TOKEN (izin Editor) di .env.local. Token hanya dibaca
  *    dari file, tidak pernah ditulis ke mana pun oleh skrip ini.
- *  - Setiap dokumen memakai _id tetap berawalan "seed.", jadi menjalankan
+ *  - Setiap dokumen memakai _id tetap berawalan "seed-", jadi menjalankan
  *    ulang skrip ini memperbarui dokumen yang sama — tidak menumpuk duplikat.
+ *    Tanda hubung, bukan titik: Sanity menyembunyikan dokumen ber-ID bertitik
+ *    dari pembaca publik (mekanisme yang sama seperti draf), sehingga situs
+ *    tidak akan bisa membacanya.
  *  - Dokumen yang Anda buat sendiri lewat Studio punya _id acak, sehingga
  *    tidak akan pernah tertimpa skrip ini.
  *  - Artikel & destinasi contoh ditandai isSample: true supaya tampil dengan
@@ -134,7 +137,7 @@ async function run() {
   const en = dictionary.en;
 
   docs.push({
-    _id: "seed.page.home",
+    _id: "seed-page-home",
     _type: "page",
     key: "home",
     kicker: bilingual(id.hero.kicker, en.hero.kicker),
@@ -144,7 +147,7 @@ async function run() {
     ctaLabel: bilingual(id.hero.cta, en.hero.cta),
   });
   docs.push({
-    _id: "seed.page.destinations",
+    _id: "seed-page-destinations",
     _type: "page",
     key: "destinations",
     kicker: bilingual(id.explore.kicker, en.explore.kicker),
@@ -152,7 +155,7 @@ async function run() {
     body: bilingual(id.explore.body, en.explore.body),
   });
   docs.push({
-    _id: "seed.page.stories",
+    _id: "seed-page-stories",
     _type: "page",
     key: "stories",
     kicker: bilingual(id.stories.kicker, en.stories.kicker),
@@ -160,7 +163,7 @@ async function run() {
     body: bilingual(id.stories.body, en.stories.body),
   });
   docs.push({
-    _id: "seed.page.about",
+    _id: "seed-page-about",
     _type: "page",
     key: "about",
     kicker: bilingual(id.discover.kicker, en.discover.kicker),
@@ -168,7 +171,7 @@ async function run() {
     body: bilingual(id.discover.body, en.discover.body),
   });
   docs.push({
-    _id: "seed.page.contact",
+    _id: "seed-page-contact",
     _type: "page",
     key: "contact",
     kicker: bilingual(id.contact.kicker, en.contact.kicker),
@@ -178,7 +181,7 @@ async function run() {
   /* --- Kategori (nama asli) --- */
   for (const c of categories) {
     docs.push({
-      _id: `seed.category.${c.key}`,
+      _id: `seed-category-${c.key}`,
       _type: "category",
       key: c.key,
       title: bilingual(c.id.title, c.en.title),
@@ -188,7 +191,7 @@ async function run() {
 
   /* --- Profil desa (data asli) + kontak yang masih ditandai contoh --- */
   docs.push({
-    _id: "seed.siteSettings",
+    _id: "seed-siteSettings",
     _type: "siteSettings",
     dusun: villageProfile.dusun,
     desa: villageProfile.desa,
@@ -213,9 +216,9 @@ async function run() {
   const pentuhoImage = await uploadImage("public/images/gunung-pentuho.jpg");
 
   /* --- Destinasi --- */
-  for (const d of destinations) {
+  destinations.forEach((d, index) => {
     docs.push({
-      _id: `seed.destination.${d.key}`,
+      _id: `seed-destination-${d.key}`,
       _type: "destination",
       category: d.category,
       title: bilingual(d.id.title, d.en.title),
@@ -223,17 +226,19 @@ async function run() {
       description: bilingual(d.id.desc, d.en.desc),
       status: bilingual(d.id.status, d.en.status),
       available: d.available,
+      // Urutan mengikuti susunan aslinya; Gunung Pentuho tetap paling depan.
+      order: index,
       isSample: d.isSample === true,
       ...(d.key === "pentuho" && pentuhoImage
         ? { coverImage: pentuhoImage }
         : {}),
     });
-  }
+  });
 
   /* --- Artikel contoh --- */
   for (const a of localArticles) {
     docs.push({
-      _id: `seed.post.${a.slug}`,
+      _id: `seed-post-${a.slug}`,
       _type: "post",
       title: bilingual(a.id.title, a.en.title),
       slug: { _type: "slug", current: a.slug },
@@ -247,6 +252,10 @@ async function run() {
   }
 
   console.log(`Menulis ${docs.length} dokumen…\n`);
+
+  // Versi awal skrip ini memakai ID bertitik yang tidak terbaca publik.
+  // Hapus sisa-sisanya supaya tidak ada dokumen tak terpakai yang tertinggal.
+  await client.delete({ query: '*[_id in path("seed.**")]' });
 
   let tx = client.transaction();
   for (const doc of docs) tx = tx.createOrReplace(doc);

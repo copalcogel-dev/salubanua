@@ -75,6 +75,14 @@ export const destinationType = defineType({
       initialValue: true,
     }),
     defineField({
+      name: "order",
+      title: "Urutan Tampil",
+      description:
+        "Angka kecil tampil lebih dulu. Destinasi unggulan sebaiknya diberi angka terkecil.",
+      type: "number",
+      initialValue: 100,
+    }),
+    defineField({
       name: "isSample",
       title: "Ini konten contoh",
       description:
