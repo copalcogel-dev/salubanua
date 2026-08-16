@@ -39,9 +39,19 @@ const ARROW_SIZE = 44;
  * tombol gesernya tidak ada gunanya).
  */
 const sizePresets = {
-  compact: { card: [150, 186, 206], image: [166, 196, 212], maxPerPage: 6 },
-  large: { card: [156, 206, 244], image: [150, 232, 246], maxPerPage: 3 },
+  compact: { card: [150, 186, 206], image: [166, 196, 212], text: [86, 96, 100], maxPerPage: 6 },
+  large: { card: [156, 206, 244], image: [150, 232, 246], text: [92, 112, 116], maxPerPage: 3 },
 } as const;
+
+/**
+ * Batas tinggi foto saat kartu menyesuaikan tinggi layar (`fillHeight`).
+ *
+ * Layar pendek boleh menyusut di bawah ukuran preset supaya beranda tetap
+ * muat satu layar; layar tinggi boleh membesar mengisi ruang yang tersisa,
+ * tapi tidak sampai kartunya terlihat kelewat jangkung.
+ */
+const FILL_IMAGE_MIN = 100;
+const FILL_IMAGE_MAX = 520;
 
 function pickResponsive(values: readonly number[], viewportWidth: number) {
   if (viewportWidth >= 1024) return values[2];
@@ -73,10 +83,17 @@ export function DestinationCardRow({
   items,
   size = "compact",
   sampleLabel = "CONTOH",
+  fillHeight = false,
 }: {
   items: DestinationCardItem[];
   size?: "compact" | "large";
   sampleLabel?: string;
+  /**
+   * Membesarkan kartu agar mengisi sisa ruang sampai footer. Dipakai di
+   * beranda, yang dirancang muat tepat satu layar — tanpa ini, layar yang
+   * tinggi menyisakan ruang kosong di bawah kartu.
+   */
+  fillHeight?: boolean;
 }) {
   const preset = sizePresets[size];
   const rowRef = useRef<HTMLDivElement>(null);
@@ -101,8 +118,8 @@ export function DestinationCardRow({
     if (!row) return;
 
     const vw = window.innerWidth;
-    const nextCardW = pickResponsive(preset.card, vw);
-    const nextImageH = pickResponsive(preset.image, vw);
+    const baseCardW = pickResponsive(preset.card, vw);
+    const baseImageH = pickResponsive(preset.image, vw);
     const nextGap = pickResponsive(GAPS, vw);
 
     // Panah hanya tampil mulai breakpoint `sm`; di bawah itu ruangnya utuh
@@ -112,6 +129,31 @@ export function DestinationCardRow({
     const rowGap = vw >= 640 ? 16 : 12;
     const reserved = arrowsShown ? 2 * (ARROW_SIZE + rowGap) : 0;
     const available = row.clientWidth - reserved;
+
+    let nextCardW = baseCardW;
+    let nextImageH = baseImageH;
+
+    if (fillHeight) {
+      // Sisa ruang dihitung dari posisi baris ini sampai atas footer.
+      // Tinggi footer dipakai (bukan posisinya), karena posisi footer ikut
+      // terdorong saat kartu membesar dan akan membuat perhitungan berputar.
+      const footerH =
+        document.querySelector("footer")?.getBoundingClientRect().height ?? 0;
+      const rowTop = row.getBoundingClientRect().top + window.scrollY;
+      const breathingRoom = 24;
+      const spaceForRow = window.innerHeight - rowTop - footerH - breathingRoom;
+      const textH = pickResponsive(preset.text, vw);
+
+      nextImageH = Math.round(
+        Math.min(Math.max(spaceForRow - textH, FILL_IMAGE_MIN), FILL_IMAGE_MAX)
+      );
+
+      // Lebar ikut tumbuh menjaga proporsi potret, tapi dibatasi agar jumlah
+      // kartu per halaman tidak berkurang gara-gara kartunya melebar.
+      const widthCap = Math.floor((available + nextGap) / preset.maxPerPage) - nextGap;
+      const proportional = Math.round(nextImageH * (baseCardW / baseImageH));
+      nextCardW = Math.min(Math.max(proportional, baseCardW), Math.max(widthCap, baseCardW));
+    }
 
     // Berapa kartu utuh yang muat di ruang tersedia — sisa ruang yang tidak
     // cukup untuk satu kartu penuh sengaja dibiarkan kosong, bukan diisi
@@ -123,7 +165,7 @@ export function DestinationCardRow({
     setGap(nextGap);
     setPerPage(Math.min(Math.max(fits, 1), preset.maxPerPage, items.length));
     syncArrows();
-  }, [items.length, preset, syncArrows]);
+  }, [items.length, preset, syncArrows, fillHeight]);
 
   useIsomorphicLayoutEffect(() => {
     measure();

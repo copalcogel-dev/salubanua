@@ -145,7 +145,9 @@ export function Contact({
                     href={s.url}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="transition hover:text-white"
+                    // Tanpa efek hover sama sekali. Garis bawah statis yang
+                    // menandakan ini tautan, bukan perubahan warna saat disorot.
+                    className="underline decoration-white/30 underline-offset-4"
                   >
                     {s.platform}: {s.handle}
                   </a>
