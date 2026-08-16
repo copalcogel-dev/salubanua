@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { MapPin, Phone, Users2, Share2, Info, type LucideIcon } from "lucide-react";
+import { MapPin, Phone, Users2, Share2, Info, ExternalLink, type LucideIcon } from "lucide-react";
 import { useLanguage } from "@/context/LanguageContext";
 import { enterTransition, stagger } from "@/lib/motion";
 import { cardSheen, glassCard } from "@/lib/ui";
@@ -160,6 +160,42 @@ export function Contact({
             </ContactCard>
           )}
         </div>
+
+        {contactInfo.coordinates && (
+          <motion.div
+            initial={{ opacity: 0, y: 22 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-80px" }}
+            transition={{ ...enterTransition, delay: stagger(4) }}
+            className={`relative mt-7 overflow-hidden p-3 ${glassCard}`}
+          >
+            <div className="mb-3 flex items-center justify-between gap-3 px-2 pt-1">
+              <p className="text-[10px] font-semibold uppercase tracking-[0.22em] text-white/50">
+                {t.contact.mapLabel}
+              </p>
+              {contactInfo.mapUrl && (
+                <a
+                  href={contactInfo.mapUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-1.5 text-xs font-semibold text-white underline decoration-white/30 underline-offset-4"
+                >
+                  {t.contact.openInMaps}
+                  <ExternalLink size={12} strokeWidth={2.5} />
+                </a>
+              )}
+            </div>
+            <div className="h-64 overflow-hidden rounded-2xl sm:h-80">
+              <iframe
+                title={t.contact.mapLabel}
+                src={`https://www.google.com/maps?q=${contactInfo.coordinates.lat},${contactInfo.coordinates.lng}&z=15&output=embed`}
+                loading="lazy"
+                referrerPolicy="no-referrer-when-downgrade"
+                className="h-full w-full grayscale-[0.3] contrast-[1.05]"
+              />
+            </div>
+          </motion.div>
+        )}
 
         {contactInfo.isSample && (
           <motion.div

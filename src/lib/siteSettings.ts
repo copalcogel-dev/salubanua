@@ -6,6 +6,8 @@ export type SiteContactInfo = {
   phone: string | null;
   whatsappUrl: string | null;
   socials: { platform: string; handle: string; url: string }[];
+  mapUrl: string | null;
+  coordinates: { lat: number; lng: number } | null;
 };
 
 export type VillageProfile = {
@@ -44,12 +46,23 @@ export async function getSiteSettings(): Promise<SiteSettings> {
    */
   const isSample = hasCmsContact ? cms?.contactIsSample === true : true;
 
+  // Lokasi peta bukan bagian dari status "contoh" di atas — koordinatnya
+  // sudah data asli sejak awal, terlepas dari nomor/sosial media.
+  const mapUrl = cms?.mapUrl?.trim() || contactInfo.mapUrl;
+  const latitude = cms?.latitude ?? contactInfo.latitude;
+  const longitude = cms?.longitude ?? contactInfo.longitude;
+
   return {
     contact: {
       isSample,
       phone,
       whatsappUrl: phone ? `https://wa.me/${phone.replace(/\D/g, "")}` : null,
       socials,
+      mapUrl: mapUrl || null,
+      coordinates:
+        typeof latitude === "number" && typeof longitude === "number"
+          ? { lat: latitude, lng: longitude }
+          : null,
     },
     village: {
       dusun: cms?.dusun?.trim() || villageProfile.dusun,

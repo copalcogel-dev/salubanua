@@ -73,6 +73,27 @@ export const siteSettingsType = defineType({
       group: "kontak",
     }),
     defineField({
+      name: "mapUrl",
+      title: "Tautan Google Maps",
+      description:
+        "Salin dari tombol Bagikan di Google Maps (boleh tautan pendek maps.app.goo.gl). Dipakai untuk tombol \"Buka di Google Maps\".",
+      type: "url",
+      group: "kontak",
+    }),
+    defineField({
+      name: "latitude",
+      title: "Latitude",
+      description: "Diambil dari tautan Google Maps di atas, untuk menampilkan peta.",
+      type: "number",
+      group: "kontak",
+    }),
+    defineField({
+      name: "longitude",
+      title: "Longitude",
+      type: "number",
+      group: "kontak",
+    }),
+    defineField({
       name: "socials",
       title: "Sosial Media",
       type: "array",

@@ -427,6 +427,10 @@ export const contactInfo = {
   isSample: true,
   phone: "+62 813-4567-8900",
   whatsappUrl: "https://wa.me/6281345678900",
+  // Titik lokasi Dusun Lombo' Ipo di Google Maps — data asli, bukan contoh.
+  mapUrl: "https://maps.app.goo.gl/BbKbSGz9sR2tLMAm7",
+  latitude: -3.036559,
+  longitude: 119.107143,
   socials: [
     {
       platform: "Instagram",
@@ -518,6 +522,8 @@ export const dictionary = {
       phoneLabel: "WhatsApp / Telepon",
       phonePlaceholder: "Nomor kontak akan segera ditambahkan",
       socialLabel: "Sosial Media",
+      mapLabel: "Lokasi",
+      openInMaps: "Buka di Google Maps",
       sampleNotice:
         "Nomor dan akun sosial media di halaman ini adalah contoh tampilan. Kontak resmi akan menggantikannya setelah tersedia dari pengelola.",
     },
@@ -608,6 +614,8 @@ export const dictionary = {
       phoneLabel: "WhatsApp / Phone",
       phonePlaceholder: "Contact number coming soon",
       socialLabel: "Social Media",
+      mapLabel: "Location",
+      openInMaps: "Open in Google Maps",
       sampleNotice:
         "The phone number and social accounts on this page are sample placeholders. Official contacts will replace them once available from the managers.",
     },

@@ -148,13 +148,17 @@ export type SanitySiteSettings = {
   provinsi: string | null;
   pengelolaNama: string | null;
   pengelolaMitra: string | null;
+  mapUrl: string | null;
+  latitude: number | null;
+  longitude: number | null;
 };
 
 const SITE_SETTINGS_QUERY = /* groq */ `
   *[_type == "siteSettings"][0] {
     phone, contactIsSample, socials,
     dusun, desa, kecamatan, kabupaten, provinsi,
-    pengelolaNama, pengelolaMitra
+    pengelolaNama, pengelolaMitra,
+    mapUrl, latitude, longitude
   }
 `;
 
