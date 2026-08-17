@@ -39,11 +39,11 @@ export async function getDestinations(): Promise<DestinationEntry[]> {
       isSample: d.isSample ?? false,
       available: d.available,
       coverImageUrl: d.coverImage
-        ? urlForImage(d.coverImage).width(1200).height(800).url()
+        ? urlForImage(d.coverImage).width(1200).height(800).fit("max").url()
         : null,
       galleryUrls: (d.gallery ?? [])
         .filter(Boolean)
-        .map((img) => urlForImage(img!).width(800).height(800).url()),
+        .map((img) => urlForImage(img!).width(800).height(800).fit("max").url()),
       videoUrl: d.videoUrl ?? null,
       id: {
         title: d.titleId,

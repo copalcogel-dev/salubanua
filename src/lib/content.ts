@@ -54,7 +54,7 @@ export async function getArticles(): Promise<Article[]> {
       publishedAt: p.publishedAt,
       author: p.author,
       coverImageUrl: p.coverImage
-        ? urlForImage(p.coverImage).width(1200).height(800).url()
+        ? urlForImage(p.coverImage).width(1200).height(800).fit("max").url()
         : null,
       isSample: p.isSample ?? false,
       id: { title: p.titleId, excerpt: p.excerptId },
@@ -75,7 +75,7 @@ export async function getArticle(slug: string): Promise<ArticleDetail | null> {
       publishedAt: post.publishedAt,
       author: post.author,
       coverImageUrl: post.coverImage
-        ? urlForImage(post.coverImage).width(1600).height(900).url()
+        ? urlForImage(post.coverImage).width(1600).height(900).fit("max").url()
         : null,
       isSample: post.isSample ?? false,
       id: { title: post.titleId, excerpt: post.excerptId },

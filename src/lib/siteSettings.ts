@@ -95,7 +95,7 @@ export async function getSiteSettings(): Promise<SiteSettings> {
       },
     },
     mobileBackgroundUrl: cms?.mobileBackgroundImage
-      ? urlForImage(cms.mobileBackgroundImage).width(1200).height(1600).url()
+      ? urlForImage(cms.mobileBackgroundImage).width(1200).height(1600).fit("max").url()
       : null,
     maintenance: {
       enabled: cms?.maintenanceMode === true,
