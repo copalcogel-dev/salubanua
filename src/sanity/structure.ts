@@ -11,6 +11,22 @@ import type { StructureResolver } from "sanity/structure";
  * suatu saat dihapus & dibuat ulang dari Studio.
  */
 const pageFilter = (key: string) => `_type == "page" && key == "${key}"`;
+const categoryFilter = (key: string) => `_type == "destination" && category == "${key}"`;
+
+/**
+ * Foto & video destinasi hidup di dokumen "destination", bukan di dokumen
+ * "category" (yang isinya cuma nama tombol kategori) — kebingungan yang
+ * sempat terjadi karena keduanya sama-sama muncul di bawah menu Destinasi.
+ * Supaya klik "Pendakian" dkk. langsung menuju destinasi berisi field
+ * foto/video, tiap kategori di sini didaftarkan sebagai daftar destinasi
+ * yang sudah difilter, bukan dokumen kategori itu sendiri.
+ */
+const destinationCategories = [
+  { key: "hiking", title: "Pendakian" },
+  { key: "waterfall", title: "Air Terjun" },
+  { key: "camping", title: "Camping" },
+  { key: "homestay", title: "Homestay" },
+];
 
 export const structure: StructureResolver = (S) =>
   S.list()
@@ -40,14 +56,28 @@ export const structure: StructureResolver = (S) =>
                     .title("Teks Halaman Destinasi")
                     .filter(pageFilter("destinations"))
                 ),
+              S.divider(),
+              ...destinationCategories.map(({ key, title }) =>
+                S.listItem()
+                  .title(title)
+                  .schemaType("destination")
+                  .child(
+                    S.documentList()
+                      .title(title)
+                      .schemaType("destination")
+                      .filter(categoryFilter(key))
+                      .defaultOrdering([{ field: "order", direction: "asc" }])
+                  )
+              ),
+              S.divider(),
               S.listItem()
-                .title("Kategori Wisata")
-                .schemaType("category")
-                .child(S.documentTypeList("category").title("Kategori Wisata")),
-              S.listItem()
-                .title("Destinasi")
+                .title("Semua Destinasi")
                 .schemaType("destination")
-                .child(S.documentTypeList("destination").title("Destinasi")),
+                .child(S.documentTypeList("destination").title("Semua Destinasi")),
+              S.listItem()
+                .title("Nama & Ikon Kategori")
+                .schemaType("category")
+                .child(S.documentTypeList("category").title("Nama & Ikon Kategori")),
             ])
         ),
 
