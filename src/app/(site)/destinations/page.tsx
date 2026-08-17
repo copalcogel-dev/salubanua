@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import { Destinations } from "@/components/Destinations";
-import { getArticles } from "@/lib/content";
 import { getDestinations } from "@/lib/destinations";
 import { getCategories } from "@/lib/categories";
 import { getPageContent } from "@/lib/pageContent";
@@ -18,19 +17,13 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 export default async function DestinationsPage() {
-  const [content, articles, categories, destinations] = await Promise.all([
+  const [content, categories, destinations] = await Promise.all([
     getPageContent("destinations"),
-    getArticles(),
     getCategories(),
     getDestinations(),
   ]);
 
   return (
-    <Destinations
-      content={content}
-      articles={articles}
-      categories={categories}
-      destinations={destinations}
-    />
+    <Destinations content={content} categories={categories} destinations={destinations} />
   );
 }

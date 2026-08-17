@@ -2,29 +2,17 @@
 
 import { useMemo, useState, useSyncExternalStore } from "react";
 import Image from "next/image";
-import Link from "next/link";
 import { motion } from "framer-motion";
-import { ArrowUpRight, Camera, PlayCircle } from "lucide-react";
+import { Camera, PlayCircle } from "lucide-react";
 import { useLanguage } from "@/context/LanguageContext";
 import { categoryIcons } from "@/lib/categoryIcons";
 import { duration, easeOut } from "@/lib/motion";
 import { glassCard, glassSubtle, surfaceTransition } from "@/lib/ui";
 import { CategorySelector } from "./CategorySelector";
 import { Lightbox, toEmbedUrl, type LightboxItem } from "./Lightbox";
-import type { Article } from "@/lib/content";
 import type { DestinationEntry } from "@/lib/destinations";
 import type { CategoryEntry } from "@/lib/categories";
 import type { PageContent } from "@/lib/pageContent";
-
-/**
- * Artikel yang isinya benar-benar membahas kategori terkait. Kategori tanpa
- * entri di sini sengaja tidak diberi artikel paksaan — panel akan
- * menampilkan status "segera hadir" yang jujur.
- */
-const categoryArticleSlug: Partial<Record<string, string>> = {
-  hiking: "persiapan-mendaki-buntu-pentuho",
-  homestay: "mengenal-dusun-lombo-ipo",
-};
 
 type MediaTab = "photo" | "video";
 
@@ -39,12 +27,10 @@ function subscribeNever() {
 
 export function Destinations({
   content,
-  articles,
   categories,
   destinations,
 }: {
   content: PageContent;
-  articles: Article[];
   categories: CategoryEntry[];
   destinations: DestinationEntry[];
 }) {
@@ -115,8 +101,6 @@ export function Destinations({
   );
 
   const activeItems = tab === "photo" ? photos : videos;
-  const articleSlug = categoryArticleSlug[activeKey];
-  const article = articleSlug ? articles.find((a) => a.slug === articleSlug) : undefined;
 
   const selectCategory = (key: string) => {
     setActiveKey(key);
@@ -240,25 +224,6 @@ export function Destinations({
             <p className="rounded-2xl border border-dashed border-white/20 p-6 text-center text-sm text-white/60">
               {tab === "photo" ? t.destinations.noPhotos : t.destinations.noVideos}
             </p>
-          )}
-
-          {article && (
-            <Link
-              href={`/stories/${article.slug}`}
-              className={`group mt-6 flex items-center justify-between gap-4 !rounded-2xl p-4 ${surfaceTransition} duration-400 hover:border-white/25 hover:bg-white/[0.12] ${glassSubtle}`}
-            >
-              <div className="min-w-0">
-                <p className="mb-1 text-[9px] font-semibold uppercase tracking-[0.18em] text-white/50">
-                  {lang === "id" ? "Artikel terkait" : "Related article"}
-                </p>
-                <p className="truncate text-sm font-semibold text-white">
-                  {article[lang].title}
-                </p>
-              </div>
-              <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-white/15 text-white transition-transform duration-300 group-hover:translate-x-0.5">
-                <ArrowUpRight size={14} strokeWidth={2.5} />
-              </span>
-            </Link>
           )}
         </motion.div>
       </div>
