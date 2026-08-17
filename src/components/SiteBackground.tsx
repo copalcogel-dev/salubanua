@@ -15,16 +15,16 @@ const SITE_VIDEO_URL =
 const DEFAULT_POSTER = "/images/gunung-pentuho.jpg";
 
 /**
- * Videonya berukuran ~16 MB. Memutarnya untuk semua orang berarti setiap
- * pengunjung — termasuk yang memakai kuota HP — menanggung 16 MB hanya untuk
- * hiasan latar. Video karena itu hanya dimuat di layar lebar dan saat
- * pengguna tidak meminta animasi dikurangi.
+ * Diputar di semua ukuran layar, termasuk HP, atas permintaan eksplisit —
+ * konsistensi tampilan dianggap lebih penting daripada beban ~16 MB di
+ * kuota mobile. Tetap dimatikan kalau pengguna minta animasi dikurangi.
  *
  * `getServerSnapshot` sengaja mengembalikan `false` supaya elemen <video>
- * tidak ikut terkirim dalam HTML dari server; browser di HP jadi benar-benar
- * tidak pernah mengunduhnya, bukan sekadar menyembunyikannya lewat CSS.
+ * tidak ikut terkirim dalam HTML awal dari server (baru muncul setelah
+ * hydration mengecek preferensi), jadi tidak pernah mem-flash video lalu
+ * menghilang untuk pengguna yang memang minta animasi dikurangi.
  */
-const VIDEO_QUERY = "(min-width: 768px) and (prefers-reduced-motion: no-preference)";
+const VIDEO_QUERY = "(prefers-reduced-motion: no-preference)";
 
 function subscribe(onChange: () => void) {
   const mq = window.matchMedia(VIDEO_QUERY);
