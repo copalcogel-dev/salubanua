@@ -1,5 +1,4 @@
-import type { StructureBuilder } from "sanity/structure";
-import type { StructureResolver } from "sanity/structure";
+import type { StructureBuilder, StructureResolver } from "sanity/structure";
 
 /**
  * Sidebar Studio dikelompokkan mengikuti menu situs (Beranda / Destinasi /
@@ -7,6 +6,12 @@ import type { StructureResolver } from "sanity/structure";
  * pengelola bisa langsung menemukan "isi halaman mana yang mau diedit"
  * tanpa perlu tahu istilah teknis seperti "page" atau "siteSettings".
  *
+ * Tiap menu berdiri sendiri: kartu di Beranda dan destinasi di halaman
+ * Destinasi memakai jenis dokumen yang berbeda, jadi menambah foto di satu
+ * menu tidak pernah ikut mengubah menu lain.
+ */
+
+/**
  * "Teks Halaman X" dan "Profil Desa & Kontak" masing-masing cuma boleh ada
  * SATU dokumen — kode di `src/lib` selalu mengambil dokumen pertama yang
  * cocok, jadi kalau editor sampai membuat dokumen kedua secara tidak
@@ -20,28 +25,52 @@ const pageDoc = (S: StructureBuilder, id: string, title: string) =>
     .title(title)
     .child(S.document().schemaType("page").documentId(id).title(title));
 
-const categoryFilter = (key: string) => `_type == "destination" && category == "${key}"`;
-
-/**
- * Foto & video destinasi hidup di dokumen "destination", bukan di dokumen
- * "category" (yang isinya cuma nama tombol kategori) — kebingungan yang
- * sempat terjadi karena keduanya sama-sama muncul di bawah menu Destinasi.
- * Supaya klik "Pendakian" dkk. langsung menuju destinasi berisi field
- * foto/video, tiap kategori di sini didaftarkan sebagai daftar destinasi
- * yang sudah difilter, bukan dokumen kategori itu sendiri.
- */
-const destinationCategories = [
+const CATEGORIES = [
   { key: "hiking", title: "Pendakian" },
   { key: "waterfall", title: "Air Terjun" },
   { key: "camping", title: "Camping" },
   { key: "homestay", title: "Homestay" },
 ];
 
+/**
+ * Daftar dokumen satu kategori. `S.initialValueTemplates` tidak dipakai di
+ * sini, jadi kategori pada dokumen baru tetap perlu dipilih manual — filter
+ * ini murni soal apa yang tampil, bukan apa yang tersimpan.
+ */
+const byCategory = (S: StructureBuilder, type: string, key: string, title: string) =>
+  S.listItem()
+    .title(title)
+    .schemaType(type)
+    .child(
+      S.documentList()
+        .title(title)
+        .schemaType(type)
+        .filter(`_type == "${type}" && category == "${key}"`)
+        .defaultOrdering([{ field: "order", direction: "asc" }])
+    );
+
 export const structure: StructureResolver = (S) =>
   S.list()
     .title("Konten Situs")
     .items([
-      pageDoc(S, "seed-page-home", "Teks Beranda"),
+      S.listItem()
+        .title("Beranda")
+        .child(
+          S.list()
+            .title("Beranda")
+            .items([
+              pageDoc(S, "seed-page-home", "Teks Beranda"),
+              S.divider(),
+              ...CATEGORIES.map(({ key, title }) =>
+                byCategory(S, "homeCard", key, title)
+              ),
+              S.divider(),
+              S.listItem()
+                .title("Semua Kartu Beranda")
+                .schemaType("homeCard")
+                .child(S.documentTypeList("homeCard").title("Semua Kartu Beranda")),
+            ])
+        ),
 
       S.divider(),
 
@@ -53,17 +82,8 @@ export const structure: StructureResolver = (S) =>
             .items([
               pageDoc(S, "seed-page-destinations", "Teks Halaman Destinasi"),
               S.divider(),
-              ...destinationCategories.map(({ key, title }) =>
-                S.listItem()
-                  .title(title)
-                  .schemaType("destination")
-                  .child(
-                    S.documentList()
-                      .title(title)
-                      .schemaType("destination")
-                      .filter(categoryFilter(key))
-                      .defaultOrdering([{ field: "order", direction: "asc" }])
-                  )
+              ...CATEGORIES.map(({ key, title }) =>
+                byCategory(S, "destination", key, title)
               ),
               S.divider(),
               S.listItem()
@@ -86,10 +106,11 @@ export const structure: StructureResolver = (S) =>
             .title("Artikel")
             .items([
               pageDoc(S, "seed-page-stories", "Teks Halaman Artikel"),
+              S.divider(),
               S.listItem()
-                .title("Artikel / Article")
+                .title("Semua Artikel")
                 .schemaType("post")
-                .child(S.documentTypeList("post").title("Artikel / Article")),
+                .child(S.documentTypeList("post").title("Semua Artikel")),
             ])
         ),
 
@@ -102,6 +123,7 @@ export const structure: StructureResolver = (S) =>
             .title("Pengelola & Kontak")
             .items([
               pageDoc(S, "seed-page-contact", "Teks Halaman Kontak"),
+              S.divider(),
               S.listItem()
                 .title("Profil Desa & Kontak")
                 .child(

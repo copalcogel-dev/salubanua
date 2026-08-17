@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { Hero } from "@/components/Hero";
-import { getDestinations } from "@/lib/destinations";
+import { getHomeCards } from "@/lib/homeCards";
 import { getCategories } from "@/lib/categories";
 import { getPageContent } from "@/lib/pageContent";
 
@@ -25,11 +25,11 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 export default async function Home() {
-  const [content, categories, destinations] = await Promise.all([
+  const [content, categories, homeCards] = await Promise.all([
     getPageContent("home"),
     getCategories(),
-    getDestinations(),
+    getHomeCards(),
   ]);
 
-  return <Hero content={content} categories={categories} destinations={destinations} />;
+  return <Hero content={content} categories={categories} homeCards={homeCards} />;
 }

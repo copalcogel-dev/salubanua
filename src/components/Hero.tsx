@@ -9,18 +9,18 @@ import { categoryIcons } from "@/lib/categoryIcons";
 import { enterTransition, stagger } from "@/lib/motion";
 import { CategorySelector } from "./CategorySelector";
 import { DestinationCardRow, type DestinationCardItem } from "./DestinationCardRow";
-import type { DestinationEntry } from "@/lib/destinations";
+import type { HomeCardEntry } from "@/lib/homeCards";
 import type { CategoryEntry } from "@/lib/categories";
 import type { PageContent } from "@/lib/pageContent";
 
 export function Hero({
   content,
   categories,
-  destinations,
+  homeCards,
 }: {
   content: PageContent;
   categories: CategoryEntry[];
-  destinations: DestinationEntry[];
+  homeCards: HomeCardEntry[];
 }) {
   const { lang, t } = useLanguage();
   const [activeKey, setActiveKey] = useState<string>(categories[0].key);
@@ -28,11 +28,11 @@ export function Hero({
   const active = categories.find((c) => c.key === activeKey) ?? categories[0];
   const ActiveIcon = categoryIcons[active.icon];
 
-  const categoryDestinations = destinations.filter((d) => d.category === activeKey);
+  const categoryCards = homeCards.filter((d) => d.category === activeKey);
 
   const cards: DestinationCardItem[] =
-    categoryDestinations.length > 0
-      ? categoryDestinations.map((d) => {
+    categoryCards.length > 0
+      ? categoryCards.map((d) => {
           const cat = categories.find((c) => c.key === d.category) ?? active;
           return {
             key: d.key,
@@ -40,7 +40,7 @@ export function Hero({
             title: d[lang].title,
             subtitle: d[lang].subtitle,
             desc: d[lang].desc,
-            image: d.coverImageUrl ?? undefined,
+            images: d.imageUrls,
             accent: cat.accent,
             isSample: d.isSample,
           };

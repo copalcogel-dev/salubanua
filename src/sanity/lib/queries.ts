@@ -135,6 +135,48 @@ export async function fetchSanityDestinations(): Promise<SanityDestination[]> {
   }
 }
 
+export type SanityHomeCard = {
+  _id: string;
+  category: string;
+  titleId: string;
+  titleEn: string;
+  subtitleId: string | null;
+  subtitleEn: string | null;
+  descId: string;
+  descEn: string;
+  images: SanityImageRef[] | null;
+  isSample: boolean | null;
+  order: number | null;
+};
+
+const ALL_HOME_CARDS_QUERY = /* groq */ `
+  // "@." wajib di sini, sama seperti pada destinasi — tanpa itu GROQ membaca
+  // "order" sebagai nama fungsi pengurutannya sendiri, bukan kolom dokumen.
+  *[_type == "homeCard" && defined(title.id)]
+    | order(coalesce(@.order, 100) asc, _createdAt asc) {
+      _id,
+      category,
+      "titleId": title.id,
+      "titleEn": title.en,
+      "subtitleId": subtitle.id,
+      "subtitleEn": subtitle.en,
+      "descId": description.id,
+      "descEn": description.en,
+      images,
+      isSample,
+      order
+    }
+`;
+
+export async function fetchSanityHomeCards(): Promise<SanityHomeCard[]> {
+  if (!isSanityConfigured || !client) return [];
+  try {
+    return await client.fetch(ALL_HOME_CARDS_QUERY, {}, { next: { revalidate: 60 } });
+  } catch {
+    return [];
+  }
+}
+
 export type SanitySiteSettings = {
   phone: string | null;
   contactIsSample: boolean | null;

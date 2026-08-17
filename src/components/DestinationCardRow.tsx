@@ -14,7 +14,8 @@ export type DestinationCardItem = {
   title: string;
   subtitle: string;
   desc: string;
-  image?: string;
+  /** Berurutan; kalau lebih dari satu, kartu berganti-ganti foto sendiri. */
+  images?: string[];
   accent: string;
   isSample?: boolean;
 };
@@ -47,14 +48,22 @@ const preset = {
 } as const;
 
 /**
- * Batas tinggi foto saat kartu menyesuaikan tinggi layar (`fillHeight`).
+ * Rasio bingkai foto (lebar ÷ tinggi) saat kartu menyesuaikan tinggi layar.
  *
- * Layar pendek boleh menyusut di bawah ukuran preset supaya beranda tetap
- * muat satu layar; layar tinggi boleh membesar mengisi ruang yang tersisa,
- * tapi tidak sampai kartunya terlihat kelewat jangkung.
+ * Dipatok 3:4 — rasio foto potret bawaan hampir semua kamera HP. Karena
+ * foto ditampilkan utuh (`object-contain`), bingkai yang rasionya sama
+ * dengan foto berarti foto mengisi bingkai persis tanpa sisa sama sekali.
+ * Sebelum ini tinggi bingkai dibiarkan menjulur mengejar tinggi layar,
+ * sehingga di layar desktop yang tinggi bingkainya jadi jauh lebih jangkung
+ * daripada fotonya — dan foto terlihat "membesar" karena dipotong kiri-kanan
+ * demi menutupi bingkai.
  */
+const FILL_ASPECT = 3 / 4;
 const FILL_IMAGE_MIN = 100;
 const FILL_IMAGE_MAX = 520;
+
+/** Jeda ganti foto pada kartu yang punya lebih dari satu foto. */
+const ROTATE_MS = 3800;
 
 function pickResponsive(values: readonly number[], viewportWidth: number) {
   if (viewportWidth >= 1024) return values[2];
@@ -72,6 +81,101 @@ const useIsomorphicLayoutEffect =
   typeof window !== "undefined" ? useLayoutEffect : useEffect;
 
 const arrowButtonClass = `hidden h-11 w-11 shrink-0 items-center justify-center rounded-full border border-white/25 bg-white/10 text-white shadow-[0_8px_28px_rgba(0,0,0,0.35)] backdrop-blur-md ${surfaceTransition} duration-300 hover:border-white/40 hover:bg-white/25 sm:flex disabled:cursor-not-allowed disabled:opacity-30 disabled:hover:border-white/25 disabled:hover:bg-white/10`;
+
+/**
+ * Bingkai foto satu kartu.
+ *
+ * Foto ditampilkan utuh (`object-contain`) — tidak pernah dipotong maupun
+ * diperbesar melebihi ukuran aslinya. Sisa ruang bingkai diisi salinan foto
+ * yang sama dalam versi blur, jadi bidangnya tetap terisi rapi tanpa bidang
+ * kosong, dan tanpa unduhan tambahan karena URL-nya persis sama.
+ */
+function CardFrame({
+  images,
+  alt,
+  accent,
+  height,
+  width,
+}: {
+  images: string[];
+  alt: string;
+  accent: string;
+  height: number;
+  width: number;
+}) {
+  const [index, setIndex] = useState(0);
+  // Foto berikutnya baru ikut dirender setelah gilirannya tiba, supaya kartu
+  // dengan banyak foto tidak mengunduh semuanya sekaligus saat halaman buka.
+  const [reached, setReached] = useState(0);
+  const indexRef = useRef(0);
+
+  useEffect(() => {
+    if (images.length < 2) return;
+
+    const advance = () => {
+      const next = (indexRef.current + 1) % images.length;
+      indexRef.current = next;
+      setIndex(next);
+      setReached((r) => Math.max(r, next));
+    };
+
+    // Jeda awal acak per kartu supaya kartu-kartu dalam satu baris tidak
+    // berganti serempak seperti satu animasi besar.
+    let interval: ReturnType<typeof setInterval> | undefined;
+    const timeout = setTimeout(
+      () => {
+        advance();
+        interval = setInterval(advance, ROTATE_MS);
+      },
+      ROTATE_MS + Math.random() * ROTATE_MS
+    );
+
+    return () => {
+      clearTimeout(timeout);
+      if (interval) clearInterval(interval);
+    };
+  }, [images.length]);
+
+  if (images.length === 0) {
+    return <MountainScene accent={accent} className="h-full w-full object-cover" />;
+  }
+
+  return (
+    <>
+      {images.slice(0, reached + 1).map((src, i) => (
+        <div
+          key={src}
+          aria-hidden={i === index ? undefined : true}
+          className="absolute inset-0 transition-opacity duration-1000"
+          style={{ opacity: i === index ? 1 : 0 }}
+        >
+          <Image
+            src={src}
+            alt=""
+            fill
+            aria-hidden
+            sizes={`${width}px`}
+            quality={90}
+            className="scale-125 object-cover blur-2xl"
+          />
+          <Image
+            src={src}
+            alt={alt}
+            fill
+            // Lebar bingkai sudah pasti diketahui di sini, jadi dipakai
+            // langsung. Nilai statis akan membuat Next memilih kandidat
+            // srcset yang lebih kecil dari lebar sebenarnya, lalu browser
+            // meng-upscale-nya lewat CSS — persis penyebab foto tampak pecah.
+            sizes={`${width}px`}
+            quality={90}
+            style={{ maxHeight: height }}
+            className="object-contain"
+          />
+        </div>
+      ))}
+    </>
+  );
+}
 
 /**
  * Carousel kartu yang bergeser per halaman.
@@ -150,16 +254,32 @@ export function DestinationCardRow({
       const breathingRoom = 24;
       const spaceForRow = window.innerHeight - rowTop - footerH - breathingRoom;
       const textH = pickResponsive(preset.text, vw);
+      const roomForImage = Math.max(spaceForRow - textH, FILL_IMAGE_MIN);
 
-      nextImageH = Math.round(
-        Math.min(Math.max(spaceForRow - textH, FILL_IMAGE_MIN), FILL_IMAGE_MAX)
+      // Lebar tumbuh mengikuti ruang vertikal yang tersedia (menjaga rasio
+      // bingkai), tapi dibatasi lebar yang tersedia supaya jumlah kartu per
+      // halaman tidak berkurang gara-gara kartunya melebar.
+      const widthCap = Math.floor((available + nextGap) / preset.maxPerPage) - nextGap;
+      nextCardW = Math.max(
+        baseCardW,
+        Math.min(Math.max(widthCap, baseCardW), Math.round(roomForImage * FILL_ASPECT))
       );
 
-      // Lebar ikut tumbuh menjaga proporsi potret, tapi dibatasi agar jumlah
-      // kartu per halaman tidak berkurang gara-gara kartunya melebar.
-      const widthCap = Math.floor((available + nextGap) / preset.maxPerPage) - nextGap;
-      const proportional = Math.round(nextImageH * (baseCardW / baseImageH));
-      nextCardW = Math.min(Math.max(proportional, baseCardW), Math.max(widthCap, baseCardW));
+      // Tinggi bingkai lalu dikunci ke rasio kartu — inilah yang membuat
+      // foto potret biasa mengisi bingkai persis, tanpa dipotong.
+      //
+      // Batas bawahnya persegi (`nextCardW`), bukan `roomForImage`: di layar
+      // pendek ruang vertikal yang tersisa bisa jauh lebih kecil daripada
+      // lebar kartu, dan bingkai yang melebar seperti itu membuat foto
+      // potret berpalang lebar di kiri-kanan. Lebih baik kartunya sedikit
+      // melewati satu layar daripada bingkainya jadi kependekan.
+      nextImageH = Math.round(
+        Math.min(
+          nextCardW / FILL_ASPECT,
+          Math.max(roomForImage, nextCardW),
+          FILL_IMAGE_MAX
+        )
+      );
     }
 
     // Berapa kartu utuh yang muat di ruang tersedia — sisa ruang yang tidak
@@ -224,31 +344,16 @@ export function DestinationCardRow({
                     Chrome sehingga foto tampil bersudut siku. */}
                 <div
                   style={{ height: imageH }}
-                  className="relative shrink-0 overflow-hidden rounded-t-3xl"
+                  className="relative shrink-0 overflow-hidden rounded-t-3xl bg-[#0d2a1d]"
                 >
-                  {item.image ? (
-                    <Image
-                      src={item.image}
-                      alt={item.title}
-                      fill
-                      // `sizes` dulu berupa string statis dari sizePresets,
-                      // padahal saat `fillHeight` aktif lebar kartu dihitung
-                      // ulang secara dinamis (bisa jauh lebih lebar di layar
-                      // tinggi). Next lalu memilih gambar srcset yang lebih
-                      // kecil dari lebar sebenarnya dan browser meng-upscale
-                      // lewat CSS — itu sebabnya foto terlihat pecah. Karena
-                      // cardW sudah pasti diketahui di sini, pakai langsung.
-                      sizes={`${cardW}px`}
-                      quality={90}
-                      className={`object-cover ${href ? "transition-transform duration-500 group-hover:scale-105" : ""}`}
-                    />
-                  ) : (
-                    <MountainScene
-                      accent={item.accent}
-                      className="h-full w-full object-cover"
-                    />
-                  )}
-                  <div className="absolute inset-0 bg-gradient-to-t from-[#08160f]/75 to-transparent" />
+                  <CardFrame
+                    images={item.images ?? []}
+                    alt={item.title}
+                    accent={item.accent}
+                    height={imageH}
+                    width={cardW}
+                  />
+                  <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-[#08160f]/75 to-transparent" />
                   <div className="absolute left-3 top-3 flex h-8 w-8 items-center justify-center rounded-full bg-white/95 text-[#153e2a]">
                     <Icon size={14} strokeWidth={2} />
                   </div>
@@ -271,7 +376,9 @@ export function DestinationCardRow({
             );
 
             // Tanpa `href`, kartu memang tidak diberi isyarat hover — bukan
-            // tautan, jadi tidak ada yang bisa diklik.
+            // tautan, jadi tidak ada yang bisa diklik. Isyaratnya pun cukup
+            // di tepi kartu: foto sengaja tidak ikut membesar saat di-hover,
+            // supaya foto benar-benar selalu tampil pada ukuran aslinya.
             if (href) {
               return (
                 <Link
