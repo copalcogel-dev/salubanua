@@ -39,13 +39,6 @@ export const categories = [
     accent: "#5a5433",
   },
   {
-    key: "viewpoint",
-    icon: "camera",
-    id: { title: "Spot Foto", desc: "Panorama lembah dan pegunungan." },
-    en: { title: "Viewpoint", desc: "Panoramic valley & mountain views." },
-    accent: "#4a5d3a",
-  },
-  {
     key: "homestay",
     icon: "home",
     id: { title: "Homestay", desc: "Menginap bersama warga Lombo' Ipo." },
@@ -272,78 +265,6 @@ export const destinations = [
     isSample: true,
   },
   {
-    key: "viewpoint-1",
-    category: "viewpoint",
-    id: {
-      title: "Puncak Rante Bulahan",
-      subtitle: "Contoh Destinasi",
-      desc: "Titik panorama dengan pemandangan lembah dan lautan awan di pagi hari, favorit pengunjung untuk berfoto dan menikmati matahari terbit.",
-      status: "Contoh tampilan",
-    },
-    en: {
-      title: "Rante Bulahan Peak",
-      subtitle: "Sample Destination",
-      desc: "A panorama point overlooking the valley and morning sea of clouds, a visitor favourite for photos and sunrise views.",
-      status: "Sample preview",
-    },
-    available: true,
-    isSample: true,
-  },
-  {
-    key: "viewpoint-2",
-    category: "viewpoint",
-    id: {
-      title: "Spot Foto Savana Pentuho",
-      subtitle: "Contoh Destinasi",
-      desc: "Hamparan padang savana yang jadi latar foto populer, terutama saat cahaya keemasan menjelang sore.",
-      status: "Contoh tampilan",
-    },
-    en: {
-      title: "Pentuho Savanna Viewpoint",
-      subtitle: "Sample Destination",
-      desc: "A sweeping savanna that makes a popular photo backdrop, especially in the golden light of late afternoon.",
-      status: "Sample preview",
-    },
-    available: true,
-    isSample: true,
-  },
-  {
-    key: "viewpoint-3",
-    category: "viewpoint",
-    id: {
-      title: "Spot Foto Lembah Mambi",
-      subtitle: "Contoh Destinasi",
-      desc: "Titik pandang yang menghadap langsung ke lembah Kecamatan Mambi, ramai dikunjungi saat cuaca cerah.",
-      status: "Contoh tampilan",
-    },
-    en: {
-      title: "Mambi Valley Viewpoint",
-      subtitle: "Sample Destination",
-      desc: "A vantage point overlooking the Mambi District valley, popular on clear days.",
-      status: "Sample preview",
-    },
-    available: true,
-    isSample: true,
-  },
-  {
-    key: "viewpoint-4",
-    category: "viewpoint",
-    id: {
-      title: "Spot Foto Jembatan Gantung",
-      subtitle: "Contoh Destinasi",
-      desc: "Jembatan gantung sederhana yang menghubungkan dua sisi dusun, sering dijadikan latar foto oleh pengunjung.",
-      status: "Contoh tampilan",
-    },
-    en: {
-      title: "Hanging Bridge Viewpoint",
-      subtitle: "Sample Destination",
-      desc: "A simple hanging bridge connecting two sides of the hamlet, often used as a photo backdrop by visitors.",
-      status: "Sample preview",
-    },
-    available: true,
-    isSample: true,
-  },
-  {
     key: "homestay-1",
     category: "homestay",
     id: {
@@ -449,10 +370,10 @@ export const dictionary = {
   id: {
     nav: {
       menu: "Menu",
+      home: "Beranda",
       destinations: "Destinasi",
       stories: "Artikel",
-      managedBy: "Pengelola",
-      contact: "Kontak",
+      contact: "Pengelola",
     },
     hero: {
       kicker: "SALUBANUA · MAMBI · MAMASA · SULAWESI BARAT",
@@ -461,28 +382,15 @@ export const dictionary = {
       body: "Temukan jalur pendakian Gunung Pentuho, kehidupan Dusun Lombo' Ipo, dan keramahan masyarakat Desa Salubanua di kaki pegunungan Mamasa.",
       cta: "JELAJAHI SEKARANG",
     },
-    discover: {
-      kicker: "TEMUKAN CERITANYA",
-      title: "CERITA DI BALIK GUNUNG PENTUHO",
-      body: "Di Dusun Lombo' Ipo, Desa Salubanua, Kecamatan Mambi, Kabupaten Mamasa, berdiri Buntu Pentuho — gunung yang menjadi jantung kehidupan dan pariwisata warga sekitar. Bersama PokDarWis Pentuho Malolo dan Pemerintah Desa Salubanua, kami membangun pariwisata yang tumbuh dari dan untuk masyarakat desa.",
-      points: [
-        { label: "Dusun", value: "Lombo' Ipo" },
-        { label: "Desa", value: "Salubanua" },
-        { label: "Kecamatan", value: "Mambi" },
-        { label: "Kabupaten", value: "Mamasa" },
-        { label: "Provinsi", value: "Sulawesi Barat" },
-      ],
-    },
     destinations: {
       kicker: "DESTINASI PILIHAN",
       title: "Destinasi Pilihan",
       readMore: "Baca Selengkapnya",
-    },
-    local: {
-      kicker: "PENGELOLA WISATA",
-      title: "PokDarWis Pentuho Malolo",
-      body: "Kawasan wisata Gunung Pentuho direncanakan dikelola oleh Kelompok Sadar Wisata (PokDarWis) Pentuho Malolo, bekerja sama dengan Pemerintah Desa Salubanua untuk mengembangkan potensi wisata alam sekaligus ekonomi masyarakat setempat.",
-      cta: "Hubungi Pengelola",
+      photoTab: "Foto",
+      videoTab: "Video",
+      noPhotos: "Belum ada foto untuk kategori ini.",
+      noVideos: "Belum ada video untuk kategori ini.",
+      watchVideo: "Tonton Video",
     },
     explore: {
       kicker: "JELAJAHI KATEGORI",
@@ -515,8 +423,8 @@ export const dictionary = {
       groupStories: "Cerita",
     },
     contact: {
-      kicker: "HUBUNGI KAMI",
-      title: "Kontak Desa Salubanua",
+      kicker: "PENGELOLA WISATA",
+      title: "Pengelola & Kontak",
       addressLabel: "Alamat",
       managedByLabel: "Dikelola oleh",
       phoneLabel: "WhatsApp / Telepon",
@@ -541,10 +449,10 @@ export const dictionary = {
   en: {
     nav: {
       menu: "Menu",
+      home: "Home",
       destinations: "Destinations",
       stories: "Articles",
-      managedBy: "Managed By",
-      contact: "Contact",
+      contact: "Managed By",
     },
     hero: {
       kicker: "SALUBANUA · MAMBI · MAMASA · WEST SULAWESI",
@@ -553,28 +461,15 @@ export const dictionary = {
       body: "Discover the Mount Pentuho hiking trail, the life of Lombo' Ipo Hamlet, and the warmth of Salubanua Village at the foot of the Mamasa mountains.",
       cta: "EXPLORE NOW",
     },
-    discover: {
-      kicker: "DISCOVER THE STORY",
-      title: "THE STORY BEHIND MOUNT PENTUHO",
-      body: "In Lombo' Ipo Hamlet, Salubanua Village, Mambi District, Mamasa Regency, stands Buntu Pentuho — a mountain that is the heart of local life and tourism. Together with PokDarWis Pentuho Malolo and the Salubanua Village Government, we are building tourism that grows from and for the village community.",
-      points: [
-        { label: "Hamlet", value: "Lombo' Ipo" },
-        { label: "Village", value: "Salubanua" },
-        { label: "District", value: "Mambi" },
-        { label: "Regency", value: "Mamasa" },
-        { label: "Province", value: "West Sulawesi" },
-      ],
-    },
     destinations: {
       kicker: "FEATURED DESTINATIONS",
       title: "FEATURED DESTINATIONS",
       readMore: "Read More",
-    },
-    local: {
-      kicker: "TOURISM MANAGEMENT",
-      title: "PokDarWis Pentuho Malolo",
-      body: "The Mount Pentuho tourism area is planned to be managed by the Tourism Awareness Group (PokDarWis) Pentuho Malolo, in partnership with the Salubanua Village Government, to develop natural tourism potential and the local economy.",
-      cta: "Contact the Managers",
+      photoTab: "Photo",
+      videoTab: "Video",
+      noPhotos: "No photos yet for this category.",
+      noVideos: "No videos yet for this category.",
+      watchVideo: "Watch Video",
     },
     explore: {
       kicker: "EXPLORE CATEGORIES",
@@ -607,8 +502,8 @@ export const dictionary = {
       groupStories: "Stories",
     },
     contact: {
-      kicker: "GET IN TOUCH",
-      title: "Contact Salubanua Village",
+      kicker: "TOURISM MANAGEMENT",
+      title: "Managed By & Contact",
       addressLabel: "Address",
       managedByLabel: "Managed by",
       phoneLabel: "WhatsApp / Phone",

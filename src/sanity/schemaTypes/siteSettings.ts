@@ -13,6 +13,8 @@ export const siteSettingsType = defineType({
     { name: "profil", title: "Profil Desa", default: true },
     { name: "pengelola", title: "Pengelola" },
     { name: "kontak", title: "Kontak" },
+    { name: "tampilan", title: "Tampilan" },
+    { name: "maintenance", title: "Mode Perbaikan" },
   ],
   fields: [
     defineField({
@@ -109,6 +111,48 @@ export const siteSettingsType = defineType({
           ],
           preview: { select: { title: "platform", subtitle: "handle" } },
         },
+      ],
+    }),
+
+    defineField({
+      name: "mobileBackgroundImage",
+      title: "Foto Latar untuk HP",
+      description:
+        "Foto latar situs khusus di layar HP (video latar sengaja dimatikan di HP untuk hemat kuota). Kosongkan untuk memakai foto bawaan.",
+      type: "image",
+      options: { hotspot: true },
+      group: "tampilan",
+    }),
+
+    defineField({
+      name: "maintenanceMode",
+      title: "Aktifkan Mode Perbaikan",
+      description:
+        "Saat aktif, semua halaman publik menampilkan pesan \"Sedang dalam perbaikan\" alih-alih isi situs. Dasbor admin (/studio) tetap bisa diakses seperti biasa.",
+      type: "boolean",
+      initialValue: false,
+      group: "maintenance",
+    }),
+    defineField({
+      name: "maintenanceTitle",
+      title: "Judul Halaman Perbaikan",
+      description: "Kosongkan untuk memakai judul bawaan.",
+      type: "object",
+      group: "maintenance",
+      fields: [
+        { name: "id", title: "Indonesia", type: "string" },
+        { name: "en", title: "English", type: "string" },
+      ],
+    }),
+    defineField({
+      name: "maintenanceMessage",
+      title: "Pesan Halaman Perbaikan",
+      description: "Kosongkan untuk memakai pesan bawaan.",
+      type: "object",
+      group: "maintenance",
+      fields: [
+        { name: "id", title: "Indonesia", type: "text", rows: 3 },
+        { name: "en", title: "English", type: "text", rows: 3 },
       ],
     }),
   ],

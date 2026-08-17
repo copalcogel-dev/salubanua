@@ -13,7 +13,7 @@ export type PageContent = {
   seoDescription: string | null;
 };
 
-export type PageKey = "home" | "destinations" | "stories" | "about" | "contact";
+export type PageKey = "home" | "destinations" | "stories" | "contact";
 
 /**
  * Teks bawaan tiap halaman, diambil dari kamus yang sudah ada.
@@ -53,16 +53,6 @@ function fallbackFor(key: PageKey): PageContent {
         title: { id: id.stories.allTitle, en: en.stories.allTitle },
         subtitle: empty,
         body: { id: id.stories.body, en: en.stories.body },
-        ctaLabel: empty,
-        seoTitle: null,
-        seoDescription: null,
-      };
-    case "about":
-      return {
-        kicker: { id: id.discover.kicker, en: en.discover.kicker },
-        title: { id: id.discover.title, en: en.discover.title },
-        subtitle: empty,
-        body: { id: id.discover.body, en: en.discover.body },
         ctaLabel: empty,
         seoTitle: null,
         seoDescription: null,

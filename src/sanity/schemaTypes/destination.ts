@@ -14,7 +14,6 @@ export const destinationType = defineType({
           { title: "Pendakian", value: "hiking" },
           { title: "Air Terjun", value: "waterfall" },
           { title: "Camping", value: "camping" },
-          { title: "Spot Foto", value: "viewpoint" },
           { title: "Homestay", value: "homestay" },
         ],
       },
@@ -55,16 +54,17 @@ export const destinationType = defineType({
     }),
     defineField({
       name: "gallery",
-      title: "Galeri Foto",
+      title: "Galeri Foto Tambahan",
       description:
-        "Dipakai pada kategori Spot Foto — foto-foto ini tampil sebagai galeri di halaman Destinasi.",
+        "Foto-foto ini, ditambah Foto Sampul di atas, tampil di tab \"Foto\" pada halaman Destinasi untuk kategori ini.",
       type: "array",
       of: [{ type: "image", options: { hotspot: true } }],
     }),
     defineField({
       name: "videoUrl",
       title: "Tautan Video",
-      description: "Opsional. Tautan video (mis. YouTube) untuk kategori Spot Foto.",
+      description:
+        "Opsional. Tautan video (mis. YouTube) — muncul di tab \"Video\" pada halaman Destinasi.",
       type: "url",
     }),
     defineField({

@@ -136,12 +136,7 @@ export function Hero({
           className="mt-3 flex justify-center sm:mt-5 lg:mt-5"
         >
           <div className="w-full max-w-6xl">
-            <DestinationCardRow
-              items={cards}
-              size="large"
-              fillHeight
-              sampleLabel={t.stories.sampleBadge}
-            />
+            <DestinationCardRow items={cards} fillHeight sampleLabel={t.stories.sampleBadge} />
           </div>
         </motion.div>
       </div>

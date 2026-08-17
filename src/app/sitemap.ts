@@ -5,7 +5,7 @@ import { siteUrl } from "@/lib/siteUrl";
 export const revalidate = 3600;
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const staticRoutes = ["", "/destinations", "/stories", "/about", "/contact"].map(
+  const staticRoutes = ["", "/destinations", "/stories", "/contact"].map(
     (path) => ({
       url: `${siteUrl}${path}`,
       lastModified: new Date(),

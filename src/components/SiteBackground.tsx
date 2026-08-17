@@ -11,8 +11,8 @@ import { useSyncExternalStore } from "react";
 const SITE_VIDEO_URL =
   "https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260329_050842_be71947f-f16e-4a14-810c-06e83d23ddb5.mp4";
 
-/** Foto yang sama dipakai sebagai latar dasar, jadi tidak pernah ada layar kosong. */
-const POSTER = "/images/gunung-pentuho.jpg";
+/** Dipakai bila belum ada foto latar yang diunggah lewat Studio. */
+const DEFAULT_POSTER = "/images/gunung-pentuho.jpg";
 
 /**
  * Videonya berukuran ~16 MB. Memutarnya untuk semua orang berarti setiap
@@ -32,17 +32,26 @@ function subscribe(onChange: () => void) {
   return () => mq.removeEventListener("change", onChange);
 }
 
-export function SiteBackground() {
+export function SiteBackground({
+  posterUrl,
+}: {
+  /**
+   * Foto latar dari Studio (khusus HP, karena video sengaja dimatikan di
+   * layar kecil). `null` berarti belum diunggah — jatuh ke foto bawaan.
+   */
+  posterUrl: string | null;
+}) {
   const showVideo = useSyncExternalStore(
     subscribe,
     () => window.matchMedia(VIDEO_QUERY).matches,
     () => false
   );
+  const poster = posterUrl ?? DEFAULT_POSTER;
 
   return (
     <div className="fixed inset-0 z-0" aria-hidden="true">
       <Image
-        src={POSTER}
+        src={poster}
         alt=""
         fill
         priority
@@ -53,7 +62,7 @@ export function SiteBackground() {
       {showVideo && (
         <video
           src={SITE_VIDEO_URL}
-          poster={POSTER}
+          poster={poster}
           autoPlay
           muted
           loop

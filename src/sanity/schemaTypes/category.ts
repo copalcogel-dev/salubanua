@@ -22,7 +22,6 @@ export const categoryType = defineType({
           { title: "Pendakian", value: "hiking" },
           { title: "Air Terjun", value: "waterfall" },
           { title: "Camping", value: "camping" },
-          { title: "Spot Foto", value: "viewpoint" },
           { title: "Homestay", value: "homestay" },
         ],
       },

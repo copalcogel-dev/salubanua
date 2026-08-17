@@ -151,6 +151,10 @@ export type SanitySiteSettings = {
   mapUrl: string | null;
   latitude: number | null;
   longitude: number | null;
+  mobileBackgroundImage: SanityImageRef;
+  maintenanceMode: boolean | null;
+  maintenanceTitle: { id: string | null; en: string | null } | null;
+  maintenanceMessage: { id: string | null; en: string | null } | null;
 };
 
 const SITE_SETTINGS_QUERY = /* groq */ `
@@ -158,7 +162,9 @@ const SITE_SETTINGS_QUERY = /* groq */ `
     phone, contactIsSample, socials,
     dusun, desa, kecamatan, kabupaten, provinsi,
     pengelolaNama, pengelolaMitra,
-    mapUrl, latitude, longitude
+    mapUrl, latitude, longitude,
+    mobileBackgroundImage,
+    maintenanceMode, maintenanceTitle, maintenanceMessage
   }
 `;
 

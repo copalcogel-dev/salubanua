@@ -42,9 +42,9 @@ export function Navbar() {
   }, []);
 
   const links = [
+    { label: t.nav.home, href: "/" },
     { label: t.nav.destinations, href: "/destinations" },
     { label: t.nav.stories, href: "/stories" },
-    { label: t.nav.managedBy, href: "/about" },
     { label: t.nav.contact, href: "/contact" },
   ];
 

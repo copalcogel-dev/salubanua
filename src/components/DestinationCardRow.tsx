@@ -38,9 +38,11 @@ const ARROW_SIZE = 44;
  * tetap punya halaman berikutnya (kalau keempat kartu muat sekaligus,
  * tombol gesernya tidak ada gunanya).
  */
-const sizePresets = {
-  compact: { card: [150, 186, 206], image: [166, 196, 212], text: [86, 96, 100], maxPerPage: 6 },
-  large: { card: [156, 206, 244], image: [150, 232, 246], text: [92, 112, 116], maxPerPage: 3 },
+const preset = {
+  card: [156, 206, 244],
+  image: [150, 232, 246],
+  text: [92, 112, 116],
+  maxPerPage: 3,
 } as const;
 
 /**
@@ -81,12 +83,10 @@ const arrowButtonClass = `hidden h-11 w-11 shrink-0 items-center justify-center 
  */
 export function DestinationCardRow({
   items,
-  size = "compact",
   sampleLabel = "CONTOH",
   fillHeight = false,
 }: {
   items: DestinationCardItem[];
-  size?: "compact" | "large";
   sampleLabel?: string;
   /**
    * Membesarkan kartu agar mengisi sisa ruang sampai footer. Dipakai di
@@ -95,7 +95,6 @@ export function DestinationCardRow({
    */
   fillHeight?: boolean;
 }) {
-  const preset = sizePresets[size];
   const rowRef = useRef<HTMLDivElement>(null);
   const scrollerRef = useRef<HTMLDivElement>(null);
 
@@ -165,7 +164,7 @@ export function DestinationCardRow({
     setGap(nextGap);
     setPerPage(Math.min(Math.max(fits, 1), preset.maxPerPage, items.length));
     syncArrows();
-  }, [items.length, preset, syncArrows, fillHeight]);
+  }, [items.length, syncArrows, fillHeight]);
 
   useIsomorphicLayoutEffect(() => {
     measure();
@@ -230,10 +229,15 @@ export function DestinationCardRow({
                       src={item.image}
                       alt={item.title}
                       fill
-                      // Lebar kartu sudah pasti (lihat sizePresets), jadi
-                      // beritahu Next ukurannya supaya tidak mengunduh
-                      // gambar selebar layar.
-                      sizes="(min-width: 1024px) 250px, (min-width: 640px) 210px, 160px"
+                      // `sizes` dulu berupa string statis dari sizePresets,
+                      // padahal saat `fillHeight` aktif lebar kartu dihitung
+                      // ulang secara dinamis (bisa jauh lebih lebar di layar
+                      // tinggi). Next lalu memilih gambar srcset yang lebih
+                      // kecil dari lebar sebenarnya dan browser meng-upscale
+                      // lewat CSS — itu sebabnya foto terlihat pecah. Karena
+                      // cardW sudah pasti diketahui di sini, pakai langsung.
+                      sizes={`${cardW}px`}
+                      quality={90}
                       className="object-cover"
                     />
                   ) : (

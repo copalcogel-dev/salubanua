@@ -1,12 +1,21 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { MapPin, Phone, Users2, Share2, Info, ExternalLink, type LucideIcon } from "lucide-react";
+import { MapPin, Phone, Users2, Share2, Info, ExternalLink, Globe, type LucideIcon } from "lucide-react";
+import { InstagramIcon, FacebookIcon } from "./SocialIcons";
 import { useLanguage } from "@/context/LanguageContext";
 import { enterTransition, stagger } from "@/lib/motion";
 import { cardSheen, glassCard } from "@/lib/ui";
 import type { SiteContactInfo, VillageProfile } from "@/lib/siteSettings";
 import type { PageContent } from "@/lib/pageContent";
+
+/** Ikon platform sosial media; platform yang tidak dikenali jatuh ke ikon dunia. */
+function socialIcon(platform: string): LucideIcon {
+  const key = platform.trim().toLowerCase();
+  if (key.includes("instagram")) return InstagramIcon as LucideIcon;
+  if (key.includes("facebook")) return FacebookIcon as LucideIcon;
+  return Globe;
+}
 
 function ContactCard({
   icon: Icon,
@@ -138,20 +147,26 @@ export function Contact({
               index={3}
               sampleBadge={sampleBadge}
             >
-              <div className="flex flex-col gap-1">
-                {contactInfo.socials.map((s) => (
-                  <a
-                    key={s.platform}
-                    href={s.url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    // Tanpa efek hover sama sekali. Garis bawah statis yang
-                    // menandakan ini tautan, bukan perubahan warna saat disorot.
-                    className="underline decoration-white/30 underline-offset-4"
-                  >
-                    {s.platform}: {s.handle}
-                  </a>
-                ))}
+              <div className="flex flex-col gap-2">
+                {contactInfo.socials.map((s) => {
+                  const Icon = socialIcon(s.platform);
+                  return (
+                    <a
+                      key={s.platform}
+                      href={s.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      // Tanpa efek hover sama sekali. Garis bawah statis yang
+                      // menandakan ini tautan, bukan perubahan warna saat disorot.
+                      className="flex items-center gap-2 underline decoration-white/30 underline-offset-4"
+                    >
+                      <Icon size={14} strokeWidth={1.8} className="shrink-0 text-white/70" />
+                      <span>
+                        {s.platform}: {s.handle}
+                      </span>
+                    </a>
+                  );
+                })}
               </div>
             </ContactCard>
           ) : (

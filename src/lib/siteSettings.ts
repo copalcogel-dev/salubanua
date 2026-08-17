@@ -1,5 +1,6 @@
 import { fetchSanitySiteSettings } from "@/sanity/lib/queries";
 import { contactInfo, villageProfile } from "@/data/site";
+import { urlForImage } from "@/sanity/lib/image";
 
 export type SiteContactInfo = {
   isSample: boolean;
@@ -19,9 +20,27 @@ export type VillageProfile = {
   pengelola: { nama: string; mitra: string };
 };
 
+export type MaintenanceInfo = {
+  enabled: boolean;
+  title: { id: string; en: string };
+  message: { id: string; en: string };
+};
+
 export type SiteSettings = {
   contact: SiteContactInfo;
   village: VillageProfile;
+  /** null berarti pakai foto latar bawaan (lihat SiteBackground.tsx). */
+  mobileBackgroundUrl: string | null;
+  maintenance: MaintenanceInfo;
+};
+
+const DEFAULT_MAINTENANCE_TITLE = {
+  id: "Situs Sedang Dalam Perbaikan",
+  en: "Site Under Maintenance",
+};
+const DEFAULT_MAINTENANCE_MESSAGE = {
+  id: "Kami sedang memperbarui tampilan Desa Salubanua. Silakan kembali beberapa saat lagi.",
+  en: "We're updating the Salubanua Village site. Please check back shortly.",
 };
 
 /**
@@ -73,6 +92,20 @@ export async function getSiteSettings(): Promise<SiteSettings> {
       pengelola: {
         nama: cms?.pengelolaNama?.trim() || villageProfile.pengelola.nama,
         mitra: cms?.pengelolaMitra?.trim() || villageProfile.pengelola.mitra,
+      },
+    },
+    mobileBackgroundUrl: cms?.mobileBackgroundImage
+      ? urlForImage(cms.mobileBackgroundImage).width(1200).height(1600).url()
+      : null,
+    maintenance: {
+      enabled: cms?.maintenanceMode === true,
+      title: {
+        id: cms?.maintenanceTitle?.id?.trim() || DEFAULT_MAINTENANCE_TITLE.id,
+        en: cms?.maintenanceTitle?.en?.trim() || DEFAULT_MAINTENANCE_TITLE.en,
+      },
+      message: {
+        id: cms?.maintenanceMessage?.id?.trim() || DEFAULT_MAINTENANCE_MESSAGE.id,
+        en: cms?.maintenanceMessage?.en?.trim() || DEFAULT_MAINTENANCE_MESSAGE.en,
       },
     },
   };
