@@ -44,7 +44,7 @@ export async function GET(request: Request) {
 
   const articles = await getArticles();
   for (const a of articles) {
-    if (matches(query, a[lang].title, a[lang].excerpt, a.category, a.author)) {
+    if (matches(query, a[lang].title, a[lang].excerpt, a.author)) {
       results.push({
         type: "story",
         title: a[lang].title,

@@ -9,7 +9,6 @@
 
 export type LocalArticle = {
   slug: string;
-  category: string;
   publishedAt: string;
   author: string;
   isSample: true;
@@ -20,7 +19,6 @@ export type LocalArticle = {
 export const localArticles: LocalArticle[] = [
   {
     slug: "persiapan-mendaki-buntu-pentuho",
-    category: "tips",
     publishedAt: "2026-07-28",
     author: "PokDarWis Pentuho Malolo",
     isSample: true,
@@ -49,7 +47,6 @@ export const localArticles: LocalArticle[] = [
   },
   {
     slug: "mengenal-dusun-lombo-ipo",
-    category: "culture",
     publishedAt: "2026-07-15",
     author: "Tim Desa Salubanua",
     isSample: true,
@@ -76,7 +73,6 @@ export const localArticles: LocalArticle[] = [
   },
   {
     slug: "menjaga-kelestarian-kawasan-wisata",
-    category: "nature",
     publishedAt: "2026-06-30",
     author: "PokDarWis Pentuho Malolo",
     isSample: true,
@@ -103,7 +99,6 @@ export const localArticles: LocalArticle[] = [
   },
   {
     slug: "rencana-pengembangan-wisata-desa",
-    category: "travel-guide",
     publishedAt: "2026-06-12",
     author: "Pemerintah Desa Salubanua",
     isSample: true,
@@ -130,7 +125,6 @@ export const localArticles: LocalArticle[] = [
   },
   {
     slug: "rute-menuju-lombo-ipo",
-    category: "travel-guide",
     publishedAt: "2026-05-20",
     author: "PokDarWis Pentuho Malolo",
     isSample: true,
@@ -157,7 +151,6 @@ export const localArticles: LocalArticle[] = [
   },
   {
     slug: "festival-panen-desa-salubanua",
-    category: "events",
     publishedAt: "2026-05-05",
     author: "Pemerintah Desa Salubanua",
     isSample: true,
@@ -184,7 +177,6 @@ export const localArticles: LocalArticle[] = [
   },
   {
     slug: "flora-dan-fauna-kawasan-pentuho",
-    category: "nature",
     publishedAt: "2026-04-18",
     author: "PokDarWis Pentuho Malolo",
     isSample: true,

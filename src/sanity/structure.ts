@@ -1,3 +1,4 @@
+import type { StructureBuilder } from "sanity/structure";
 import type { StructureResolver } from "sanity/structure";
 
 /**
@@ -6,11 +7,19 @@ import type { StructureResolver } from "sanity/structure";
  * pengelola bisa langsung menemukan "isi halaman mana yang mau diedit"
  * tanpa perlu tahu istilah teknis seperti "page" atau "siteSettings".
  *
- * Dokumen "Teks Halaman" difilter per `key` lewat query, bukan dengan
- * menempelkan _id dokumen tertentu — supaya tetap benar walau dokumennya
- * suatu saat dihapus & dibuat ulang dari Studio.
+ * "Teks Halaman X" dan "Profil Desa & Kontak" masing-masing cuma boleh ada
+ * SATU dokumen — kode di `src/lib` selalu mengambil dokumen pertama yang
+ * cocok, jadi kalau editor sampai membuat dokumen kedua secara tidak
+ * sengaja, situs bisa diam-diam memakai yang salah tanpa ada peringatan.
+ * Makanya di sini dibuka langsung ke _id tetap (`S.document().documentId`),
+ * bukan daftar dengan tombol "+ Buat baru" — jalan satu-satunya untuk
+ * menambah dokumen baru pun otomatis tertutup.
  */
-const pageFilter = (key: string) => `_type == "page" && key == "${key}"`;
+const pageDoc = (S: StructureBuilder, id: string, title: string) =>
+  S.listItem()
+    .title(title)
+    .child(S.document().schemaType("page").documentId(id).title(title));
+
 const categoryFilter = (key: string) => `_type == "destination" && category == "${key}"`;
 
 /**
@@ -32,14 +41,7 @@ export const structure: StructureResolver = (S) =>
   S.list()
     .title("Konten Situs")
     .items([
-      S.listItem()
-        .title("Beranda")
-        .child(
-          S.documentList()
-            .title("Teks Beranda")
-            .filter(pageFilter("home"))
-            .defaultOrdering([{ field: "_createdAt", direction: "asc" }])
-        ),
+      pageDoc(S, "seed-page-home", "Teks Beranda"),
 
       S.divider(),
 
@@ -49,13 +51,7 @@ export const structure: StructureResolver = (S) =>
           S.list()
             .title("Destinasi")
             .items([
-              S.listItem()
-                .title("Teks Halaman Destinasi")
-                .child(
-                  S.documentList()
-                    .title("Teks Halaman Destinasi")
-                    .filter(pageFilter("destinations"))
-                ),
+              pageDoc(S, "seed-page-destinations", "Teks Halaman Destinasi"),
               S.divider(),
               ...destinationCategories.map(({ key, title }) =>
                 S.listItem()
@@ -89,11 +85,7 @@ export const structure: StructureResolver = (S) =>
           S.list()
             .title("Artikel")
             .items([
-              S.listItem()
-                .title("Teks Halaman Artikel")
-                .child(
-                  S.documentList().title("Teks Halaman Artikel").filter(pageFilter("stories"))
-                ),
+              pageDoc(S, "seed-page-stories", "Teks Halaman Artikel"),
               S.listItem()
                 .title("Artikel / Article")
                 .schemaType("post")
@@ -109,15 +101,15 @@ export const structure: StructureResolver = (S) =>
           S.list()
             .title("Pengelola & Kontak")
             .items([
-              S.listItem()
-                .title("Teks Halaman Kontak")
-                .child(
-                  S.documentList().title("Teks Halaman Kontak").filter(pageFilter("contact"))
-                ),
+              pageDoc(S, "seed-page-contact", "Teks Halaman Kontak"),
               S.listItem()
                 .title("Profil Desa & Kontak")
-                .schemaType("siteSettings")
-                .child(S.documentTypeList("siteSettings").title("Profil Desa & Kontak")),
+                .child(
+                  S.document()
+                    .schemaType("siteSettings")
+                    .documentId("seed-siteSettings")
+                    .title("Profil Desa & Kontak")
+                ),
             ])
         ),
     ]);

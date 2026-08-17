@@ -22,21 +22,6 @@ export const postType = defineType({
       validation: (r) => r.required(),
     }),
     defineField({
-      name: "category",
-      title: "Kategori",
-      type: "string",
-      options: {
-        list: [
-          { title: "Adventure", value: "adventure" },
-          { title: "Travel Guide", value: "travel-guide" },
-          { title: "Nature", value: "nature" },
-          { title: "Culture", value: "culture" },
-          { title: "Tips", value: "tips" },
-          { title: "Events", value: "events" },
-        ],
-      },
-    }),
-    defineField({
       name: "coverImage",
       title: "Foto Sampul",
       type: "image",

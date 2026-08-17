@@ -1,5 +1,12 @@
 import { defineField, defineType } from "sanity";
 
+const PAGE_KEY_LABELS: Record<string, string> = {
+  home: "Beranda",
+  destinations: "Destinasi",
+  stories: "Artikel",
+  contact: "Pengelola (halaman Kontak)",
+};
+
 /**
  * Teks pembuka tiap halaman (kicker, judul, paragraf) beserta teks SEO-nya.
  *
@@ -93,7 +100,7 @@ export const pageType = defineType({
   preview: {
     select: { key: "key", title: "title.id" },
     prepare: ({ key, title }) => ({
-      title: key ?? "Halaman",
+      title: PAGE_KEY_LABELS[key as string] ?? key ?? "Halaman",
       subtitle: title ?? "Belum ada judul",
     }),
   },

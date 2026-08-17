@@ -18,7 +18,6 @@ export type ArticleBody =
 
 export type Article = {
   slug: string;
-  category: string | null;
   publishedAt: string;
   author: string | null;
   coverImageUrl: string | null;
@@ -34,7 +33,6 @@ export type ArticleDetail = Article & {
 function localToArticle(a: (typeof localArticles)[number]): Article {
   return {
     slug: a.slug,
-    category: a.category,
     publishedAt: a.publishedAt,
     author: a.author,
     coverImageUrl: null,
@@ -50,7 +48,6 @@ export async function getArticles(): Promise<Article[]> {
   if (sanityPosts.length > 0) {
     return sanityPosts.map((p) => ({
       slug: p.slug,
-      category: p.category,
       publishedAt: p.publishedAt,
       author: p.author,
       coverImageUrl: p.coverImage
@@ -71,7 +68,6 @@ export async function getArticle(slug: string): Promise<ArticleDetail | null> {
   if (post) {
     return {
       slug: post.slug,
-      category: post.category,
       publishedAt: post.publishedAt,
       author: post.author,
       coverImageUrl: post.coverImage

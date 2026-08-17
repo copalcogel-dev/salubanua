@@ -11,7 +11,6 @@ export type SanityPostSummary = {
   titleEn: string;
   excerptId: string;
   excerptEn: string;
-  category: string | null;
   publishedAt: string;
   author: string | null;
   coverImage: SanityImageRef;
@@ -30,7 +29,6 @@ const POST_FIELDS = /* groq */ `
   "titleEn": title.en,
   "excerptId": excerpt.id,
   "excerptEn": excerpt.en,
-  category,
   publishedAt,
   author,
   coverImage,
