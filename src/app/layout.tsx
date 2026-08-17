@@ -44,7 +44,7 @@ export const metadata: Metadata = {
     url: siteUrl,
     images: [
       {
-        url: "/images/gunung-pentuho.jpg",
+        url: "/images/og-cover.jpg",
         width: 1200,
         height: 630,
         alt: "Gunung Pentuho (Buntu Pentuho), Desa Salubanua",
@@ -55,7 +55,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: siteTitle,
     description: siteDescription,
-    images: ["/images/gunung-pentuho.jpg"],
+    images: ["/images/og-cover.jpg"],
   },
   robots: { index: true, follow: true },
 };
