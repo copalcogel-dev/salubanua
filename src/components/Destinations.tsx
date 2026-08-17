@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useMemo, useState, useSyncExternalStore } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { motion } from "framer-motion";
@@ -28,6 +28,15 @@ const categoryArticleSlug: Partial<Record<string, string>> = {
 
 type MediaTab = "photo" | "video";
 
+/**
+ * URL query tidak pernah berubah tanpa navigasi ulang, jadi tidak perlu
+ * benar-benar berlangganan perubahan — fungsi ini cuma memenuhi bentuk API
+ * `useSyncExternalStore`.
+ */
+function subscribeNever() {
+  return () => {};
+}
+
 export function Destinations({
   content,
   articles,
@@ -40,9 +49,30 @@ export function Destinations({
   destinations: DestinationEntry[];
 }) {
   const { lang, t } = useLanguage();
-  const [activeKey, setActiveKey] = useState<string>(categories[0].key);
+
+  // Datang dari kartu di beranda ("?category=hiking") — kategori yang tadi
+  // aktif di sana harus langsung tampil di sini juga. Dibaca lewat
+  // `useSyncExternalStore` (bukan `useSearchParams`) karena hook itu
+  // mewajibkan boundary <Suspense>, dan boundary itu justru gagal total di
+  // versi Next.js/Turbopack proyek ini — kontennya tidak pernah selesai
+  // dimuat. `getServerSnapshot` mengembalikan `null` karena server tidak
+  // tahu isi URL query, sama seperti pola di SiteBackground.tsx.
+  const categoryFromUrl = useSyncExternalStore(
+    subscribeNever,
+    () => new URLSearchParams(window.location.search).get("category"),
+    () => null
+  );
+  const initialKey =
+    categoryFromUrl && categories.some((c) => c.key === categoryFromUrl)
+      ? categoryFromUrl
+      : categories[0].key;
+
+  const [manualKey, setManualKey] = useState<string | null>(null);
   const [tab, setTab] = useState<MediaTab>("photo");
   const [lightboxIndex, setLightboxIndex] = useState<number | null>(null);
+
+  const activeKey = manualKey ?? initialKey;
+  const setActiveKey = setManualKey;
 
   const active = categories.find((c) => c.key === activeKey) ?? categories[0];
   const ActiveIcon = categoryIcons[active.icon];

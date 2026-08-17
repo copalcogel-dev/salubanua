@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useLayoutEffect, useRef, useState } from "react";
 import Image from "next/image";
+import Link from "next/link";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 import { MountainScene } from "./MountainScene";
@@ -85,6 +86,7 @@ export function DestinationCardRow({
   items,
   sampleLabel = "CONTOH",
   fillHeight = false,
+  href,
 }: {
   items: DestinationCardItem[];
   sampleLabel?: string;
@@ -94,6 +96,12 @@ export function DestinationCardRow({
    * tinggi menyisakan ruang kosong di bawah kartu.
    */
   fillHeight?: boolean;
+  /**
+   * Kalau diisi, tiap kartu jadi tautan ke sini (mis. halaman Destinasi
+   * dengan kategori yang sama sudah aktif) — semua kartu di satu baris
+   * berbagi kategori yang sama, jadi cukup satu tautan untuk semuanya.
+   */
+  href?: string;
 }) {
   const rowRef = useRef<HTMLDivElement>(null);
   const scrollerRef = useRef<HTMLDivElement>(null);
@@ -209,14 +217,8 @@ export function DestinationCardRow({
       >
           {items.map((item) => {
             const Icon = item.icon;
-            return (
-              <article
-                key={item.key}
-                style={{ width: cardW }}
-                // Kartu ini hanya tampilan, bukan tautan — jadi memang tidak
-                // diberi isyarat hover sama sekali.
-                className={`flex shrink-0 snap-start flex-col overflow-hidden ${glassCard}`}
-              >
+            const cardInner = (
+              <>
                 {/* Radius atas diulang di sini: induknya memakai
                     backdrop-filter, yang membuat clip membulatnya gagal di
                     Chrome sehingga foto tampil bersudut siku. */}
@@ -238,7 +240,7 @@ export function DestinationCardRow({
                       // cardW sudah pasti diketahui di sini, pakai langsung.
                       sizes={`${cardW}px`}
                       quality={90}
-                      className="object-cover"
+                      className={`object-cover ${href ? "transition-transform duration-500 group-hover:scale-105" : ""}`}
                     />
                   ) : (
                     <MountainScene
@@ -265,6 +267,31 @@ export function DestinationCardRow({
                     {item.desc}
                   </p>
                 </div>
+              </>
+            );
+
+            // Tanpa `href`, kartu memang tidak diberi isyarat hover — bukan
+            // tautan, jadi tidak ada yang bisa diklik.
+            if (href) {
+              return (
+                <Link
+                  key={item.key}
+                  href={href}
+                  style={{ width: cardW }}
+                  className={`group flex shrink-0 snap-start flex-col overflow-hidden ${surfaceTransition} duration-300 hover:border-white/30 ${glassCard}`}
+                >
+                  {cardInner}
+                </Link>
+              );
+            }
+
+            return (
+              <article
+                key={item.key}
+                style={{ width: cardW }}
+                className={`flex shrink-0 snap-start flex-col overflow-hidden ${glassCard}`}
+              >
+                {cardInner}
               </article>
             );
           })}
