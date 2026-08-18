@@ -61,11 +61,12 @@ export const destinationType = defineType({
       of: [{ type: "image", options: { hotspot: true } }],
     }),
     defineField({
-      name: "videoUrl",
+      name: "videoUrls",
       title: "Tautan Video",
       description:
-        "Opsional. Tautan video (mis. YouTube) — muncul di tab \"Video\" pada halaman Destinasi.",
-      type: "url",
+        "Opsional, boleh lebih dari satu. Tautan YouTube/Vimeo — muncul di tab \"Video\" pada halaman Destinasi. Thumbnail-nya otomatis diambil dari YouTube kalau destinasi ini belum punya Foto Sampul.",
+      type: "array",
+      of: [{ type: "url" }],
     }),
     defineField({
       name: "available",

@@ -13,6 +13,13 @@ const nextConfig: NextConfig = {
         hostname: "cdn.sanity.io",
         pathname: "/images/**",
       },
+      {
+        // Thumbnail otomatis untuk video (lihat toVideoThumbnail di
+        // Lightbox.tsx), dipakai saat destinasinya belum punya Foto Sampul.
+        protocol: "https",
+        hostname: "img.youtube.com",
+        pathname: "/vi/**",
+      },
     ],
     /**
      * Kartu destinasi minta kualitas 90 (lihat DestinationCardRow.tsx) —

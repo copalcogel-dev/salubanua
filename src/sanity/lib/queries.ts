@@ -95,7 +95,7 @@ export type SanityDestination = {
   statusId: string | null;
   statusEn: string | null;
   gallery: SanityImageRef[] | null;
-  videoUrl: string | null;
+  videoUrls: string[] | null;
   isSample: boolean | null;
   order: number | null;
 };
@@ -114,7 +114,7 @@ const DESTINATION_FIELDS = /* groq */ `
   "statusId": status.id,
   "statusEn": status.en,
   gallery,
-  videoUrl,
+  videoUrls,
   isSample,
   order
 `;

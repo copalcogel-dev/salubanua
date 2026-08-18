@@ -62,7 +62,7 @@ export const homeCardType = defineType({
       name: "images",
       title: "Foto Kartu",
       description:
-        "Boleh lebih dari satu. Kalau diisi beberapa, kartu akan berganti-ganti foto otomatis sesuai urutan di sini (geser untuk mengurutkan). Foto tampil utuh tanpa dipotong, jadi ukuran potret maupun lanskap sama-sama aman.",
+        "Boleh lebih dari satu. Kalau diisi beberapa, kartu akan berganti-ganti foto otomatis sesuai urutan di sini (geser untuk mengurutkan). Foto tampil utuh tanpa dipotong — paling pas kalau rasionya mendekati potret 3:4 (mis. 1200×1600px); foto yang jauh lebih tinggi/sempit dari itu akan tampil lebih kecil di tengah kartu dengan sisi kiri-kanan buram, bukan salah, tapi kurang memenuhi kartu.",
       type: "array",
       of: [{ type: "image", options: { hotspot: true } }],
       validation: (r) => r.min(1),

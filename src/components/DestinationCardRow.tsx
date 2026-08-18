@@ -62,8 +62,13 @@ const FILL_ASPECT = 3 / 4;
 const FILL_IMAGE_MIN = 100;
 const FILL_IMAGE_MAX = 520;
 
-/** Jeda ganti foto pada kartu yang punya lebih dari satu foto. */
-const ROTATE_MS = 3800;
+/**
+ * Jeda ganti foto pada kartu yang punya lebih dari satu foto, dan lama
+ * cross-fade antar fotonya. Fade lebih lambat daripada jedanya sendiri
+ * supaya terasa meluruh dengan tenang, bukan berkedip cepat.
+ */
+const ROTATE_MS = 6000;
+const FADE_MS = 1800;
 
 function pickResponsive(values: readonly number[], viewportWidth: number) {
   if (viewportWidth >= 1024) return values[2];
@@ -146,8 +151,8 @@ function CardFrame({
         <div
           key={src}
           aria-hidden={i === index ? undefined : true}
-          className="absolute inset-0 transition-opacity duration-1000"
-          style={{ opacity: i === index ? 1 : 0 }}
+          className="absolute inset-0 transition-opacity ease-in-out"
+          style={{ opacity: i === index ? 1 : 0, transitionDuration: `${FADE_MS}ms` }}
         >
           <Image
             src={src}

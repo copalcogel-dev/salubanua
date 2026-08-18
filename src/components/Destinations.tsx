@@ -9,7 +9,7 @@ import { categoryIcons } from "@/lib/categoryIcons";
 import { duration, easeOut } from "@/lib/motion";
 import { glassCard, glassSubtle, surfaceTransition } from "@/lib/ui";
 import { CategorySelector } from "./CategorySelector";
-import { Lightbox, toEmbedUrl, type LightboxItem } from "./Lightbox";
+import { Lightbox, toEmbedUrl, toVideoThumbnail, type LightboxItem } from "./Lightbox";
 import type { DestinationEntry } from "@/lib/destinations";
 import type { CategoryEntry } from "@/lib/categories";
 import type { PageContent } from "@/lib/pageContent";
@@ -85,18 +85,18 @@ export function Destinations({
 
   const videos: LightboxItem[] = useMemo(
     () =>
-      categoryDestinations
-        .filter((d) => d.videoUrl)
-        .map(
-          (d): LightboxItem => ({
-            type: "video",
-            url: d.videoUrl!,
-            embedUrl: toEmbedUrl(d.videoUrl!),
-            poster: d.coverImageUrl,
-            alt: d[lang].title,
-            isSample: d.isSample,
-          })
-        ),
+      categoryDestinations.flatMap((d): LightboxItem[] =>
+        d.videoUrls.map((url) => ({
+          type: "video",
+          url,
+          embedUrl: toEmbedUrl(url),
+          // Foto Sampul destinasi diutamakan; kalau belum ada, jatuh ke
+          // thumbnail bawaan YouTube supaya kotaknya tidak gelap polos.
+          poster: d.coverImageUrl ?? toVideoThumbnail(url),
+          alt: d[lang].title,
+          isSample: d.isSample,
+        }))
+      ),
     [categoryDestinations, lang]
   );
 

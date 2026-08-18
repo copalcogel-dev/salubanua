@@ -150,27 +150,47 @@ export function Lightbox({
   );
 }
 
-/** Mengenali tautan YouTube/Vimeo dan mengubahnya jadi URL embed. */
-export function toEmbedUrl(url: string): string | null {
+function youtubeId(url: string): string | null {
   try {
     const u = new URL(url);
     if (u.hostname.includes("youtube.com")) {
       const id = u.searchParams.get("v");
-      if (id) return `https://www.youtube.com/embed/${id}`;
+      if (id) return id;
       const shortsMatch = u.pathname.match(/\/(shorts|embed)\/([^/]+)/);
-      if (shortsMatch) return `https://www.youtube.com/embed/${shortsMatch[2]}`;
-      return null;
+      return shortsMatch ? shortsMatch[2] : null;
     }
     if (u.hostname === "youtu.be") {
-      const id = u.pathname.slice(1);
-      return id ? `https://www.youtube.com/embed/${id}` : null;
-    }
-    if (u.hostname.includes("vimeo.com")) {
-      const id = u.pathname.split("/").filter(Boolean).pop();
-      return id ? `https://player.vimeo.com/video/${id}` : null;
+      return u.pathname.slice(1) || null;
     }
     return null;
   } catch {
     return null;
   }
+}
+
+/** Mengenali tautan YouTube/Vimeo dan mengubahnya jadi URL embed. */
+export function toEmbedUrl(url: string): string | null {
+  const id = youtubeId(url);
+  if (id) return `https://www.youtube.com/embed/${id}`;
+
+  try {
+    const u = new URL(url);
+    if (u.hostname.includes("vimeo.com")) {
+      const vimeoId = u.pathname.split("/").filter(Boolean).pop();
+      return vimeoId ? `https://player.vimeo.com/video/${vimeoId}` : null;
+    }
+    return null;
+  } catch {
+    return null;
+  }
+}
+
+/**
+ * Thumbnail bawaan YouTube — dipakai sebagai poster kotak video di galeri
+ * saat destinasinya belum punya Foto Sampul, supaya tetap ada gambar,
+ * bukan kotak gelap polos.
+ */
+export function toVideoThumbnail(url: string): string | null {
+  const id = youtubeId(url);
+  return id ? `https://img.youtube.com/vi/${id}/hqdefault.jpg` : null;
 }
