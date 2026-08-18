@@ -1,25 +1,51 @@
 "use client";
 
 import Link from "next/link";
-import { Mountain } from "lucide-react";
-import { useLanguage } from "@/context/LanguageContext";
-import type { VillageProfile } from "@/lib/siteSettings";
+import { Mountain, Globe, type LucideIcon } from "lucide-react";
+import { InstagramIcon, FacebookIcon, WhatsAppIcon } from "./SocialIcons";
+import type { VillageProfile, SiteContactInfo } from "@/lib/siteSettings";
+
+/** Ikon platform sosial media; platform yang tidak dikenali jatuh ke ikon dunia. */
+function socialIcon(platform: string): LucideIcon {
+  const key = platform.trim().toLowerCase();
+  if (key.includes("instagram")) return InstagramIcon as LucideIcon;
+  if (key.includes("facebook")) return FacebookIcon as LucideIcon;
+  return Globe;
+}
 
 /**
  * Satu footer untuk seluruh situs.
  *
  * Sengaja ringkas satu baris agar identik di setiap halaman — termasuk di
  * beranda yang dirancang muat satu layar tanpa scroll.
+ *
+ * Menu navigasi digantikan simbol sosial media (Instagram/Facebook/WA) —
+ * navigasi ke halaman lain sudah ada di Navbar, jadi footer difokuskan
+ * sebagai jalur cepat menuju kanal yang dikelola PokDarWis, konsisten
+ * dengan kartu-kartu di halaman Pengelola.
  */
-export function Footer({ village }: { village: VillageProfile }) {
-  const { t } = useLanguage();
+export function Footer({
+  village,
+  contact,
+}: {
+  village: VillageProfile;
+  contact: SiteContactInfo;
+}) {
+  const socialLinks = contact.socials.map((s) => ({
+    key: s.platform,
+    label: s.platform,
+    href: s.url,
+    Icon: socialIcon(s.platform),
+  }));
 
-  const links = [
-    { label: t.nav.home, href: "/" },
-    { label: t.nav.destinations, href: "/destinations" },
-    { label: t.nav.stories, href: "/stories" },
-    { label: t.nav.contact, href: "/contact" },
-  ];
+  if (contact.whatsappUrl) {
+    socialLinks.push({
+      key: "whatsapp",
+      label: "WhatsApp",
+      href: contact.whatsappUrl,
+      Icon: WhatsAppIcon as LucideIcon,
+    });
+  }
 
   return (
     <footer className="shrink-0 border-t border-white/10 bg-black/20 py-4 text-white/60 backdrop-blur-sm">
@@ -32,17 +58,22 @@ export function Footer({ village }: { village: VillageProfile }) {
           <span className="text-[11px] tracking-[0.22em] uppercase">Salubanua</span>
         </Link>
 
-        <nav className="flex flex-wrap items-center justify-center gap-x-5 gap-y-1">
-          {links.map((l) => (
-            <Link
-              key={l.href}
-              href={l.href}
-              className="text-[11px] uppercase tracking-wide transition-colors duration-300 hover:text-white"
-            >
-              {l.label}
-            </Link>
-          ))}
-        </nav>
+        {socialLinks.length > 0 && (
+          <nav className="flex items-center justify-center gap-4">
+            {socialLinks.map(({ key, label, href, Icon }) => (
+              <a
+                key={key}
+                href={href}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label={label}
+                className="text-white/60 transition-colors duration-300 hover:text-white"
+              >
+                <Icon size={17} strokeWidth={1.8} />
+              </a>
+            ))}
+          </nav>
+        )}
 
         <p className="text-[11px] leading-tight">
           Dusun {village.dusun}, {village.desa} &middot; Kec. {village.kecamatan},{" "}

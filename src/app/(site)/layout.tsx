@@ -21,7 +21,7 @@ import { getSiteSettings } from "@/lib/siteSettings";
 export const revalidate = 60;
 
 export default async function SiteLayout({ children }: LayoutProps<"/">) {
-  const { village, mobileBackgroundUrl, maintenance } = await getSiteSettings();
+  const { village, contact, mobileBackgroundUrl, maintenance } = await getSiteSettings();
 
   return (
     <>
@@ -37,7 +37,7 @@ export default async function SiteLayout({ children }: LayoutProps<"/">) {
             <main className="flex flex-1 flex-col pt-20">
               <PageTransition>{children}</PageTransition>
             </main>
-            <Footer village={village} />
+            <Footer village={village} contact={contact} />
           </div>
         )}
       </LanguageProvider>

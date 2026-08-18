@@ -14,7 +14,7 @@ import { getSiteSettings } from "@/lib/siteSettings";
  * navbar, footer) karena itu disusun ulang di sini secara mandiri.
  */
 export default async function RootNotFound() {
-  const { village, mobileBackgroundUrl } = await getSiteSettings();
+  const { village, contact, mobileBackgroundUrl } = await getSiteSettings();
 
   return (
     <>
@@ -27,7 +27,7 @@ export default async function RootNotFound() {
           <main className="flex flex-1 flex-col pt-20">
             <NotFoundContent />
           </main>
-          <Footer village={village} />
+          <Footer village={village} contact={contact} />
         </div>
       </LanguageProvider>
     </>
