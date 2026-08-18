@@ -270,21 +270,15 @@ export function DestinationCardRow({
         Math.min(Math.max(widthCap, baseCardW), Math.round(roomForImage * FILL_ASPECT))
       );
 
-      // Tinggi bingkai lalu dikunci ke rasio kartu — inilah yang membuat
-      // foto potret biasa mengisi bingkai persis, tanpa dipotong.
-      //
-      // Batas bawahnya persegi (`nextCardW`), bukan `roomForImage`: di layar
-      // pendek ruang vertikal yang tersisa bisa jauh lebih kecil daripada
-      // lebar kartu, dan bingkai yang melebar seperti itu membuat foto
-      // potret berpalang lebar di kiri-kanan. Lebih baik kartunya sedikit
-      // melewati satu layar daripada bingkainya jadi kependekan.
-      nextImageH = Math.round(
-        Math.min(
-          nextCardW / FILL_ASPECT,
-          Math.max(roomForImage, nextCardW),
-          FILL_IMAGE_MAX
-        )
-      );
+      // Tinggi bingkai dikunci ke rasio 3:4 dari lebarnya — inilah yang
+      // membuat foto potret biasa mengisi bingkai persis, tanpa dipotong.
+      // Sengaja TIDAK dibatasi ke `roomForImage`: di layar pendek, ruang
+      // vertikal yang tersisa bisa lebih kecil daripada tinggi 3:4 yang
+      // semestinya, dan memaksa muat ke situ dulu pernah membuat bingkainya
+      // melebar mendekati persegi — foto potret jadi berpalang lebar di
+      // kiri-kanan, persis masalah yang coba dihindari. Lebih baik kartunya
+      // sedikit melewati satu layar daripada rasionya rusak.
+      nextImageH = Math.round(Math.min(nextCardW / FILL_ASPECT, FILL_IMAGE_MAX));
     }
 
     // Berapa kartu utuh yang muat di ruang tersedia — sisa ruang yang tidak
