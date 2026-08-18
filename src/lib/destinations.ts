@@ -8,7 +8,7 @@ export type DestinationEntry = {
   isSample: boolean;
   available: boolean;
   coverImageUrl: string | null;
-  /** Foto tambahan, dipakai galeri pada kategori Spot Foto. */
+  /** Foto tambahan, tampil di tab "Foto" pada panel kategori terkait. */
   galleryUrls: string[];
   videoUrls: string[];
   id: { title: string; subtitle: string; desc: string; status: string };

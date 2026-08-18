@@ -29,6 +29,32 @@ const nextConfig: NextConfig = {
      */
     qualities: [75, 90],
   },
+  /**
+   * Header pengerasan standar untuk seluruh rute, termasuk /studio.
+   *
+   * Sengaja tidak menambahkan Content-Security-Policy: Studio memuat skrip,
+   * font, dan koneksi API dari banyak domain Sanity berbeda (serta popup
+   * login Google/GitHub), dan halaman Destinasi menyematkan iframe
+   * YouTube/Vimeo — CSP yang ketat gampang diam-diam mematahkan salah satu
+   * itu tanpa uji coba yang jauh lebih menyeluruh daripada yang bisa
+   * dilakukan di sini. Header di bawah ini aman untuk semua rute.
+   */
+  async headers() {
+    return [
+      {
+        source: "/:path*",
+        headers: [
+          { key: "X-Content-Type-Options", value: "nosniff" },
+          { key: "X-Frame-Options", value: "SAMEORIGIN" },
+          { key: "Referrer-Policy", value: "strict-origin-when-cross-origin" },
+          {
+            key: "Permissions-Policy",
+            value: "camera=(), microphone=(), geolocation=()",
+          },
+        ],
+      },
+    ];
+  },
 };
 
 export default nextConfig;
